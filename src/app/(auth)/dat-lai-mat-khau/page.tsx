@@ -1,14 +1,14 @@
 import * as React from "react";
 import Link from "next/link";
 import { KeyRound, ArrowLeft } from "lucide-react";
-import { ForgotPasswordForm } from "@/frontend/components/auth/forgot-password-form";
+import { ResetPasswordForm } from "@/frontend/components/auth/reset-password-form";
 
 export const metadata = {
-  title: "Quên mật khẩu — HUMG English Exit",
-  description: "Khôi phục mật khẩu tài khoản ôn luyện tiếng Anh HUMG",
+  title: "Đặt lại mật khẩu — HUMG English Exit",
+  description: "Thiết lập mật khẩu mới cho tài khoản ôn luyện tiếng Anh HUMG",
 };
 
-export default function ForgotPasswordPage() {
+export default function ResetPasswordPage() {
   return (
     <div className="w-full min-h-[calc(100vh-200px)] flex items-center justify-center p-4 sm:p-6 bg-transparent">
       <div className="w-full max-w-md space-y-6">
@@ -18,14 +18,22 @@ export default function ForgotPasswordPage() {
               <KeyRound className="h-6 w-6" />
             </div>
             <h1 className="text-2xl font-bold font-heading text-slate-900 dark:text-white">
-              Quên mật khẩu
+              Đặt lại mật khẩu
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-              Nhập email sinh viên của bạn để nhận hướng dẫn khôi phục mật khẩu
+              Nhập mật khẩu mới cho tài khoản của bạn
             </p>
           </div>
 
-          <ForgotPasswordForm />
+          <React.Suspense
+            fallback={
+              <div className="py-8 text-center text-xs text-slate-400">
+                Đang tải biểu mẫu...
+              </div>
+            }
+          >
+            <ResetPasswordForm />
+          </React.Suspense>
 
           <div className="border-t border-slate-100 dark:border-slate-800/80 pt-4 text-center text-xs text-slate-500 dark:text-slate-400">
             <Link

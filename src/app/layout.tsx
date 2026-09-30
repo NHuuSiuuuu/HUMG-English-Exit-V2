@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Nunito_Sans, Open_Sans } from "next/font/google";
-import { cookies } from "next/headers";
 import { ThemeProvider } from "@/frontend/providers/theme-provider";
 import { LanguageProvider } from "@/frontend/providers/language-provider";
-import { LOCALE_COOKIE_NAME, type Locale } from "@/shared/types/i18n";
+import { AuthProvider } from "@/frontend/providers/auth-provider";
 import "@/frontend/styles/globals.css";
 
 // Font Nunito Sans cho tiêu đề, nút bấm, điều hướng theo DESIGN.md
@@ -12,6 +11,7 @@ const fontHeading = Nunito_Sans({
   variable: "--font-heading",
   weight: ["400", "600", "700", "800"],
   display: "swap",
+  adjustFontFallback: false,
 });
 
 // Font Open Sans cho nội dung bài đọc, câu hỏi và văn bản dài theo DESIGN.md
@@ -20,6 +20,7 @@ const fontSans = Open_Sans({
   variable: "--font-sans",
   weight: ["400", "500", "600", "700"],
   display: "swap",
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
@@ -36,12 +37,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
-  const savedLocale = cookieStore.get(LOCALE_COOKIE_NAME)?.value as Locale | undefined;
-  const initialLocale: Locale = savedLocale === "en" ? "en" : "vi";
-
   return (
-    <html lang={initialLocale} suppressHydrationWarning className={`${fontHeading.variable} ${fontSans.variable}`}>
+    <html lang="vi" suppressHydrationWarning className={`${fontHeading.variable} ${fontSans.variable}`}>
       <body className="min-h-screen w-full bg-background bg-grid-pattern text-foreground antialiased flex flex-col font-sans transition-colors duration-300">
         <ThemeProvider
           attribute="class"
@@ -49,8 +46,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <LanguageProvider initialLocale={initialLocale}>
-            {children}
+          <LanguageProvider initialLocale="vi">
+            <AuthProvider>
+              {children}
+            </AuthProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

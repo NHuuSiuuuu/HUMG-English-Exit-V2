@@ -1,0 +1,129 @@
+"use client";
+
+import * as React from "react";
+import Link from "next/link";
+import { Send, CheckCircle2, AlertCircle, ArrowLeft, RefreshCw } from "lucide-react";
+import { Button } from "@/frontend/components/ui/button";
+
+export function ForgotPasswordForm() {
+  const [email, setEmail] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = React.useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage(null);
+
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setErrorMessage("Vui lòng nhập địa chỉ email hợp lệ");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        setErrorMessage(data.error || "Gửi yêu cầu thất bại. Vui lòng thử lại sau.");
+        setIsLoading(false);
+        return;
+      }
+
+      setIsSuccess(true);
+    } catch {
+      setErrorMessage("Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isSuccess) {
+    return (
+      <div className="space-y-6 text-center animate-in fade-in zoom-in-95 duration-200">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 shadow-sm">
+          <CheckCircle2 className="h-7 w-7" />
+        </div>
+
+        <div className="space-y-2">
+          <h2 className="text-xl font-bold font-heading text-slate-900 dark:text-white">
+            Đã gửi hướng dẫn
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Nếu địa chỉ <strong className="text-slate-900 dark:text-white">{email}</strong> tồn tại trong hệ thống, liên kết đặt lại mật khẩu đã được gửi đến hòm thư của bạn.
+          </p>
+          <p className="text-xs text-slate-400 dark:text-slate-500">
+            Vui lòng kiểm tra hộp thư đến (và thư mục Spam). Liên kết có thời hạn 15 phút.
+          </p>
+        </div>
+
+        <div className="pt-2 flex flex-col sm:flex-row gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setIsSuccess(false)}
+            className="flex-1 justify-center gap-2 text-xs sm:text-sm"
+          >
+            <RefreshCw className="h-4 w-4" />
+            <span>Thử email khác</span>
+          </Button>
+          <Link href="/dang-nhap" className="flex-1">
+            <Button
+              type="button"
+              variant="primary"
+              className="w-full justify-center gap-2 text-xs sm:text-sm"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span>Về Đăng nhập</span>
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {errorMessage && (
+        <div className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 text-xs sm:text-sm animate-in fade-in duration-200">
+          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0 text-rose-600 dark:text-rose-400" />
+          <span>{errorMessage}</span>
+        </div>
+      )}
+
+      <div className="space-y-1.5">
+        <label className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200">
+          Email đã đăng ký
+        </label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="sinhvien@humg.edu.vn"
+          disabled={isLoading}
+          required
+          autoComplete="email"
+          className="w-full rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 px-3.5 py-2.5 text-sm sm:text-base text-slate-800 dark:text-slate-100 placeholder:text-slate-400 outline-none focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-[#0095F6] focus:border-transparent transition-all duration-200 min-h-[44px] disabled:opacity-60"
+        />
+      </div>
+
+      <Button
+        type="submit"
+        variant="primary"
+        isLoading={isLoading}
+        disabled={isLoading}
+        className="w-full justify-center gap-2 mt-2 min-h-[44px] hover:-translate-y-0.5 transition-all duration-200 shadow-[0_4px_12px_rgba(0,149,246,0.25)]"
+      >
+        <Send className="h-4 w-4" />
+        <span>Gửi hướng dẫn khôi phục</span>
+      </Button>
+    </form>
+  );
+}
