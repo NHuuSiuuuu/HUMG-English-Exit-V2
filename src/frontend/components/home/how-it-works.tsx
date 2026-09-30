@@ -35,7 +35,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-slate-50/50 dark:bg-[#0B1120]">
+    <section className="py-16 sm:py-20 bg-transparent">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center max-w-2xl mx-auto space-y-2.5">
           <span className="text-xs font-bold uppercase tracking-widest text-[#0095F6]">
@@ -55,7 +55,7 @@ export function HowItWorks() {
             return (
               <div
                 key={idx}
-                className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 hover:shadow-soft-lg hover:-translate-y-1 transition-all flex flex-col justify-between"
+                className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-300 ease-in-out flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">

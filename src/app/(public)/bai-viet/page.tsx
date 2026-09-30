@@ -29,7 +29,7 @@ export default async function ArticlesHubPage() {
         {/* Danh sách bài viết */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {articles.map((article) => (
-            <Card key={article.id} className="flex flex-col justify-between hover:border-primary/40 hover:shadow-md transition-all">
+            <Card key={article.id} className="flex flex-col justify-between hover:ring-2 hover:ring-[#0095F6]/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
               <CardHeader className="p-6">
                 <div className="flex items-center justify-between mb-3">
                   <Badge variant="secondary" className="font-semibold text-xs">

@@ -13,7 +13,7 @@ export default function PracticeHubPage() {
   const listeningParts = EXAM_PARTS.filter((p) => p.skill === "listening");
 
   return (
-    <div className="min-h-screen bg-slate-50/70 dark:bg-[#0B1120] bg-grid-pattern py-10 md:py-16">
+    <div className="min-h-screen bg-transparent py-10 md:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Breadcrumb phong cách TADR OU */}
         <nav className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">

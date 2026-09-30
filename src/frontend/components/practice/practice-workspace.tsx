@@ -83,7 +83,7 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/80 dark:bg-[#0B1120] bg-grid-pattern pb-16">
+    <div className="min-h-screen bg-transparent pb-16">
       {/* Header điều hướng và đếm giờ */}
       <PracticeRoomHeader
         title={itemDetail.title}

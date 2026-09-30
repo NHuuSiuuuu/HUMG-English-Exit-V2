@@ -38,7 +38,7 @@ export default async function PartDetailPage({ params }: PartDetailPageProps) {
   const firstIncomplete = items.find((it) => !it.isCompleted);
 
   return (
-    <div className="min-h-screen bg-slate-50/70 dark:bg-[#0B1120] bg-grid-pattern py-8">
+    <div className="min-h-screen bg-transparent py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Khối đầu trang: Tiêu đề, Breadcrumb, Tiến độ */}
         <PartHeader part={part} firstIncompleteItemId={firstIncomplete?.id} />

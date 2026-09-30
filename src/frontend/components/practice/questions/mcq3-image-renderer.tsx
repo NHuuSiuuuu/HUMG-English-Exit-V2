@@ -13,10 +13,6 @@ interface Mcq3ImageRendererProps {
   gradingDetails?: Record<string, QuestionGradingDetail>;
 }
 
-/**
- * Renderer trắc nghiệm chọn tranh (Part 10 Listening) phong cách TADR OU:
- * Khung tranh sáng sủa, bo góc rounded-2xl, viền siêu nhẹ mượt mà
- */
 export function Mcq3ImageRenderer({
   group,
   answers,
@@ -59,20 +55,20 @@ export function Mcq3ImageRenderer({
                 const isCorrectAnswer = isGraded && grade?.correctAnswer === opt.label;
 
                 let cardStyle =
-                  "border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:border-sky-300 hover:bg-sky-50/20";
+                  "border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:border-sky-400 hover:ring-2 hover:ring-sky-100 dark:hover:ring-sky-950/60 hover:-translate-y-0.5";
 
                 if (isSelected) {
                   cardStyle =
-                    "border-2 border-[#0095F6] text-[#0095F6] dark:text-sky-400 bg-sky-50/30 dark:bg-sky-950/20 shadow-sm";
+                    "border-[#0095F6] ring-2 ring-[#0095F6] text-[#0095F6] dark:text-sky-400 bg-sky-50/40 dark:bg-sky-950/30 shadow-sm";
                 }
 
                 if (isGraded) {
                   if (isCorrectAnswer) {
                     cardStyle =
-                      "border-2 border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-50/40";
+                      "border-emerald-500 ring-2 ring-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-50/40";
                   } else if (isSelected && !grade?.isCorrect) {
                     cardStyle =
-                      "border-2 border-rose-400 text-rose-600 line-through bg-rose-50/30";
+                      "border-rose-400 ring-2 ring-rose-400 text-rose-600 line-through bg-rose-50/30";
                   }
                 }
 
@@ -82,7 +78,7 @@ export function Mcq3ImageRenderer({
                     type="button"
                     disabled={isGraded}
                     onClick={() => onAnswerChange(item.id, opt.label)}
-                    className={`p-3.5 rounded-2xl text-left transition-all flex flex-col justify-between min-h-[140px] shadow-[0_2px_10px_rgba(0,0,0,0.02)] ${cardStyle}`}
+                    className={`p-3.5 rounded-2xl text-left transition-all duration-300 ease-in-out flex flex-col justify-between min-h-[140px] shadow-[0_2px_10px_rgba(0,0,0,0.02)] ${cardStyle}`}
                     aria-label={`Câu ${item.orderNumber} chọn ${opt.label}`}
                   >
                     <div className="w-full flex items-center justify-between">
@@ -90,7 +86,7 @@ export function Mcq3ImageRenderer({
                         {opt.label}
                       </span>
                       {isSelected && !isGraded && (
-                        <span className="text-[11px] font-semibold text-sky-600 dark:text-sky-400">
+                        <span className="text-[11px] font-semibold text-[#0095F6] dark:text-sky-400">
                           Đã chọn
                         </span>
                       )}

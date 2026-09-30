@@ -25,7 +25,7 @@ export function FAQSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-slate-50/50 dark:bg-[#0B1120] border-t border-slate-100 dark:border-slate-800/80">
+    <section className="py-16 sm:py-20 bg-transparent">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-2.5">
           <span className="text-xs font-bold uppercase tracking-widest text-[#0095F6]">

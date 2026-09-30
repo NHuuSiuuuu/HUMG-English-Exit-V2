@@ -42,7 +42,7 @@ export default function RootLayout({
 
   return (
     <html lang={initialLocale} suppressHydrationWarning className={`${fontHeading.variable} ${fontSans.variable}`}>
-      <body className="min-h-screen bg-background text-foreground antialiased flex flex-col font-sans">
+      <body className="min-h-screen w-full bg-background bg-grid-pattern text-foreground antialiased flex flex-col font-sans transition-colors duration-300">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

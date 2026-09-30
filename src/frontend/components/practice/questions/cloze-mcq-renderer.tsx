@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import type { QuestionGroupDef } from "@/shared/types/question";
 import type { QuestionGradingDetail } from "@/shared/types/practice";
 import { CheckCircle2, XCircle, Info, BookOpen } from "lucide-react";
@@ -13,10 +13,6 @@ interface ClozeMcqRendererProps {
   gradingDetails?: Record<string, QuestionGradingDetail>;
 }
 
-/**
- * Renderer cho dạng Cloze MCQ (Part 5 Điền đoạn văn khuyết) phong cách TADR OU:
- * Khung bài đọc bo cong rounded-2xl, các nút điền từ thanh thoát bo góc rounded-xl
- */
 export function ClozeMcqRenderer({
   group,
   answers,
@@ -28,7 +24,7 @@ export function ClozeMcqRenderer({
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Cột Đoạn văn (Sticky trên Desktop) */}
-        <div className="lg:col-span-6 bg-slate-50 dark:bg-slate-800/40 rounded-2xl p-5 sm:p-6 sticky top-20 max-h-[calc(100vh-140px)] overflow-y-auto">
+        <div className="lg:col-span-6 bg-slate-50 dark:bg-slate-800/40 rounded-2xl p-5 sm:p-6 sticky top-20 max-h-[calc(100vh-140px)] overflow-y-auto border border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3 pb-2 border-b border-slate-200/60 dark:border-slate-700/60">
             <BookOpen className="w-4 h-4 text-sky-500" />
             <span>Đoạn văn điền khuyết</span>
@@ -69,27 +65,27 @@ export function ClozeMcqRenderer({
                   )}
                 </div>
 
-                {/* Các lựa chọn A, B, C */}
+                {/* Các lựa chọn A, B, C (dùng ring-2 để không giật layout) */}
                 <div className="grid grid-cols-3 gap-2">
                   {options.map((opt) => {
                     const isSelected = currentAns === opt.label;
                     const isCorrectAnswer = isGraded && grade?.correctAnswer === opt.label;
 
                     let btnStyle =
-                      "border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-sky-300 hover:bg-sky-50/20";
+                      "border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-sky-400 hover:ring-2 hover:ring-sky-100 dark:hover:ring-sky-950/60 hover:bg-sky-50/20";
 
                     if (isSelected) {
                       btnStyle =
-                        "border-2 border-[#0095F6] text-[#0095F6] dark:text-sky-400 font-bold bg-sky-50/30 dark:bg-sky-950/20";
+                        "border-[#0095F6] ring-2 ring-[#0095F6] text-[#0095F6] dark:text-sky-400 font-bold bg-sky-50/40 dark:bg-sky-950/30 shadow-sm";
                     }
 
                     if (isGraded) {
                       if (isCorrectAnswer) {
                         btnStyle =
-                          "border-2 border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50/40";
+                          "border-emerald-500 ring-2 ring-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50/40";
                       } else if (isSelected && !grade?.isCorrect) {
                         btnStyle =
-                          "border-2 border-rose-400 text-rose-600 line-through bg-rose-50/30";
+                          "border-rose-400 ring-2 ring-rose-400 text-rose-600 line-through bg-rose-50/30";
                       }
                     }
 
@@ -99,7 +95,7 @@ export function ClozeMcqRenderer({
                         type="button"
                         disabled={isGraded}
                         onClick={() => onAnswerChange(item.id, opt.label)}
-                        className={`min-h-[44px] px-2 py-2 rounded-xl flex flex-col items-center justify-center transition-all ${btnStyle}`}
+                        className={`min-h-[44px] px-2 py-2 rounded-xl flex flex-col items-center justify-center transition-all duration-300 ease-in-out ${btnStyle}`}
                       >
                         <span className="text-[11px] opacity-75 font-semibold">{opt.label}</span>
                         <span className="text-xs sm:text-sm font-semibold truncate max-w-full">{opt.text}</span>

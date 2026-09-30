@@ -39,7 +39,7 @@ export function LatestArticles() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-slate-50/50 dark:bg-[#0B1120]">
+    <section className="py-16 sm:py-20 bg-transparent">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="space-y-2.5 max-w-2xl">
@@ -55,7 +55,7 @@ export function LatestArticles() {
           </div>
           <Link
             href="/bai-viet"
-            className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-800 text-xs font-bold shadow-sm transition-all"
+            className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-800 text-xs font-bold shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out"
           >
             <span>Xem tất cả bài viết</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -66,7 +66,7 @@ export function LatestArticles() {
           {sampleArticles.map((article) => (
             <div
               key={article.id}
-              className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 hover:shadow-soft-lg hover:-translate-y-1 transition-all flex flex-col justify-between"
+              className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-300 ease-in-out flex flex-col justify-between"
             >
               <div className="space-y-3.5">
                 <div className="flex items-center justify-between">
@@ -80,7 +80,7 @@ export function LatestArticles() {
                 </div>
 
                 <Link href={`/bai-viet/${article.slug}`}>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white hover:text-[#0095F6] transition-colors line-clamp-2 leading-snug">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white hover:text-[#0095F6] transition-colors duration-300 ease-in-out line-clamp-2 leading-snug">
                     {article.title}
                   </h3>
                 </Link>
@@ -97,7 +97,7 @@ export function LatestArticles() {
                 </div>
                 <Link
                   href={`/bai-viet/${article.slug}`}
-                  className="font-bold text-[#0095F6] hover:underline flex items-center gap-1"
+                  className="font-bold text-[#0095F6] hover:underline flex items-center gap-1 transition-colors duration-300 ease-in-out"
                 >
                   <span>Đọc tiếp</span>
                   <ArrowRight className="h-3 w-3" />

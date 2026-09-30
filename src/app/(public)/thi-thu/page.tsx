@@ -69,7 +69,7 @@ export default function MockExamListPage() {
         {/* Danh sách đề thi */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sampleExams.map((exam) => (
-            <Card key={exam.id} className="flex flex-col justify-between hover:border-primary/40 hover:shadow-md transition-all">
+            <Card key={exam.id} className="flex flex-col justify-between hover:ring-2 hover:ring-[#0095F6]/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
                   <Badge variant="default" className="text-xs">{exam.code}</Badge>

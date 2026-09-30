@@ -43,7 +43,7 @@ export function ViewControls({
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Tìm theo tên bài hoặc nguồn đề..."
-            className="w-full min-h-[44px] pl-10 pr-4 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[#0095F6] transition-all"
+            className="w-full min-h-[44px] pl-10 pr-4 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 outline-none focus:bg-white focus:border-[#0095F6] transition-all duration-300 ease-in-out"
           />
         </div>
 
@@ -54,7 +54,7 @@ export function ViewControls({
             <button
               type="button"
               onClick={() => onSelectStatus("all")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all min-h-[34px] ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ease-in-out min-h-[34px] ${
                 selectedStatus === "all"
                   ? "bg-white dark:bg-slate-700 text-[#0095F6] dark:text-sky-300 shadow-sm"
                   : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
@@ -65,7 +65,7 @@ export function ViewControls({
             <button
               type="button"
               onClick={() => onSelectStatus("uncompleted")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all min-h-[34px] ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ease-in-out min-h-[34px] ${
                 selectedStatus === "uncompleted"
                   ? "bg-white dark:bg-slate-700 text-[#0095F6] dark:text-sky-300 shadow-sm"
                   : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
@@ -76,7 +76,7 @@ export function ViewControls({
             <button
               type="button"
               onClick={() => onSelectStatus("completed")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all min-h-[34px] ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-300 ease-in-out min-h-[34px] ${
                 selectedStatus === "completed"
                   ? "bg-white dark:bg-slate-700 text-[#0095F6] dark:text-sky-300 shadow-sm"
                   : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
@@ -92,7 +92,7 @@ export function ViewControls({
               type="button"
               onClick={() => onViewModeChange("grid")}
               title="Xem dạng lưới"
-              className={`p-1.5 rounded-lg transition-all min-h-[34px] min-w-[34px] flex items-center justify-center ${
+              className={`p-1.5 rounded-lg transition-all duration-300 ease-in-out min-h-[34px] min-w-[34px] flex items-center justify-center ${
                 viewMode === "grid"
                   ? "bg-white dark:bg-slate-700 text-[#0095F6] dark:text-sky-300 shadow-sm"
                   : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
@@ -104,7 +104,7 @@ export function ViewControls({
               type="button"
               onClick={() => onViewModeChange("grouped")}
               title="Gom nhóm theo bộ đề"
-              className={`p-1.5 rounded-lg transition-all min-h-[34px] min-w-[34px] flex items-center justify-center ${
+              className={`p-1.5 rounded-lg transition-all duration-300 ease-in-out min-h-[34px] min-w-[34px] flex items-center justify-center ${
                 viewMode === "grouped"
                   ? "bg-white dark:bg-slate-700 text-[#0095F6] dark:text-sky-300 shadow-sm"
                   : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
@@ -116,7 +116,7 @@ export function ViewControls({
               type="button"
               onClick={() => onViewModeChange("list")}
               title="Xem danh sách gọn"
-              className={`p-1.5 rounded-lg transition-all min-h-[34px] min-w-[34px] flex items-center justify-center ${
+              className={`p-1.5 rounded-lg transition-all duration-300 ease-in-out min-h-[34px] min-w-[34px] flex items-center justify-center ${
                 viewMode === "list"
                   ? "bg-white dark:bg-slate-700 text-[#0095F6] dark:text-sky-300 shadow-sm"
                   : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
@@ -136,7 +136,7 @@ export function ViewControls({
             key={grp}
             type="button"
             onClick={() => onSelectGroup(grp)}
-            className={`px-3.5 py-1.5 rounded-full whitespace-nowrap font-medium transition-all ${
+            className={`px-3.5 py-1.5 rounded-full whitespace-nowrap font-medium transition-all duration-300 ease-in-out ${
               selectedGroup === grp
                 ? "bg-[#0095F6] text-white shadow-[0_2px_8px_rgba(0,149,246,0.25)]"
                 : "bg-slate-100/70 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300 hover:bg-slate-200/80"

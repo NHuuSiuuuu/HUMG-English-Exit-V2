@@ -9,7 +9,7 @@ export function HeroSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="relative overflow-hidden border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/70 dark:bg-[#0B1120] bg-grid-pattern py-12 md:py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-transparent py-12 md:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Cột trái: Nội dung Hero */}
@@ -34,7 +34,7 @@ export function HeroSection() {
             <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3 pt-2">
               <Link
                 href="/on-luyen"
-                className="w-full sm:w-auto min-h-[46px] px-6 py-2.5 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(0,149,246,0.3)] transition-all"
+                className="w-full sm:w-auto min-h-[46px] px-6 py-2.5 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(0,149,246,0.3)] hover:-translate-y-0.5 transition-all duration-300 ease-in-out"
               >
                 <BookOpen className="h-4 w-4" />
                 <span>Bắt đầu ôn luyện</span>
@@ -42,14 +42,14 @@ export function HeroSection() {
               </Link>
               <Link
                 href="/thi-thu"
-                className="w-full sm:w-auto min-h-[46px] px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-800 font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
+                className="w-full sm:w-auto min-h-[46px] px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-800 font-bold text-sm flex items-center justify-center gap-2 shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out"
               >
                 <Clock className="h-4 w-4 text-[#0095F6]" />
                 <span>Thi thử 60 phút</span>
               </Link>
               <Link
                 href="/tra-cuu"
-                className="w-full sm:w-auto min-h-[46px] px-4 py-2.5 rounded-xl text-slate-500 hover:text-slate-900 dark:hover:text-white font-semibold text-sm flex items-center justify-center gap-1.5 transition-all"
+                className="w-full sm:w-auto min-h-[46px] px-4 py-2.5 rounded-xl text-slate-500 hover:text-[#0095F6] font-semibold text-sm flex items-center justify-center gap-1.5 transition-colors duration-300 ease-in-out"
               >
                 <ShieldCheck className="h-4 w-4 text-emerald-500" />
                 <span>Tra cứu điểm CFI</span>
@@ -75,7 +75,7 @@ export function HeroSection() {
 
           {/* Cột phải: Mockup bài thi KET bo tròn lớn rounded-3xl */}
           <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-md rounded-3xl border border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-6 shadow-[0_10px_35px_-4px_rgba(0,0,0,0.06)] transition-all">
+            <div className="relative w-full max-w-md rounded-3xl border border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-6 shadow-[0_10px_35px_-4px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_40px_-4px_rgba(0,0,0,0.09)] transition-all duration-300 ease-in-out">
               {/* Header của thẻ Mockup */}
               <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div className="flex items-center gap-2">
@@ -99,7 +99,7 @@ export function HeroSection() {
                   <span>18/75 câu</span>
                 </div>
                 <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
-                  <div className="h-full w-[24%] rounded-full bg-[#0095F6] transition-all" />
+                  <div className="h-full w-[24%] rounded-full bg-[#0095F6] transition-all duration-500" />
                 </div>
               </div>
 
@@ -121,17 +121,17 @@ export function HeroSection() {
                   Where can you see this notice?
                 </p>
 
-                {/* Các phương án A, B, C */}
+                {/* Các phương án A, B, C - Dùng border-2 đồng nhất để không bị giật */}
                 <div className="space-y-2 text-xs">
-                  <div className="flex items-center gap-2 rounded-xl border-2 border-[#0095F6] bg-sky-50/40 dark:bg-sky-950/30 p-2.5 text-[#0095F6] font-semibold">
+                  <div className="flex items-center gap-2 rounded-xl border border-[#0095F6] ring-2 ring-[#0095F6]/20 bg-sky-50/40 dark:bg-sky-950/30 p-2.5 text-[#0095F6] font-semibold transition-all duration-300 ease-in-out">
                     <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
                     <span>A. In a library</span>
                   </div>
-                  <div className="flex items-center gap-2 rounded-xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 p-2.5 text-slate-600 dark:text-slate-300">
+                  <div className="flex items-center gap-2 rounded-xl border border-slate-100 dark:border-slate-800 hover:ring-2 hover:ring-slate-200 dark:hover:ring-slate-700 bg-white dark:bg-slate-900 p-2.5 text-slate-600 dark:text-slate-300 transition-all duration-300 ease-in-out">
                     <span className="h-3.5 w-3.5 rounded-full border border-slate-300 inline-block shrink-0" />
                     <span>B. On a train</span>
                   </div>
-                  <div className="flex items-center gap-2 rounded-xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 p-2.5 text-slate-600 dark:text-slate-300">
+                  <div className="flex items-center gap-2 rounded-xl border border-slate-100 dark:border-slate-800 hover:ring-2 hover:ring-slate-200 dark:hover:ring-slate-700 bg-white dark:bg-slate-900 p-2.5 text-slate-600 dark:text-slate-300 transition-all duration-300 ease-in-out">
                     <span className="h-3.5 w-3.5 rounded-full border border-slate-300 inline-block shrink-0" />
                     <span>C. In a museum</span>
                   </div>

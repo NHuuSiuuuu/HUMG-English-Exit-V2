@@ -30,7 +30,7 @@ export function ExamStructure() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800/80">
+    <section className="py-16 sm:py-20 bg-transparent">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-2.5">
           <span className="text-xs font-bold uppercase tracking-widest text-[#0095F6]">
@@ -45,11 +45,11 @@ export function ExamStructure() {
 
           {/* Thanh tóm tắt nhanh */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 dark:bg-slate-800/60 px-4 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white dark:bg-slate-800/80 px-4 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800 shadow-sm">
               <Clock className="h-3.5 w-3.5 text-[#0095F6]" />
               <span>Thời gian làm bài: <strong>60 phút</strong></span>
             </div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 dark:bg-slate-800/60 px-4 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white dark:bg-slate-800/80 px-4 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-800 shadow-sm">
               <HelpCircle className="h-3.5 w-3.5 text-emerald-500" />
               <span>Tổng số câu: <strong>75 câu + 1 bài viết</strong></span>
             </div>
@@ -58,10 +58,10 @@ export function ExamStructure() {
 
         {/* Tab chuyển đổi khối dạng Pill */}
         <div className="flex justify-center">
-          <div className="inline-flex p-1 bg-slate-100/70 dark:bg-slate-800/60 rounded-full">
+          <div className="inline-flex p-1 bg-slate-200/50 dark:bg-slate-800/60 rounded-full shadow-inner">
             <button
               onClick={() => setActiveTab("all")}
-              className={`px-4 py-1.5 text-xs sm:text-sm font-bold rounded-full transition-all ${
+              className={`px-4 py-1.5 text-xs sm:text-sm font-bold rounded-full transition-all duration-300 ease-in-out ${
                 activeTab === "all"
                   ? "bg-white dark:bg-slate-700 text-[#0095F6] dark:text-sky-300 shadow-sm"
                   : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
@@ -71,7 +71,7 @@ export function ExamStructure() {
             </button>
             <button
               onClick={() => setActiveTab("rw")}
-              className={`px-4 py-1.5 text-xs sm:text-sm font-bold rounded-full transition-all ${
+              className={`px-4 py-1.5 text-xs sm:text-sm font-bold rounded-full transition-all duration-300 ease-in-out ${
                 activeTab === "rw"
                   ? "bg-white dark:bg-slate-700 text-[#0095F6] dark:text-sky-300 shadow-sm"
                   : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
@@ -81,7 +81,7 @@ export function ExamStructure() {
             </button>
             <button
               onClick={() => setActiveTab("listening")}
-              className={`px-4 py-1.5 text-xs sm:text-sm font-bold rounded-full transition-all ${
+              className={`px-4 py-1.5 text-xs sm:text-sm font-bold rounded-full transition-all duration-300 ease-in-out ${
                 activeTab === "listening"
                   ? "bg-white dark:bg-slate-700 text-[#0095F6] dark:text-sky-300 shadow-sm"
                   : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
@@ -92,13 +92,13 @@ export function ExamStructure() {
           </div>
         </div>
 
-        {/* Danh sách các Part */}
+        {/* Danh sách các Part bọc trong Card lớn trắng sạch */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Cột 1: Reading & Writing */}
           {(activeTab === "all" || activeTab === "rw") && (
             <div className={`space-y-4 ${activeTab === "rw" ? "lg:col-span-2 max-w-4xl mx-auto w-full" : ""}`}>
-              <div className="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
-                <div className="p-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
+              <div className="flex items-center gap-3 pb-3 border-b border-slate-200/60 dark:border-slate-800">
+                <div className="p-2.5 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 shadow-sm">
                   <BookOpen className="h-5 w-5" />
                 </div>
                 <div>
@@ -115,16 +115,16 @@ export function ExamStructure() {
                 {readingWritingParts.map((part) => (
                   <div
                     key={part.no}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-2xl bg-slate-50/60 dark:bg-slate-800/40 hover:bg-slate-100/70 transition-colors gap-2"
+                    className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-soft hover:-translate-y-0.5 transition-all duration-300 ease-in-out gap-2"
                   >
                     <div className="flex items-start gap-3">
-                      <span className="font-bold text-xs px-2.5 py-0.5 rounded-full bg-purple-100/70 dark:bg-purple-950 text-purple-600 dark:text-purple-400 whitespace-nowrap mt-0.5 sm:mt-0">
+                      <span className="font-bold text-xs px-2.5 py-0.5 rounded-full bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 whitespace-nowrap mt-0.5 sm:mt-0">
                         {part.no}
                       </span>
                       <span className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200">{part.name}</span>
                     </div>
                     <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
-                      <span className="text-[11px] text-slate-400 bg-white dark:bg-slate-900 px-2 py-0.5 rounded-lg border border-slate-100 dark:border-slate-800">
+                      <span className="text-[11px] text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-100 dark:border-slate-800">
                         {part.type}
                       </span>
                       <span className="text-xs font-bold text-slate-600 dark:text-slate-300 min-w-[50px] text-right">
@@ -140,8 +140,8 @@ export function ExamStructure() {
           {/* Cột 2: Listening */}
           {(activeTab === "all" || activeTab === "listening") && (
             <div className={`space-y-4 ${activeTab === "listening" ? "lg:col-span-2 max-w-4xl mx-auto w-full" : ""}`}>
-              <div className="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
-                <div className="p-2.5 rounded-xl bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400">
+              <div className="flex items-center gap-3 pb-3 border-b border-slate-200/60 dark:border-slate-800">
+                <div className="p-2.5 rounded-2xl bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 shadow-sm">
                   <Headphones className="h-5 w-5" />
                 </div>
                 <div>
@@ -158,16 +158,16 @@ export function ExamStructure() {
                 {listeningParts.map((part) => (
                   <div
                     key={part.no}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-2xl bg-slate-50/60 dark:bg-slate-800/40 hover:bg-slate-100/70 transition-colors gap-2"
+                    className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-soft hover:-translate-y-0.5 transition-all duration-300 ease-in-out gap-2"
                   >
                     <div className="flex items-start gap-3">
-                      <span className="font-bold text-xs px-2.5 py-0.5 rounded-full bg-sky-100/70 dark:bg-sky-950 text-sky-600 dark:text-sky-400 whitespace-nowrap mt-0.5 sm:mt-0">
+                      <span className="font-bold text-xs px-2.5 py-0.5 rounded-full bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 whitespace-nowrap mt-0.5 sm:mt-0">
                         {part.no}
                       </span>
                       <span className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200">{part.name}</span>
                     </div>
                     <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
-                      <span className="text-[11px] text-slate-400 bg-white dark:bg-slate-900 px-2 py-0.5 rounded-lg border border-slate-100 dark:border-slate-800">
+                      <span className="text-[11px] text-slate-400 bg-slate-50 dark:bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-100 dark:border-slate-800">
                         {part.type}
                       </span>
                       <span className="text-xs font-bold text-slate-600 dark:text-slate-300 min-w-[50px] text-right">
@@ -178,9 +178,9 @@ export function ExamStructure() {
                 ))}
               </div>
 
-              {/* Thông báo Listening phong cách TADR OU (giống hình mẫu 5) */}
-              <div className="rounded-2xl bg-sky-50/60 dark:bg-sky-950/30 p-4 border border-sky-100 dark:border-sky-900/40 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
-                <p className="font-bold text-sky-700 dark:text-sky-300 flex items-center gap-1.5">
+              {/* Thông báo Listening phong cách TADR OU */}
+              <div className="rounded-2xl bg-white dark:bg-slate-900 p-4 border border-sky-100 dark:border-sky-900/50 shadow-sm text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1.5">
+                <p className="font-bold text-[#0095F6] dark:text-sky-300 flex items-center gap-1.5">
                   <Info className="w-3.5 h-3.5" />
                   <span>Quy chế phần thi Nghe:</span>
                 </p>
@@ -195,7 +195,7 @@ export function ExamStructure() {
         <div className="text-center pt-4">
           <Link
             href="/on-luyen"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-sm shadow-[0_4px_14px_rgba(0,149,246,0.3)] transition-all"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-sm shadow-[0_4px_14px_rgba(0,149,246,0.3)] hover:-translate-y-0.5 transition-all duration-300 ease-in-out"
           >
             <span>Bắt đầu ôn tập 14 phần</span>
             <ArrowRight className="h-4 w-4" />

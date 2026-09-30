@@ -33,7 +33,7 @@ export function StatsSection() {
   ];
 
   return (
-    <section className="py-12 sm:py-16 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800/80">
+    <section className="py-12 sm:py-16 bg-transparent">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {stats.map((item, idx) => {
@@ -41,7 +41,7 @@ export function StatsSection() {
             return (
               <div
                 key={idx}
-                className="flex flex-col items-center text-center p-6 rounded-3xl bg-slate-50/60 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/80 hover:shadow-soft hover:-translate-y-0.5 transition-all"
+                className="flex flex-col items-center text-center p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.03)] hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-300 ease-in-out"
               >
                 <div className={`p-3 rounded-2xl mb-3 ${item.iconBg} shadow-sm`}>
                   <Icon className="h-5 w-5" />

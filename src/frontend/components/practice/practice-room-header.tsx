@@ -56,7 +56,7 @@ export function PracticeRoomHeader({
         <div className="flex items-center gap-3 min-w-0">
           <Link
             href={backUrl}
-            className="w-9 h-9 rounded-xl bg-sky-50 dark:bg-sky-950/60 hover:bg-sky-100 dark:hover:bg-sky-900/60 text-sky-600 dark:text-sky-300 flex items-center justify-center transition-all shrink-0 shadow-sm"
+            className="w-9 h-9 rounded-xl bg-sky-50 dark:bg-sky-950/60 hover:bg-sky-100 dark:hover:bg-sky-900/60 text-sky-600 dark:text-sky-300 flex items-center justify-center transition-all duration-300 ease-in-out shrink-0 shadow-sm"
             title="Quay lại danh sách bài"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -88,7 +88,7 @@ export function PracticeRoomHeader({
           <button
             type="button"
             onClick={() => alert("Cảm ơn bạn! Báo cáo lỗi đề thi đã được ghi nhận.")}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500 hover:bg-rose-600 text-white text-xs font-medium transition-all shadow-sm"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500 hover:bg-rose-600 text-white text-xs font-medium transition-all duration-300 ease-in-out shadow-sm"
           >
             <AlertTriangle className="w-3.5 h-3.5" />
             <span>Báo lỗi</span>
@@ -98,7 +98,7 @@ export function PracticeRoomHeader({
           <button
             type="button"
             onClick={() => alert("Tính năng sổ tay ghi chú nhanh cho câu hỏi này.")}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-xs font-medium transition-all shadow-sm"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-xs font-medium transition-all duration-300 ease-in-out shadow-sm"
           >
             <Edit3 className="w-3.5 h-3.5" />
             <span>Ghi chú</span>
@@ -109,7 +109,7 @@ export function PracticeRoomHeader({
             <button
               type="button"
               onClick={onReset}
-              className="px-4 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-sm"
+              className="px-4 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all duration-300 ease-in-out shadow-sm"
             >
               Làm lại bài
             </button>
@@ -118,7 +118,7 @@ export function PracticeRoomHeader({
               type="button"
               disabled={isSubmitting}
               onClick={onSubmit}
-              className="px-4 py-1.5 rounded-lg border border-sky-500 bg-sky-50 hover:bg-sky-500 hover:text-white text-sky-600 dark:text-sky-300 dark:bg-sky-950/60 dark:hover:bg-sky-500 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm"
+              className="px-4 py-1.5 rounded-lg border border-sky-500 bg-sky-50 hover:bg-sky-500 hover:text-white text-sky-600 dark:text-sky-300 dark:bg-sky-950/60 dark:hover:bg-sky-500 text-xs font-bold flex items-center gap-1.5 transition-all duration-300 ease-in-out shadow-sm"
             >
               <Send className="w-3.5 h-3.5" />
               <span>{isSubmitting ? "Đang chấm..." : "Nộp bài"}</span>

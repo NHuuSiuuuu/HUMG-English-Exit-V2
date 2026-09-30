@@ -64,31 +64,33 @@
   }
 }
 
-/* Lưới ô vuông mờ hiện đại phong cách TADR OU */
+/* Lưới ô vuông mờ hiện đại phong cách TADR OU lặp lại toàn màn hình */
 .bg-grid-pattern {
   background-size: 36px 36px;
+  background-repeat: repeat;
   background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 0, 0, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
 }
 
 .dark .bg-grid-pattern {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
 }
 
 /* Thẻ Card phong cách mềm mại của TADR OU */
 .card-soft {
   background-color: var(--surface);
-  border-radius: 1.25rem;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(226, 232, 240, 0.65);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 25px -4px rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(226, 232, 240, 0.7);
+  transition: all 0.3s ease-in-out;
 }
 
 .dark .card-soft {
-  border-color: rgba(51, 65, 85, 0.5);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
+  border-color: rgba(51, 65, 85, 0.6);
+  box-shadow: 0 4px 25px -4px rgba(0, 0, 0, 0.35);
 }
 
 /* Nút bấm bo tròn năng động */
@@ -97,12 +99,12 @@
   color: #FFFFFF;
   border-radius: 0.75rem;
   font-weight: 600;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 .btn-brand:hover {
   background-color: #0084dc;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 149, 246, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 149, 246, 0.28);
 }
 
 /* Tôn trọng người dùng tắt hiệu ứng chuyển động */
