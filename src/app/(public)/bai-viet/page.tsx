@@ -1,13 +1,13 @@
 import * as React from "react";
 import Link from "next/link";
 import { ArrowLeft, Clock, Calendar, ArrowRight } from "lucide-react";
-import { ArticleService } from "@/backend/services/article.service";
+import { articleService } from "@/backend/services/article.service";
 import { Button } from "@/frontend/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/frontend/components/ui/card";
 import { Badge } from "@/frontend/components/ui/badge";
 
 export default async function ArticlesHubPage() {
-  const articles = await ArticleService.getLatestArticles(6);
+  const articles = await articleService.getLatestArticles(6);
 
   return (
     <div className="py-10 md:py-16">

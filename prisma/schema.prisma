@@ -184,4 +184,31 @@ model ExamPart {
   @@map("exam_parts")
 }
 
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Article {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  title         String
+  excerpt       String?       @db.Text
+  content       String        @db.Text
+  coverImageUrl String?       @map("cover_image_url")
+  category      String
+  tags          String[]      @default([])
+  authorName    String        @default("Ban Quản trị") @map("author_name")
+  status        ArticleStatus @default(DRAFT)
+  viewsCount    Int           @default(0) @map("views_count")
+  publishedAt   DateTime?     @map("published_at")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([category])
+  @@map("articles")
+}
+
+
 
