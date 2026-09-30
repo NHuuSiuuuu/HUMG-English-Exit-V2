@@ -59,3 +59,87 @@ model PasswordResetToken {
   @@index([tokenHash])
   @@map("password_reset_tokens")
 }
+
+enum SkillType {
+  READING_WRITING
+  LISTENING
+}
+
+enum PartStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum QuestionType {
+  MATCH_POOL    // Part 1, 11 (Ghép kho A-H)
+  MCQ3          // Part 2, 3, 4, 12 (Trắc nghiệm A/B/C hoặc Right/Wrong/Doesn't say)
+  MCQ3_IMAGE    // Part 10 (Trắc nghiệm 3 ảnh A/B/C)
+  CLOZE_MCQ     // Part 5 (Điền đoạn văn trắc nghiệm A/B/C)
+  SHORT_TEXT    // Part 6, 7, 8, 13, 14 (Điền từ, đoán từ, hoàn thành biểu mẫu)
+  WRITING       // Part 9 (Viết note 25-35 từ)
+}
+
+model Part {
+  id             String          @id @default(cuid())
+  partNo         Int             @map("part_no")
+  skill          SkillType
+  title          String
+  sourceLabel    String          @map("source_label")
+  groupSet       String          @map("group_set")
+  instructions   String          @db.Text
+  exampleRow     Json?           @map("example_row")
+  difficulty     String          @default("MEDIUM")
+  status         PartStatus      @default(DRAFT)
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+
+  questionGroups QuestionGroup[]
+
+  @@index([partNo])
+  @@index([skill])
+  @@index([status])
+  @@map("parts")
+}
+
+model QuestionGroup {
+  id                  String       @id @default(cuid())
+  partId              String       @map("part_id")
+  part                Part         @relation(fields: [partId], references: [id], onDelete: Cascade)
+  type                QuestionType
+  order               Int          @default(1)
+  passageText         String?      @map("passage_text") @db.Text
+  audioUrl            String?      @map("audio_url")
+  maxPlays            Int          @default(2) @map("max_plays")
+  transcript          String?      @db.Text
+  poolOptions         Json?        @map("pool_options")
+  writingRequirements Json?        @map("writing_requirements")
+  minWords            Int?         @map("min_words")
+  maxWords            Int?         @map("max_words")
+  sampleWriting       String?      @map("sample_writing") @db.Text
+  createdAt           DateTime     @default(now()) @map("created_at")
+
+  questions           Question[]
+
+  @@index([partId])
+  @@map("question_groups")
+}
+
+model Question {
+  id              String        @id @default(cuid())
+  groupId         String        @map("group_id")
+  group           QuestionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  orderNumber     Int           @map("order_number")
+  prompt          String        @db.Text
+  options         Json?
+  correctAnswer   String        @map("correct_answer")
+  acceptedAnswers Json?         @map("accepted_answers")
+  explanation     String?       @db.Text
+  firstLetterHint String?       @map("first_letter_hint")
+  charCountHint   Int?          @map("char_count_hint")
+  formFieldLabel  String?       @map("form_field_label")
+  createdAt       DateTime      @default(now()) @map("created_at")
+
+  @@index([groupId])
+  @@map("questions")
+}
+
