@@ -1,0 +1,158 @@
+{
+  "common": {
+    "brandName": "HUMG English Exit",
+    "brandTagline": "Chuẩn đầu ra Tiếng Anh HUMG",
+    "nav": {
+      "practice": "Ôn luyện",
+      "mockExam": "Thi thử",
+      "articles": "Bài viết",
+      "checkScore": "Tra cứu điểm",
+      "login": "Đăng nhập",
+      "register": "Đăng ký",
+      "account": "Tài khoản",
+      "logout": "Đăng xuất",
+      "admin": "Quản trị"
+    },
+    "theme": {
+      "light": "Sáng",
+      "dark": "Tối",
+      "system": "Hệ thống",
+      "toggleTheme": "Đổi giao diện"
+    },
+    "language": {
+      "vietnamese": "Tiếng Việt",
+      "english": "English",
+      "switchLanguage": "Ngôn ngữ"
+    },
+    "footer": {
+      "desc": "Website ôn luyện và thi thử chuẩn đầu ra tiếng Anh dành riêng cho sinh viên Trường Đại học Mỏ - Địa chất (HUMG).",
+      "quickLinks": "Liên kết nhanh",
+      "cfiPortal": "Hệ thống CFI HUMG",
+      "cfiPortalDesc": "Cổng tra cứu điểm & lịch thi chính thức của Trung tâm Ngoại ngữ - Tin học CFI",
+      "feedback": "Góp ý & Báo lỗi",
+      "privacy": "Chính sách bảo mật",
+      "terms": "Điều khoản sử dụng",
+      "disclaimer": "Lưu ý: Website hỗ trợ ôn tập phi thương mại cho sinh viên HUMG. Mọi thông tin thi chính thức thuộc thẩm quyền nhà trường.",
+      "copyright": "© 2026 HUMG English Exit. Phát triển vì cộng đồng sinh viên HUMG."
+    }
+  },
+  "landing": {
+    "hero": {
+      "badge": "Đề thi chuẩn Cambridge KET (A2 Key)",
+      "title": "Chinh phục chuẩn đầu ra Tiếng Anh HUMG tự tin & hiệu quả",
+      "subtitle": "Nền tảng ôn luyện bám sát 14 dạng bài thi chuẩn đầu ra Trường Đại học Mỏ - Địa chất. Luyện tập theo từng kỹ năng, thi thử 60 phút mô phỏng áp lực thực tế và tra cứu kết quả nhanh chóng.",
+      "ctaPractice": "Bắt đầu ôn luyện",
+      "ctaExam": "Thi thử 60 phút",
+      "ctaCheckScore": "Tra cứu điểm CFI",
+      "preview": {
+        "title": "Đề thi thử chuẩn số 01",
+        "tag": "KET A2 Format",
+        "time": "60:00",
+        "timeLeft": "Thời gian còn lại",
+        "progress": "Đã hoàn thành 18/75 câu",
+        "partLabel": "Phần 1/14: Biển báo & Thông báo",
+        "partDesc": "Ghép câu mô tả với biển báo tương ứng (A–H)",
+        "questionSample": "Where can you see this notice?",
+        "optionA": "A. In a library",
+        "optionB": "B. On a train",
+        "optionC": "C. In a museum",
+        "verifiedBadge": "Chấm tự động tức thì"
+      }
+    },
+    "features": {
+      "tag": "Tính năng trọng tâm",
+      "title": "Mọi công cụ bạn cần để vượt qua chuẩn đầu ra",
+      "subtitle": "Được thiết kế tối ưu cho thói quen học tập và cấu trúc bài thi thực tế của sinh viên Mỏ - Địa chất.",
+      "practice": {
+        "title": "Ôn luyện từng phần",
+        "desc": "Tập trung rèn luyện 14 dạng bài độc lập (Biển báo, Đoán từ, Điền form, Nghe tranh...). Không giới hạn thời gian, có đáp án và giải thích cặn kẽ.",
+        "action": "Xem các dạng bài"
+      },
+      "exam": {
+        "title": "Thi thử mô phỏng 60 phút",
+        "desc": "Trải nghiệm bài thi hoàn chỉnh 14 phần với đồng hồ đếm ngược máy chủ. Rèn phản xạ căn giờ và đối mặt với áp lực phòng thi thật.",
+        "action": "Vào thi thử ngay"
+      },
+      "score": {
+        "title": "Tra cứu điểm & Lịch thi",
+        "desc": "Tích hợp giao diện tra cứu trực tiếp từ Trung tâm Ngoại ngữ - Tin học CFI HUMG, giúp sinh viên cập nhật điểm số và số báo danh nhanh chóng.",
+        "action": "Tra cứu kết quả"
+      }
+    },
+    "structure": {
+      "tag": "Cấu trúc đề chuẩn",
+      "title": "Cấu trúc 14 Phần bài thi chuẩn đầu ra HUMG",
+      "subtitle": "Đề thi bám sát định dạng bài thi Cambridge KET (A2 Key) với 2 khối kỹ năng làm liên tục trong 60 phút.",
+      "readingWritingTitle": "Khối Reading & Writing (Phần 1 – 9)",
+      "readingWritingMeta": "50 câu hỏi trắc nghiệm & điền từ · 1 bài viết ngắn",
+      "listeningTitle": "Khối Listening (Phần 10 – 14)",
+      "listeningMeta": "25 câu hỏi trắc nghiệm chọn tranh, nối ý & điền thông tin",
+      "parts": {
+        "p1": "Phần 1: Biển báo (Nối câu với 8 biển báo/thông báo A-H)",
+        "p2": "Phần 2: Từ vựng (Điền từ A/B/C vào chỗ trống đoạn ngắn)",
+        "p3": "Phần 3: Hội thoại (Chọn câu đối đáp phù hợp A/B/C)",
+        "p4": "Phần 4: Đọc hiểu (Bài đọc kèm câu hỏi Right/Wrong/Doesn't say)",
+        "p5": "Phần 5: Điền đoạn (Đoạn văn khuyết 8 chỗ chọn A/B/C)",
+        "p6": "Phần 6: Đoán từ (Định nghĩa từ, cho chữ cái đầu và số ký tự)",
+        "p7": "Phần 7: Điền từ vào thư/email (Viết đúng 1 từ mỗi ô)",
+        "p8": "Phần 8: Điền form thông tin (Đọc thư, điền phiếu thông tin)",
+        "p9": "Phần 9: Viết note ngắn (Viết note 25-35 từ đủ 3 ý yêu cầu)",
+        "p10": "Phần 10: Listening 1 (5 hội thoại ngắn chọn tranh A/B/C)",
+        "p11": "Phần 11: Listening 2 (Nối món đồ/sự kiện với lý do A-H)",
+        "p12": "Phần 12: Listening 3 (Trắc nghiệm A/B/C theo hội thoại)",
+        "p13": "Phần 13: Listening 4 (Nghe và điền thông tin vào phiếu)",
+        "p14": "Phần 14: Listening 5 (Nghe và điền chi tiết vào tờ ghi chú)"
+      }
+    },
+    "stats": {
+      "item1Value": "14",
+      "item1Label": "Dạng bài ôn luyện chuẩn",
+      "item2Value": "60",
+      "item2Label": "Phút thi thử mô phỏng",
+      "item3Value": "100%",
+      "item3Label": "Chấm điểm tự động tức thì",
+      "item4Value": "24/7",
+      "item4Label": "Luyện tập mọi lúc trên mọi thiết bị"
+    },
+    "howItWorks": {
+      "tag": "Phương pháp học",
+      "title": "3 bước nâng cao điểm số chuẩn đầu ra",
+      "subtitle": "Lộ trình ôn tập rõ ràng giúp sinh viên nắm vững cấu trúc và tự tin bước vào kỳ thi chính thức.",
+      "step1": {
+        "step": "Bước 01",
+        "title": "Luyện kỹ năng theo từng Part",
+        "desc": "Tự chọn những phần còn yếu để ôn luyện chuyên sâu. Đọc kỹ phần giải thích chi tiết để tích lũy từ vựng và ngữ pháp trọng tâm."
+      },
+      "step2": {
+        "step": "Bước 02",
+        "title": "Thi thử 60 phút tính giờ",
+        "desc": "Thử sức với bộ đề hoàn chỉnh 14 phần dưới áp lực đồng hồ đếm ngược. Hệ thống tự động sao lưu bài làm liên tục."
+      },
+      "step3": {
+        "step": "Bước 03",
+        "title": "Phân tích điểm & Cải thiện",
+        "desc": "Xem bảng phân tích chi tiết câu đúng/sai, nghe lại audio có transcript phụ đề và theo dõi tiến độ cải thiện từng ngày."
+      }
+    },
+    "articles": {
+      "tag": "Tài liệu & Kinh nghiệm",
+      "title": "Bài viết hướng dẫn & Mẹo làm bài mới nhất",
+      "subtitle": "Kinh nghiệm thực tế tổng hợp từ các anh chị khóa trước đạt chuẩn đầu ra điểm cao.",
+      "viewAll": "Xem tất cả bài viết",
+      "readMore": "Đọc bài viết"
+    },
+    "faq": {
+      "tag": "Giải đáp thắc mắc",
+      "title": "Câu hỏi thường gặp về chuẩn đầu ra Tiếng Anh",
+      "subtitle": "Những thông tin cần biết để chuẩn bị tốt nhất cho kỳ thi tại Trường Đại học Mỏ - Địa chất.",
+      "q1": "Cấu trúc bài thi chuẩn đầu ra Tiếng Anh HUMG gồm những phần nào?",
+      "a1": "Bài thi chuẩn đầu ra tiếng Anh tại HUMG áp dụng theo định dạng Cambridge KET (A2 Key) gồm 14 phần: 9 phần Reading & Writing (50 câu trắc nghiệm/điền từ và 1 bài viết note ngắn 25-35 từ) cùng 5 phần Listening (25 câu chọn tranh và điền thông tin). Tổng thời gian làm bài là 60 phút.",
+      "q2": "Tôi có thể luyện tập trên điện thoại di động được không?",
+      "a2": "Hoàn toàn được. Website được tối ưu hóa hiển thị responsive trên mọi kích thước màn hình từ điện thoại (375px), máy tính bảng đến máy tính để bàn. Vùng chạm và cỡ chữ được thiết kế chuẩn để bạn thao tác mượt mà.",
+      "q3": "Khi thi thử, nếu mất mạng hoặc tải lại trang thì có mất bài không?",
+      "a3": "Hệ thống có cơ chế tự động lưu nháp liên tục (autosave). Khi bạn tải lại trang hoặc đổi thiết bị, đáp án đã chọn và thời gian còn lại sẽ được khôi phục chính xác từ máy chủ.",
+      "q4": "Tra cứu điểm thi trên trang có chính xác không?",
+      "a4": "Trang tra cứu nhúng trực tiếp cổng thông tin kết quả thi chính thức của Trung tâm Ngoại ngữ - Tin học CFI HUMG (kqt.cfi.humg.edu.vn). Dữ liệu được tải trực tiếp từ nhà trường mà không lưu lại qua máy chủ trung gian."
+    }
+  }
+}

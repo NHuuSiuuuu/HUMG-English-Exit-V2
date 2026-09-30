@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F4F7FB;
+    --surface: #FFFFFF;
+    --surface-raised: #E6EDF6;
+    --foreground: #14243A;
+    --muted: #52627A;
+    --primary: #1248A0;
+    --primary-foreground: #FFFFFF;
+    --accent: #B83E2B;
+    --accent-foreground: #FFFFFF;
+    --secondary: #2C766E;
+    --border: #D5DEEB;
+    --success: #28715E;
+    --danger: #B83E2B;
+  }
+
+  .dark {
+    --background: #101925;
+    --surface: #1A2737;
+    --surface-raised: #243448;
+    --foreground: #E9F0F8;
+    --muted: #A8B7C9;
+    --primary: #78A9FF;
+    --primary-foreground: #101925;
+    --accent: #FF8873;
+    --accent-foreground: #14243A;
+    --secondary: #68BDB1;
+    --border: #3A4A5E;
+    --success: #68BDB1;
+    --danger: #FF8873;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading), system-ui, sans-serif;
+    color: var(--foreground);
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  /* Trạng thái focus nhìn thấy được bằng bàn phím theo chuẩn tiếp cận WCAG */
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+/* Tôn trọng người dùng tắt hiệu ứng chuyển động */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

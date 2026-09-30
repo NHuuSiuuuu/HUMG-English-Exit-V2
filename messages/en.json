@@ -1,0 +1,158 @@
+{
+  "common": {
+    "brandName": "HUMG English Exit",
+    "brandTagline": "HUMG English Exit Examination Prep",
+    "nav": {
+      "practice": "Practice",
+      "mockExam": "Mock Exam",
+      "articles": "Articles",
+      "checkScore": "Check Scores",
+      "login": "Sign In",
+      "register": "Register",
+      "account": "Account",
+      "logout": "Sign Out",
+      "admin": "Admin"
+    },
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
+      "toggleTheme": "Toggle Theme"
+    },
+    "language": {
+      "vietnamese": "Tiếng Việt",
+      "english": "English",
+      "switchLanguage": "Language"
+    },
+    "footer": {
+      "desc": "Online practice and mock exam platform for English exit competency requirements at Hanoi University of Mining and Geology (HUMG).",
+      "quickLinks": "Quick Links",
+      "cfiPortal": "CFI HUMG System",
+      "cfiPortalDesc": "Official portal for scores & exam schedules at HUMG Center for Foreign Languages and Informatics",
+      "feedback": "Feedback & Reports",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "disclaimer": "Note: Non-commercial educational prep tool for HUMG students. Official exam schedules and certification belong to the university.",
+      "copyright": "© 2026 HUMG English Exit. Developed for the HUMG student community."
+    }
+  },
+  "landing": {
+    "hero": {
+      "badge": "Cambridge KET (A2 Key) Format",
+      "title": "Master the HUMG English Exit Exam with Confidence",
+      "subtitle": "Comprehensive prep platform tailored to the 14 question parts of Hanoi University of Mining and Geology's exit exam. Practice by skill, take 60-minute simulated tests, and check your official results quickly.",
+      "ctaPractice": "Start Practicing",
+      "ctaExam": "60-Min Mock Exam",
+      "ctaCheckScore": "Check CFI Scores",
+      "preview": {
+        "title": "Mock Exam Test 01",
+        "tag": "KET A2 Format",
+        "time": "60:00",
+        "timeLeft": "Time Remaining",
+        "progress": "Completed 18/75 questions",
+        "partLabel": "Part 1/14: Notices & Signs",
+        "partDesc": "Match sentence descriptions with notices (A–H)",
+        "questionSample": "Where can you see this notice?",
+        "optionA": "A. In a library",
+        "optionB": "B. On a train",
+        "optionC": "C. In a museum",
+        "verifiedBadge": "Instant Auto-Grading"
+      }
+    },
+    "features": {
+      "tag": "Key Features",
+      "title": "All the tools you need to pass your exit exam",
+      "subtitle": "Optimized for study habits and real test structures for HUMG students.",
+      "practice": {
+        "title": "Practice by Part",
+        "desc": "Focus on 14 individual parts (Notices, Vocabulary, Form Filling, Picture Listening...). No time pressure, with immediate answers and detailed explanations.",
+        "action": "View All Parts"
+      },
+      "exam": {
+        "title": "60-Minute Mock Exam",
+        "desc": "Experience full 14-part exams with server-synchronized countdown timers. Build speed, endurance, and realistic test confidence.",
+        "action": "Enter Exam Room"
+      },
+      "score": {
+        "title": "Check Scores & Schedule",
+        "desc": "Integrated portal from HUMG CFI Foreign Languages and Informatics Center to look up your exam results and schedule without friction.",
+        "action": "Look Up Results"
+      }
+    },
+    "structure": {
+      "tag": "Standard Format",
+      "title": "The 14 Parts of HUMG English Exit Exam",
+      "subtitle": "Follows the Cambridge KET (A2 Key) format across 2 main skill blocks completed in 60 minutes.",
+      "readingWritingTitle": "Reading & Writing Block (Parts 1 – 9)",
+      "readingWritingMeta": "50 multiple-choice & fill-in questions · 1 short written note",
+      "listeningTitle": "Listening Block (Parts 10 – 14)",
+      "listeningMeta": "25 questions: picture selection, matching & note-taking",
+      "parts": {
+        "p1": "Part 1: Signs & Notices (Match descriptions to notices A-H)",
+        "p2": "Part 2: Vocabulary (Choose A/B/C for short sentence gaps)",
+        "p3": "Part 3: Conversations (Select appropriate response A/B/C)",
+        "p4": "Part 4: Reading Comprehension (Right/Wrong/Doesn't say)",
+        "p5": "Part 5: Text Completion (Cloze text with options A/B/C)",
+        "p6": "Part 6: Word Guessing (Dictionary definitions with letter hints)",
+        "p7": "Part 7: Word Completion (Write one word for each gap in letters)",
+        "p8": "Part 8: Form Filling (Extract key details from notes to form)",
+        "p9": "Part 9: Short Note Writing (Write a 25-35 word message covering 3 points)",
+        "p10": "Part 10: Listening 1 (5 short dialogues with picture choices A/B/C)",
+        "p11": "Part 11: Listening 2 (Match items or plans with reasons A-H)",
+        "p12": "Part 12: Listening 3 (Multiple-choice conversation A/B/C)",
+        "p13": "Part 13: Listening 4 (Fill missing information into notes)",
+        "p14": "Part 14: Listening 5 (Listen and record key details on sheet)"
+      }
+    },
+    "stats": {
+      "item1Value": "14",
+      "item1Label": "Standard Practice Parts",
+      "item2Value": "60",
+      "item2Label": "Minutes in Full Mock Test",
+      "item3Value": "100%",
+      "item3Label": "Automated Grading & Explanations",
+      "item4Value": "24/7",
+      "item4Label": "Practice Anytime on Any Device"
+    },
+    "howItWorks": {
+      "tag": "Study Methodology",
+      "title": "3 Steps to Boost Your Exit Score",
+      "subtitle": "A structured routine to master test formats and pass on your first attempt.",
+      "step1": {
+        "step": "Step 01",
+        "title": "Master Parts Individually",
+        "desc": "Target your weaker areas (Signs, Cloze, Picture Listening). Read thorough answer explanations to absorb core vocabulary and grammar."
+      },
+      "step2": {
+        "step": "Step 02",
+        "title": "Simulate 60-Minute Exams",
+        "desc": "Take full-length tests with live server countdowns. The system automatically preserves your answers and state."
+      },
+      "step3": {
+        "step": "Step 03",
+        "title": "Review Mistakes & Improve",
+        "desc": "Analyze right vs. wrong choices, replay audio with synchronized transcripts, and track your improvement curve."
+      }
+    },
+    "articles": {
+      "tag": "Tips & Guides",
+      "title": "Latest Exam Preparation Articles",
+      "subtitle": "Practical tactics, time allocation tips, and essential grammar compiled from top-scoring students.",
+      "viewAll": "View All Articles",
+      "readMore": "Read Article"
+    },
+    "faq": {
+      "tag": "FAQ",
+      "title": "Frequently Asked Questions",
+      "subtitle": "Key information you need to prepare for the English exit test at HUMG.",
+      "q1": "What format does the HUMG English Exit Exam follow?",
+      "a1": "The exit test follows the Cambridge KET (A2 Key) structure, featuring 14 parts divided into Reading & Writing (Parts 1-9) and Listening (Parts 10-14), spanning 60 total minutes.",
+      "q2": "Can I practice on mobile phones?",
+      "a2": "Yes, absolutely. The website is fully responsive across mobile phones (375px+), tablets, and desktops. Touch targets and font sizes follow accessibility best practices.",
+      "q3": "If I lose connection or reload during a mock test, is my progress lost?",
+      "a3": "No. The system uses continuous autosave. When you reload or reconnect, your answered items and remaining time are seamlessly restored from the server.",
+      "q4": "Are the score lookup results official?",
+      "a4": "The lookup feature directly integrates the official portal of HUMG CFI Foreign Languages and Informatics Center (kqt.cfi.humg.edu.vn). Data is loaded directly without third-party storage."
+    }
+  }
+}

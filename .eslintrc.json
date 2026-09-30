@@ -1,0 +1,56 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["@/backend/*"],
+            "message": "frontend và shared không được phép import trực tiếp từ backend."
+          }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/app/**/*"],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    },
+    {
+      "files": ["src/backend/**/*"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/frontend/*"],
+                "message": "backend không được phép import từ frontend."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/shared/**/*"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/frontend/*", "@/backend/*"],
+                "message": "shared là lớp trung lập, không được phép import từ frontend hoặc backend."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

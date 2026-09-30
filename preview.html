@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="vi" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUMG English Exit — Ôn luyện & Thi thử Chuẩn đầu ra Tiếng Anh</title>
+  <!-- Google Fonts: Nunito Sans (Headings/Buttons) & Open Sans (Body) theo DESIGN.md -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400..900;1,6..12,400..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: 'var(--background)',
+            surface: {
+              DEFAULT: 'var(--surface)',
+              raised: 'var(--surface-raised)',
+            },
+            foreground: 'var(--foreground)',
+            muted: 'var(--muted)',
+            primary: {
+              DEFAULT: 'var(--primary)',
+              foreground: 'var(--primary-foreground)',
+            },
+            secondary: {
+              DEFAULT: 'var(--secondary)',
+              foreground: 'var(--surface)',
+            },
+            accent: {
+              DEFAULT: 'var(--accent)',
+              foreground: 'var(--accent-foreground)',
+            },
+            border: 'var(--border)',
+            success: 'var(--success)',
+            danger: 'var(--danger)',
+          },
+          fontFamily: {
+            heading: ['"Nunito Sans"', 'sans-serif'],
+            sans: ['"Open Sans"', 'sans-serif'],
+          },
+          borderRadius: {
+            lg: '8px',
+            md: '6px',
+            sm: '4px',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --background: #F4F7FB;
+      --surface: #FFFFFF;
+      --surface-raised: #E6EDF6;
+      --foreground: #14243A;
+      --muted: #52627A;
+      --primary: #1248A0;
+      --primary-foreground: #FFFFFF;
+      --accent: #B83E2B;
+      --accent-foreground: #FFFFFF;
+      --secondary: #2C766E;
+      --border: #D5DEEB;
+      --success: #28715E;
+      --danger: #B83E2B;
+    }
+
+    .dark {
+      --background: #101925;
+      --surface: #1A2737;
+      --surface-raised: #243448;
+      --foreground: #E9F0F8;
+      --muted: #A8B7C9;
+      --primary: #78A9FF;
+      --primary-foreground: #101925;
+      --accent: #FF8873;
+      --accent-foreground: #14243A;
+      --secondary: #68BDB1;
+      --border: #3A4A5E;
+      --success: #68BDB1;
+      --danger: #FF8873;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      font-family: 'Open Sans', sans-serif;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Nunito Sans', sans-serif;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- ================= HEADER ================= -->
+  <header class="sticky top-0 z-40 w-full border-b border-border bg-surface/95 backdrop-blur-md transition-colors">
+    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+          <i data-lucide="graduation-cap" class="h-6 w-6"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-heading font-extrabold text-base sm:text-lg tracking-tight text-foreground leading-none">
+            HUMG English Exit
+          </span>
+          <span class="text-xs text-muted font-medium hidden sm:inline-block mt-0.5" id="brandTagline">
+            Chuẩn đầu ra Tiếng Anh HUMG
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+        <a href="#practice" class="px-3 py-2 text-sm font-heading font-semibold rounded-md text-foreground hover:bg-surface-raised transition-colors" id="navPractice">Ôn luyện</a>
+        <a href="#exam" class="px-3 py-2 text-sm font-heading font-semibold rounded-md text-foreground hover:bg-surface-raised transition-colors" id="navExam">Thi thử</a>
+        <a href="#articles" class="px-3 py-2 text-sm font-heading font-semibold rounded-md text-foreground hover:bg-surface-raised transition-colors" id="navArticles">Bài viết</a>
+        <a href="#score" class="px-3 py-2 text-sm font-heading font-semibold rounded-md text-foreground hover:bg-surface-raised transition-colors" id="navScore">Tra cứu điểm</a>
+      </nav>
+
+      <!-- Controls: Theme, Login -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Theme Toggle -->
+        <button onclick="toggleTheme()" class="h-10 w-10 flex items-center justify-center rounded-lg border border-border bg-surface text-foreground hover:bg-surface-raised transition-colors" title="Đổi giao diện">
+          <i data-lucide="sun" id="themeIcon" class="h-5 w-5 text-accent"></i>
+        </button>
+
+        <!-- Desktop Auth -->
+        <div class="hidden md:flex items-center space-x-2">
+          <button class="h-10 px-3 rounded-lg text-sm font-heading font-semibold text-foreground hover:bg-surface-raised transition-colors flex items-center gap-1.5" id="btnLogin">
+            <i data-lucide="log-in" class="h-4 w-4"></i>
+            <span>Đăng nhập</span>
+          </button>
+          <button class="h-10 px-4 rounded-lg text-sm font-heading font-bold bg-primary text-primary-foreground hover:opacity-90 transition-opacity shadow-sm" id="btnRegister">
+            Đăng ký
+          </button>
+        </div>
+
+        <!-- Mobile Drawer Button -->
+        <button onclick="toggleMobileMenu()" class="md:hidden h-10 w-10 flex items-center justify-center rounded-lg border border-border bg-surface text-foreground">
+          <i data-lucide="menu" class="h-5 w-5"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mobileDrawer" class="hidden fixed inset-0 z-50 bg-background/80 backdrop-blur-sm">
+    <div class="fixed inset-y-0 right-0 z-50 w-full max-w-xs bg-surface p-6 shadow-xl border-l border-border flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-6 border-b border-border">
+          <span class="font-heading font-bold text-lg text-primary">HUMG English Exit</span>
+          <button onclick="toggleMobileMenu()" class="h-9 w-9 flex items-center justify-center rounded-lg border border-border">
+            <i data-lucide="x" class="h-5 w-5"></i>
+          </button>
+        </div>
+        <nav class="mt-6 flex flex-col space-y-2">
+          <a href="#practice" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-3 rounded-lg text-base font-heading font-semibold hover:bg-surface-raised">
+            <i data-lucide="book-open" class="h-5 w-5 text-primary"></i> Ôn luyện
+          </a>
+          <a href="#exam" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-3 rounded-lg text-base font-heading font-semibold hover:bg-surface-raised">
+            <i data-lucide="clock" class="h-5 w-5 text-secondary"></i> Thi thử
+          </a>
+          <a href="#articles" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-3 rounded-lg text-base font-heading font-semibold hover:bg-surface-raised">
+            <i data-lucide="file-text" class="h-5 w-5 text-muted"></i> Bài viết
+          </a>
+          <a href="#score" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-3 py-3 rounded-lg text-base font-heading font-semibold hover:bg-surface-raised">
+            <i data-lucide="search" class="h-5 w-5 text-accent"></i> Tra cứu điểm
+          </a>
+        </nav>
+      </div>
+      <div class="pt-6 border-t border-border space-y-3">
+        <button class="w-full h-11 rounded-lg border border-border bg-surface font-heading font-semibold">Đăng nhập</button>
+        <button class="w-full h-11 rounded-lg bg-primary text-primary-foreground font-heading font-bold shadow-sm">Đăng ký</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="flex-1">
+    <!-- ================= 1. HERO SECTION ================= -->
+    <section class="relative overflow-hidden border-b border-border bg-gradient-to-b from-surface via-background to-background py-12 md:py-20 lg:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
+          
+          <!-- Cột trái: Tiêu đề & CTA -->
+          <div class="flex flex-col items-start lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-1.5 rounded-sm border border-primary/20 bg-primary/10 px-3 py-1 text-xs sm:text-sm font-semibold text-primary font-heading">
+              <i data-lucide="sparkles" class="h-3.5 w-3.5"></i>
+              <span id="heroBadge">Đề thi chuẩn Cambridge KET (A2 Key)</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.15] text-foreground" id="heroTitle">
+              Chinh phục chuẩn đầu ra Tiếng Anh HUMG tự tin & hiệu quả
+            </h1>
+
+            <p class="text-base sm:text-lg text-muted max-w-2xl leading-relaxed" id="heroSubtitle">
+              Nền tảng ôn luyện bám sát 14 dạng bài thi chuẩn đầu ra Trường Đại học Mỏ - Địa chất. Luyện tập theo từng kỹ năng, thi thử 60 phút mô phỏng áp lực thực tế và tra cứu kết quả nhanh chóng.
+            </p>
+
+            <div class="flex flex-col sm:flex-row w-full sm:w-auto gap-3 pt-2">
+              <a href="#practice" class="w-full sm:w-auto">
+                <button class="w-full sm:w-auto h-12 px-6 rounded-lg bg-primary text-primary-foreground font-heading font-bold flex items-center justify-center gap-2 hover:opacity-90 shadow-sm" id="heroCtaPractice">
+                  <i data-lucide="book-open" class="h-5 w-5"></i>
+                  <span>Bắt đầu ôn luyện</span>
+                  <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                </button>
+              </a>
+              <a href="#exam" class="w-full sm:w-auto">
+                <button class="w-full sm:w-auto h-12 px-6 rounded-lg border border-border bg-surface text-foreground font-heading font-bold flex items-center justify-center gap-2 hover:bg-surface-raised" id="heroCtaExam">
+                  <i data-lucide="clock" class="h-5 w-5 text-primary"></i>
+                  <span>Thi thử 60 phút</span>
+                </button>
+              </a>
+              <a href="#score" class="w-full sm:w-auto">
+                <button class="w-full sm:w-auto h-12 px-6 rounded-lg text-muted hover:text-foreground font-heading font-semibold flex items-center justify-center gap-2 hover:bg-surface-raised" id="heroCtaScore">
+                  <i data-lucide="shield-check" class="h-5 w-5 text-secondary"></i>
+                  <span>Tra cứu điểm CFI</span>
+                </button>
+              </a>
+            </div>
+
+            <!-- Cam kết chất lượng -->
+            <div class="flex flex-wrap items-center gap-6 pt-4 text-xs sm:text-sm text-muted">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="h-4 w-4 text-success"></i>
+                <span>14 Part chuẩn Cambridge KET</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="h-4 w-4 text-success"></i>
+                <span>Đồng hồ đếm ngược server 60 phút</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="h-4 w-4 text-success"></i>
+                <span>Tự động lưu nháp liên tục</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cột phải: Mockup bài thi KET A2 thực tế -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative w-full max-w-md rounded-lg border border-border bg-surface p-6 shadow-md">
+              <div class="flex items-center justify-between border-b border-border pb-4">
+                <div class="flex items-center gap-2">
+                  <div class="h-3 w-3 rounded-full bg-accent animate-pulse"></div>
+                  <span class="font-heading font-bold text-sm text-foreground">Đề thi thử chuẩn số 01</span>
+                </div>
+                <div class="flex items-center gap-1.5 rounded-md bg-primary/10 px-2.5 py-1 text-xs font-bold text-primary">
+                  <i data-lucide="clock" class="h-3.5 w-3.5"></i>
+                  <span>60:00</span>
+                </div>
+              </div>
+
+              <div class="mt-4 space-y-2">
+                <div class="flex items-center justify-between text-xs text-muted">
+                  <span class="font-semibold text-foreground">Phần 1/14: Biển báo & Thông báo</span>
+                  <span>18/75 câu</span>
+                </div>
+                <div class="h-2 w-full overflow-hidden rounded-full bg-surface-raised">
+                  <div class="h-full w-[24%] rounded-full bg-secondary"></div>
+                </div>
+              </div>
+
+              <!-- Nội dung câu hỏi KET -->
+              <div class="mt-5 rounded-md border border-border bg-surface-raised p-4 space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-muted uppercase">Question 01 · Signs</span>
+                  <span class="text-xs text-secondary font-semibold">1 point</span>
+                </div>
+                <!-- Box đề bài giữ nền sáng -->
+                <div class="rounded border border-border/80 bg-white p-3 text-slate-900 shadow-sm text-center">
+                  <p class="font-bold text-xs uppercase tracking-wide text-red-600">NOTICE</p>
+                  <p class="font-semibold text-sm mt-1">NO MOBILE PHONES IN READING ROOM</p>
+                </div>
+                <p class="text-sm font-medium text-foreground">Where can you see this notice?</p>
+                <div class="space-y-1.5 text-xs sm:text-sm">
+                  <div class="flex items-center gap-2 rounded border border-primary/40 bg-primary/10 p-2 text-primary font-medium">
+                    <i data-lucide="check-circle-2" class="h-4 w-4 shrink-0 text-primary"></i>
+                    <span>A. In a library</span>
+                  </div>
+                  <div class="flex items-center gap-2 rounded border border-border bg-surface p-2 text-muted">
+                    <span class="h-4 w-4 rounded-full border border-muted/50 inline-block shrink-0"></span>
+                    <span>B. On a train</span>
+                  </div>
+                  <div class="flex items-center gap-2 rounded border border-border bg-surface p-2 text-muted">
+                    <span class="h-4 w-4 rounded-full border border-muted/50 inline-block shrink-0"></span>
+                    <span>C. In a museum</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between pt-3 border-t border-border text-xs text-muted">
+                <span class="flex items-center gap-1.5 font-medium text-success">
+                  <i data-lucide="award" class="h-3.5 w-3.5"></i>
+                  <span>Chấm tự động tức thì</span>
+                </span>
+                <span class="font-mono text-[11px] bg-surface-raised px-2 py-0.5 rounded border border-border">
+                  Server Time Sync
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2. BA THẺ TÍNH NĂNG TRỌNG TÂM ================= -->
+    <section id="practice" class="py-16 sm:py-20 bg-background">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+          <span class="text-xs font-heading font-bold uppercase tracking-widest text-primary">Tính năng trọng tâm</span>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground">Mọi công cụ bạn cần để vượt qua chuẩn đầu ra</h2>
+          <p class="text-sm sm:text-base text-muted leading-relaxed">Được thiết kế tối ưu cho thói quen học tập và cấu trúc bài thi thực tế của sinh viên Mỏ - Địa chất.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          <!-- Card 1 -->
+          <div class="flex flex-col justify-between rounded-lg border border-border bg-surface p-6 shadow-sm hover:border-primary/40 hover:shadow-md transition-all">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="p-3 rounded-lg bg-primary/10 text-primary">
+                  <i data-lucide="book-open" class="h-6 w-6"></i>
+                </div>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-surface-raised text-muted border border-border">14 Dạng bài</span>
+              </div>
+              <h3 class="text-xl font-heading font-bold text-foreground">Ôn luyện từng phần</h3>
+              <p class="text-sm text-muted mt-2 leading-relaxed">Tập trung rèn luyện 14 dạng bài độc lập (Biển báo, Đoán từ, Điền form, Nghe tranh...). Không giới hạn thời gian, có đáp án và giải thích cặn kẽ.</p>
+            </div>
+            <div class="pt-6">
+              <a href="#structure" class="w-full">
+                <button class="w-full h-11 rounded-lg border border-border bg-surface text-foreground font-heading font-semibold flex items-center justify-between px-4 hover:bg-surface-raised">
+                  <span>Xem các dạng bài</span>
+                  <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                </button>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div id="exam" class="flex flex-col justify-between rounded-lg border border-border bg-surface p-6 shadow-sm hover:border-primary/40 hover:shadow-md ring-1 ring-primary/30 transition-all">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="p-3 rounded-lg bg-secondary/15 text-secondary">
+                  <i data-lucide="clock" class="h-6 w-6"></i>
+                </div>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-surface-raised text-muted border border-border">Chuẩn 60 phút</span>
+              </div>
+              <h3 class="text-xl font-heading font-bold text-foreground">Thi thử mô phỏng 60 phút</h3>
+              <p class="text-sm text-muted mt-2 leading-relaxed">Trải nghiệm bài thi hoàn chỉnh 14 phần với đồng hồ đếm ngược máy chủ. Rèn phản xạ căn giờ và đối mặt với áp lực phòng thi thật.</p>
+            </div>
+            <div class="pt-6">
+              <button class="w-full h-11 rounded-lg bg-primary text-primary-foreground font-heading font-bold flex items-center justify-between px-4 hover:opacity-90 shadow-sm">
+                <span>Vào thi thử ngay</span>
+                <i data-lucide="arrow-right" class="h-4 w-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div id="score" class="flex flex-col justify-between rounded-lg border border-border bg-surface p-6 shadow-sm hover:border-primary/40 hover:shadow-md transition-all">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="p-3 rounded-lg bg-accent/10 text-accent">
+                  <i data-lucide="search" class="h-6 w-6"></i>
+                </div>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-surface-raised text-muted border border-border">CFI HUMG</span>
+              </div>
+              <h3 class="text-xl font-heading font-bold text-foreground">Tra cứu điểm & Lịch thi</h3>
+              <p class="text-sm text-muted mt-2 leading-relaxed">Tích hợp giao diện tra cứu trực tiếp từ Trung tâm Ngoại ngữ - Tin học CFI HUMG, giúp sinh viên cập nhật điểm số và số báo danh nhanh chóng.</p>
+            </div>
+            <div class="pt-6">
+              <a href="https://kqt.cfi.humg.edu.vn" target="_blank" class="w-full">
+                <button class="w-full h-11 rounded-lg border border-border bg-surface text-foreground font-heading font-semibold flex items-center justify-between px-4 hover:bg-surface-raised">
+                  <span>Tra cứu kết quả CFI</span>
+                  <i data-lucide="external-link" class="h-4 w-4"></i>
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 3. CẤU TRÚC ĐỀ THI 14 PHẦN ================= -->
+    <section id="structure" class="py-16 sm:py-20 bg-surface border-y border-border">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
+          <div class="inline-flex items-center gap-1.5 rounded-sm border border-secondary/30 bg-secondary/15 px-3 py-1 text-xs font-semibold text-secondary font-heading">
+            Cấu trúc đề chuẩn
+          </div>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground">Cấu trúc 14 Phần bài thi chuẩn đầu ra HUMG</h2>
+          <p class="text-sm sm:text-base text-muted leading-relaxed">Đề thi bám sát định dạng bài thi Cambridge KET (A2 Key) với 2 khối kỹ năng làm liên tục trong 60 phút.</p>
+
+          <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <div class="inline-flex items-center gap-2 rounded-lg bg-surface-raised px-4 py-2 text-sm font-semibold text-foreground border border-border">
+              <i data-lucide="clock" class="h-4 w-4 text-primary"></i>
+              <span>Thời gian làm bài: <strong>60 phút</strong></span>
+            </div>
+            <div class="inline-flex items-center gap-2 rounded-lg bg-surface-raised px-4 py-2 text-sm font-semibold text-foreground border border-border">
+              <i data-lucide="help-circle" class="h-4 w-4 text-secondary"></i>
+              <span>Tổng số câu: <strong>75 câu + 1 bài viết</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Reading & Writing -->
+          <div class="space-y-4">
+            <div class="flex items-center gap-3 pb-3 border-b border-border">
+              <div class="p-2 rounded-lg bg-primary/10 text-primary">
+                <i data-lucide="book-open" class="h-5 w-5"></i>
+              </div>
+              <div>
+                <h3 class="font-heading font-bold text-lg text-foreground">Khối Reading & Writing (Phần 1 – 9)</h3>
+                <p class="text-xs text-muted">50 câu hỏi trắc nghiệm & điền từ · 1 bài viết ngắn</p>
+              </div>
+            </div>
+
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-primary mr-2">Part 1</span>
+                <span class="flex-1 text-foreground">Biển báo & Thông báo (Nối câu với 8 biển báo A-H)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">5 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-primary mr-2">Part 2</span>
+                <span class="flex-1 text-foreground">Từ vựng (Chọn từ đúng A/B/C điền vào chỗ trống)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">5 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-primary mr-2">Part 3</span>
+                <span class="flex-1 text-foreground">Hội thoại (Chọn câu đối đáp phù hợp A/B/C)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">5 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-primary mr-2">Part 4</span>
+                <span class="flex-1 text-foreground">Đọc hiểu (Right / Wrong / Doesn't say)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">7 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-primary mr-2">Part 5</span>
+                <span class="flex-1 text-foreground">Điền đoạn (Đoạn văn khuyết 8 chỗ chọn A/B/C)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">8 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-primary mr-2">Part 6</span>
+                <span class="flex-1 text-foreground">Đoán từ (Định nghĩa từ, cho chữ cái đầu và số ký tự)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">5 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-primary mr-2">Part 7</span>
+                <span class="flex-1 text-foreground">Điền từ (Thư/email khuyết 10 chỗ, viết đúng 1 từ)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">10 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-primary mr-2">Part 8</span>
+                <span class="flex-1 text-foreground">Điền form thông tin (Đọc ghi chú, điền phiếu)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">5 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-primary mr-2">Part 9</span>
+                <span class="flex-1 text-foreground">Viết note ngắn (Viết note 25-35 từ đủ 3 ý)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">1 bài</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Listening -->
+          <div class="space-y-4">
+            <div class="flex items-center gap-3 pb-3 border-b border-border">
+              <div class="p-2 rounded-lg bg-secondary/15 text-secondary">
+                <i data-lucide="headphones" class="h-5 w-5"></i>
+              </div>
+              <div>
+                <h3 class="font-heading font-bold text-lg text-foreground">Khối Listening (Phần 10 – 14)</h3>
+                <p class="text-xs text-muted">25 câu hỏi trắc nghiệm chọn tranh, nối ý & điền thông tin</p>
+              </div>
+            </div>
+
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-secondary mr-2">Part 10</span>
+                <span class="flex-1 text-foreground">Listening 1 (5 đoạn hội thoại ngắn chọn tranh A/B/C)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">5 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-secondary mr-2">Part 11</span>
+                <span class="flex-1 text-foreground">Listening 2 (Ghép đồ vật/kế hoạch với lý do A-H)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">5 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-secondary mr-2">Part 12</span>
+                <span class="flex-1 text-foreground">Listening 3 (Hội thoại dài, chọn trắc nghiệm A/B/C)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">5 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-secondary mr-2">Part 13</span>
+                <span class="flex-1 text-foreground">Listening 4 (Nghe và điền thông tin vào phiếu)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">5 câu</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border bg-surface">
+                <span class="font-bold text-secondary mr-2">Part 14</span>
+                <span class="flex-1 text-foreground">Listening 5 (Nghe và điền chi tiết vào tờ ghi chú)</span>
+                <span class="text-xs text-secondary font-semibold shrink-0">5 câu</span>
+              </div>
+            </div>
+
+            <div class="rounded-lg border border-secondary/20 bg-secondary/5 p-4 text-xs text-muted leading-relaxed space-y-1">
+              <p class="font-semibold text-secondary">Lưu ý phần thi Nghe (Listening):</p>
+              <p>• Phần 10 gồm tranh minh họa mức giá, giờ đồng hồ, hoạt động, họa tiết áo.</p>
+              <p>• Toàn bộ audio được nghe 2 lần theo quy chế Cambridge KET.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 4. SỐ LIỆU TỔNG QUAN ================= -->
+    <section class="py-12 sm:py-16 bg-surface-raised/50 border-b border-border">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
+          <div class="flex flex-col items-center text-center p-6 rounded-lg bg-surface border border-border shadow-sm">
+            <div class="p-2.5 rounded-md bg-surface-raised mb-3 text-primary">
+              <i data-lucide="book-open" class="h-6 w-6"></i>
+            </div>
+            <span class="font-heading font-extrabold text-3xl sm:text-4xl text-foreground">14</span>
+            <p class="mt-2 text-xs sm:text-sm text-muted font-medium">Dạng bài ôn luyện chuẩn</p>
+          </div>
+          <div class="flex flex-col items-center text-center p-6 rounded-lg bg-surface border border-border shadow-sm">
+            <div class="p-2.5 rounded-md bg-surface-raised mb-3 text-secondary">
+              <i data-lucide="clock" class="h-6 w-6"></i>
+            </div>
+            <span class="font-heading font-extrabold text-3xl sm:text-4xl text-foreground">60<span class="text-sm font-semibold text-muted"> phút</span></span>
+            <p class="mt-2 text-xs sm:text-sm text-muted font-medium">Phút thi thử mô phỏng</p>
+          </div>
+          <div class="flex flex-col items-center text-center p-6 rounded-lg bg-surface border border-border shadow-sm">
+            <div class="p-2.5 rounded-md bg-surface-raised mb-3 text-accent">
+              <i data-lucide="zap" class="h-6 w-6"></i>
+            </div>
+            <span class="font-heading font-extrabold text-3xl sm:text-4xl text-foreground">100%</span>
+            <p class="mt-2 text-xs sm:text-sm text-muted font-medium">Chấm điểm tự động tức thì</p>
+          </div>
+          <div class="flex flex-col items-center text-center p-6 rounded-lg bg-surface border border-border shadow-sm">
+            <div class="p-2.5 rounded-md bg-surface-raised mb-3 text-primary">
+              <i data-lucide="laptop" class="h-6 w-6"></i>
+            </div>
+            <span class="font-heading font-extrabold text-3xl sm:text-4xl text-foreground">24/7</span>
+            <p class="mt-2 text-xs sm:text-sm text-muted font-medium">Luyện tập mọi lúc trên mọi thiết bị</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 5. QUY TRÌNH 3 BƯỚC ================= -->
+    <section class="py-16 sm:py-20 bg-background">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+          <div class="inline-flex items-center gap-1.5 rounded-sm border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary font-heading">Phương pháp học</div>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground">3 bước nâng cao điểm số chuẩn đầu ra</h2>
+          <p class="text-sm sm:text-base text-muted leading-relaxed">Lộ trình ôn tập rõ ràng giúp sinh viên nắm vững cấu trúc và tự tin bước vào kỳ thi chính thức.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="flex flex-col p-6 sm:p-8 rounded-lg border border-border bg-surface shadow-sm hover:border-primary/40 transition-all">
+            <div class="flex items-center justify-between mb-6">
+              <div class="p-3 rounded-lg border border-primary/30 bg-primary/10 text-primary">
+                <i data-lucide="target" class="h-6 w-6"></i>
+              </div>
+              <span class="font-heading font-extrabold text-xs uppercase text-muted px-2.5 py-1 rounded bg-surface-raised border border-border">Bước 01</span>
+            </div>
+            <h3 class="font-heading font-bold text-xl text-foreground mb-3">Luyện kỹ năng theo từng Part</h3>
+            <p class="text-sm text-muted leading-relaxed">Tự chọn những phần còn yếu để ôn luyện chuyên sâu. Đọc kỹ phần giải thích chi tiết để tích lũy từ vựng và ngữ pháp trọng tâm.</p>
+          </div>
+
+          <div class="flex flex-col p-6 sm:p-8 rounded-lg border border-border bg-surface shadow-sm hover:border-primary/40 transition-all">
+            <div class="flex items-center justify-between mb-6">
+              <div class="p-3 rounded-lg border border-secondary/30 bg-secondary/15 text-secondary">
+                <i data-lucide="timer" class="h-6 w-6"></i>
+              </div>
+              <span class="font-heading font-extrabold text-xs uppercase text-muted px-2.5 py-1 rounded bg-surface-raised border border-border">Bước 02</span>
+            </div>
+            <h3 class="font-heading font-bold text-xl text-foreground mb-3">Thi thử 60 phút tính giờ</h3>
+            <p class="text-sm text-muted leading-relaxed">Thử sức với bộ đề hoàn chỉnh 14 phần dưới áp lực đồng hồ đếm ngược. Hệ thống tự động sao lưu bài làm liên tục.</p>
+          </div>
+
+          <div class="flex flex-col p-6 sm:p-8 rounded-lg border border-border bg-surface shadow-sm hover:border-primary/40 transition-all">
+            <div class="flex items-center justify-between mb-6">
+              <div class="p-3 rounded-lg border border-accent/30 bg-accent/10 text-accent">
+                <i data-lucide="trending-up" class="h-6 w-6"></i>
+              </div>
+              <span class="font-heading font-extrabold text-xs uppercase text-muted px-2.5 py-1 rounded bg-surface-raised border border-border">Bước 03</span>
+            </div>
+            <h3 class="font-heading font-bold text-xl text-foreground mb-3">Phân tích điểm & Cải thiện</h3>
+            <p class="text-sm text-muted leading-relaxed">Xem bảng phân tích chi tiết câu đúng/sai, nghe lại audio có transcript phụ đề và theo dõi tiến độ cải thiện từng ngày.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6. BÀI VIẾT MỚI NHẤT ================= -->
+    <section id="articles" class="py-16 sm:py-20 bg-surface border-t border-border">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div class="space-y-3 max-w-2xl">
+            <div class="inline-flex items-center gap-1.5 rounded-sm border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary font-heading">Tài liệu & Kinh nghiệm</div>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground">Bài viết hướng dẫn & Mẹo làm bài mới nhất</h2>
+            <p class="text-sm sm:text-base text-muted leading-relaxed">Kinh nghiệm thực tế tổng hợp từ các anh chị khóa trước đạt chuẩn đầu ra điểm cao.</p>
+          </div>
+          <button class="h-11 px-4 rounded-lg border border-border bg-surface text-foreground font-heading font-semibold flex items-center gap-2 hover:bg-surface-raised shrink-0">
+            <span>Xem tất cả bài viết</span>
+            <i data-lucide="arrow-right" class="h-4 w-4"></i>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="flex flex-col justify-between rounded-lg border border-border bg-surface p-6 shadow-sm hover:border-primary/40 hover:shadow-md transition-all">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-secondary/15 text-secondary border border-secondary/30">Quy định & Lịch thi</span>
+                <span class="text-xs text-muted flex items-center gap-1"><i data-lucide="clock" class="h-3 w-3"></i> 5 phút đọc</span>
+              </div>
+              <h3 class="text-lg font-heading font-bold text-foreground hover:text-primary transition-colors">Tổng hợp toàn bộ quy định Chuẩn đầu ra Ngoại ngữ HUMG mới nhất</h3>
+              <p class="text-sm text-muted mt-2 leading-relaxed">Chi tiết các chứng chỉ được công nhận, điểm quy đổi, thời hạn nộp chứng chỉ và các đợt thi đánh giá năng lực tại trường.</p>
+            </div>
+            <div class="flex items-center justify-between border-t border-border pt-4 mt-6 text-xs text-muted">
+              <span>28/09/2026</span>
+              <span class="font-heading font-semibold text-primary flex items-center gap-1">Đọc bài <i data-lucide="arrow-right" class="h-3 w-3"></i></span>
+            </div>
+          </div>
+
+          <div class="flex flex-col justify-between rounded-lg border border-border bg-surface p-6 shadow-sm hover:border-primary/40 hover:shadow-md transition-all">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-secondary/15 text-secondary border border-secondary/30">Mẹo thi cử</span>
+                <span class="text-xs text-muted flex items-center gap-1"><i data-lucide="clock" class="h-3 w-3"></i> 7 phút đọc</span>
+              </div>
+              <h3 class="text-lg font-heading font-bold text-foreground hover:text-primary transition-colors">Chiến thuật làm 9 Phần Reading & Writing không bị thiếu thời gian</h3>
+              <p class="text-sm text-muted mt-2 leading-relaxed">Cách phân bổ 40 phút cho Reading, 15 phút cho Part 9 và mẹo tránh bẫy các biển báo thông báo trong đề Cambridge KET.</p>
+            </div>
+            <div class="flex items-center justify-between border-t border-border pt-4 mt-6 text-xs text-muted">
+              <span>24/09/2026</span>
+              <span class="font-heading font-semibold text-primary flex items-center gap-1">Đọc bài <i data-lucide="arrow-right" class="h-3 w-3"></i></span>
+            </div>
+          </div>
+
+          <div class="flex flex-col justify-between rounded-lg border border-border bg-surface p-6 shadow-sm hover:border-primary/40 hover:shadow-md transition-all">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-secondary/15 text-secondary border border-secondary/30">Kỹ năng Listening</span>
+                <span class="text-xs text-muted flex items-center gap-1"><i data-lucide="clock" class="h-3 w-3"></i> 6 phút đọc</span>
+              </div>
+              <h3 class="text-lg font-heading font-bold text-foreground hover:text-primary transition-colors">Bí quyết chinh phục 5 câu nghe chọn tranh Part 10 Cambridge KET</h3>
+              <p class="text-sm text-muted mt-2 leading-relaxed">Nhận biết bẫy gây nhiễu về giờ đồng hồ, giá tiền và hoạt động thường gặp trong các đoạn hội thoại ngắn.</p>
+            </div>
+            <div class="flex items-center justify-between border-t border-border pt-4 mt-6 text-xs text-muted">
+              <span>20/09/2026</span>
+              <span class="font-heading font-semibold text-primary flex items-center gap-1">Đọc bài <i data-lucide="arrow-right" class="h-3 w-3"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 7. CÂU HỎI THƯỜNG GẶP FAQ ================= -->
+    <section class="py-16 sm:py-20 bg-background border-t border-border">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+          <div class="inline-flex items-center gap-1.5 rounded-sm border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary font-heading">Giải đáp thắc mắc</div>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground">Câu hỏi thường gặp về chuẩn đầu ra Tiếng Anh</h2>
+          <p class="text-sm sm:text-base text-muted leading-relaxed">Những thông tin cần biết để chuẩn bị tốt nhất cho kỳ thi tại Trường Đại học Mỏ - Địa chất.</p>
+        </div>
+
+        <div class="rounded-lg border border-border bg-surface p-6 sm:p-8 shadow-sm divide-y divide-border">
+          <div class="py-4">
+            <h4 class="font-heading font-bold text-lg text-foreground mb-2">Cấu trúc bài thi chuẩn đầu ra Tiếng Anh HUMG gồm những phần nào?</h4>
+            <p class="text-muted text-sm sm:text-base leading-relaxed">Bài thi chuẩn đầu ra tiếng Anh tại HUMG áp dụng theo định dạng Cambridge KET (A2 Key) gồm 14 phần: 9 phần Reading & Writing (50 câu trắc nghiệm/điền từ và 1 bài viết note ngắn 25-35 từ) cùng 5 phần Listening (25 câu chọn tranh và điền thông tin). Tổng thời gian làm bài là 60 phút.</p>
+          </div>
+          <div class="py-4">
+            <h4 class="font-heading font-bold text-lg text-foreground mb-2">Tôi có thể luyện tập trên điện thoại di động được không?</h4>
+            <p class="text-muted text-sm sm:text-base leading-relaxed">Hoàn toàn được. Website được tối ưu hóa hiển thị responsive trên mọi kích thước màn hình từ điện thoại (375px), máy tính bảng đến máy tính để bàn. Vùng chạm và cỡ chữ được thiết kế chuẩn để bạn thao tác mượt mà.</p>
+          </div>
+          <div class="py-4">
+            <h4 class="font-heading font-bold text-lg text-foreground mb-2">Khi thi thử, nếu mất mạng hoặc tải lại trang thì có mất bài không?</h4>
+            <p class="text-muted text-sm sm:text-base leading-relaxed">Hệ thống có cơ chế tự động lưu nháp liên tục (autosave). Khi bạn tải lại trang hoặc đổi thiết bị, đáp án đã chọn và thời gian còn lại sẽ được khôi phục chính xác từ máy chủ.</p>
+          </div>
+          <div class="py-4">
+            <h4 class="font-heading font-bold text-lg text-foreground mb-2">Tra cứu điểm thi trên trang có chính xác không?</h4>
+            <p class="text-muted text-sm sm:text-base leading-relaxed">Trang tra cứu nhúng trực tiếp cổng thông tin kết quả thi chính thức của Trung tâm Ngoại ngữ - Tin học CFI HUMG (kqt.cfi.humg.edu.vn). Dữ liệu được tải trực tiếp từ nhà trường mà không lưu lại qua máy chủ trung gian.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="mt-auto border-t border-border bg-surface text-foreground transition-colors">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
+        <div class="md:col-span-2 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <i data-lucide="graduation-cap" class="h-5 w-5"></i>
+            </div>
+            <span class="font-heading font-extrabold text-lg text-foreground">HUMG English Exit</span>
+          </div>
+          <p class="text-sm text-muted max-w-md leading-relaxed">Website ôn luyện và thi thử chuẩn đầu ra tiếng Anh dành riêng cho sinh viên Trường Đại học Mỏ - Địa chất (HUMG).</p>
+          <p class="text-xs text-muted/80 max-w-md italic">Lưu ý: Website hỗ trợ ôn tập phi thương mại cho sinh viên HUMG. Mọi thông tin thi chính thức thuộc thẩm quyền nhà trường.</p>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="font-heading font-bold text-sm uppercase tracking-wider text-foreground">Liên kết nhanh</h4>
+          <ul class="space-y-2 text-sm text-muted">
+            <li><a href="#practice" class="hover:text-primary transition-colors py-1 inline-block">Ôn luyện từng phần</a></li>
+            <li><a href="#exam" class="hover:text-primary transition-colors py-1 inline-block">Thi thử 60 phút</a></li>
+            <li><a href="#articles" class="hover:text-primary transition-colors py-1 inline-block">Bài viết hướng dẫn</a></li>
+            <li><a href="#score" class="hover:text-primary transition-colors py-1 inline-block">Tra cứu kết quả thi</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="font-heading font-bold text-sm uppercase tracking-wider text-foreground">Hệ thống CFI HUMG</h4>
+          <p class="text-xs text-muted leading-relaxed">Cổng tra cứu điểm & lịch thi chính thức của Trung tâm Ngoại ngữ - Tin học CFI</p>
+          <a href="https://kqt.cfi.humg.edu.vn" target="_blank" class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline py-1">
+            kqt.cfi.humg.edu.vn
+            <i data-lucide="external-link" class="h-3.5 w-3.5"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-8 border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
+        <p>© 2026 HUMG English Exit. Phát triển vì cộng đồng sinh viên HUMG.</p>
+        <p class="flex items-center gap-1">Xây dựng với <span class="text-accent">❤️</span> cho sinh viên HUMG</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Khởi tạo icons Lucide
+    lucide.createIcons();
+
+    // Chuyển đổi Theme Sáng / Tối
+    let isDark = false;
+    function toggleTheme() {
+      isDark = !isDark;
+      const html = document.documentElement;
+      const icon = document.getElementById('themeIcon');
+      if (isDark) {
+        html.classList.add('dark');
+        icon.setAttribute('data-lucide', 'moon');
+        icon.className = 'h-5 w-5 text-primary';
+      } else {
+        html.classList.remove('dark');
+        icon.setAttribute('data-lucide', 'sun');
+        icon.className = 'h-5 w-5 text-accent';
+      }
+      lucide.createIcons();
+    }
+
+    // Chuyển đổi Ngôn ngữ VI / EN
+    let currentLang = 'vi';
+    const translations = {
+      vi: {
+        tagline: 'Chuẩn đầu ra Tiếng Anh HUMG',
+        heroBadge: 'Đề thi chuẩn Cambridge KET (A2 Key)',
+        heroTitle: 'Chinh phục chuẩn đầu ra Tiếng Anh HUMG tự tin & hiệu quả',
+        heroSub: 'Nền tảng ôn luyện bám sát 14 dạng bài thi chuẩn đầu ra Trường Đại học Mỏ - Địa chất. Luyện tập theo từng kỹ năng, thi thử 60 phút mô phỏng áp lực thực tế và tra cứu kết quả nhanh chóng.',
+        ctaPractice: 'Bắt đầu ôn luyện',
+        ctaExam: 'Thi thử 60 phút',
+        ctaScore: 'Tra cứu điểm CFI',
+      },
+      en: {
+        tagline: 'HUMG English Exit Examination Prep',
+        heroBadge: 'Cambridge KET (A2 Key) Format',
+        heroTitle: 'Master the HUMG English Exit Exam with Confidence',
+        heroSub: 'Comprehensive prep platform tailored to the 14 question parts of Hanoi University of Mining and Geology exit exam. Practice by skill, take 60-minute simulated tests, and check your official results quickly.',
+        ctaPractice: 'Start Practicing',
+        ctaExam: '60-Min Mock Exam',
+        ctaScore: 'Check CFI Scores',
+      }
+    };
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'vi' ? 'en' : 'vi';
+      document.getElementById('langText').innerText = currentLang.toUpperCase();
+      const t = translations[currentLang];
+      document.getElementById('brandTagline').innerText = t.tagline;
+      document.getElementById('heroBadge').innerText = t.heroBadge;
+      document.getElementById('heroTitle').innerText = t.heroTitle;
+      document.getElementById('heroSubtitle').innerText = t.heroSub;
+      document.getElementById('heroCtaPractice').children[1].innerText = t.ctaPractice;
+      document.getElementById('heroCtaExam').children[1].innerText = t.ctaExam;
+      document.getElementById('heroCtaScore').children[1].innerText = t.ctaScore;
+    }
+
+    // Toggle Mobile Drawer
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobileDrawer');
+      drawer.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>
