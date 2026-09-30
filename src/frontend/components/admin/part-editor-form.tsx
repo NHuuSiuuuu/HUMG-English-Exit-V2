@@ -21,6 +21,7 @@ import {
   Image as ImageIcon,
   Check,
   Info,
+  UploadCloud,
 } from "lucide-react";
 import { EXAM_PARTS, type ExamPartDef } from "@/shared/constants/exam-parts";
 import {
@@ -308,6 +309,72 @@ export function PartEditorForm() {
   );
   const [passageImageUrl, setPassageImageUrl] = React.useState<string>("");
   const [passageMode, setPassageMode] = React.useState<"image" | "text">("text");
+  const [isUploadingImage, setIsUploadingImage] = React.useState<boolean>(false);
+  const [uploadError, setUploadError] = React.useState<string | null>(null);
+  const [uploadProvider, setUploadProvider] = React.useState<string | null>(null);
+  const [isDragging, setIsDragging] = React.useState<boolean>(false);
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  // Xử lý tải file ảnh trực tiếp lên Cloudinary
+  const handleFileUpload = async (file: File) => {
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Vui lòng chọn một file ảnh hợp lệ (PNG, JPG, WebP)");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError("Dung lượng file vượt quá giới hạn 5MB");
+      return;
+    }
+
+    setIsUploadingImage(true);
+    setUploadError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Lỗi khi tải ảnh lên máy chủ");
+      }
+
+      setPassageImageUrl(data.url);
+      setUploadProvider(data.provider || "cloudinary");
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Không thể tải ảnh");
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const droppedFile = e.dataTransfer.files?.[0];
+    if (droppedFile) {
+      handleFileUpload(droppedFile);
+    }
+  };
+
   const [poolOptions, setPoolOptions] = React.useState<PoolOptionDef[]>([
     { letter: "A", text: "Please show tickets at the entrance." },
     { letter: "B", text: "Swimming pool closed for maintenance today." },
@@ -881,71 +948,153 @@ export function PartEditorForm() {
 
                   {/* Chế độ Ảnh bài đọc */}
                   {passageMode === "image" ? (
-                    <div className="space-y-3">
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-semibold text-foreground flex items-center justify-between">
-                          <span>Đường dẫn ảnh bài đọc / Scan trang đề (Image URL) *</span>
-                          <span className="text-[11px] text-muted">Hỗ trợ JPG, PNG, WebP</span>
-                        </label>
-                        <div className="flex gap-2">
-                          <input
-                            type="url"
-                            value={passageImageUrl}
-                            onChange={(e) => setPassageImageUrl(e.target.value)}
-                            placeholder="https://.../reading-passage-p4.png"
-                            className="w-full min-h-[42px] px-3.5 rounded-xl border border-border bg-surface-raised text-xs sm:text-sm font-mono text-foreground outline-none focus:ring-2 focus:ring-primary"
-                          />
-                          {passageImageUrl && (
-                            <button
-                              type="button"
-                              onClick={() => setPassageImageUrl("")}
-                              className="px-3 rounded-xl border border-border bg-surface text-xs font-medium text-muted hover:text-destructive hover:border-destructive transition-colors shrink-0"
-                              title="Xóa link ảnh"
-                            >
-                              Xóa
-                            </button>
+                    <div className="space-y-4">
+                      {/* Ẩn file input để kích hoạt bằng nút */}
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleFileUpload(file);
+                        }}
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
+                        className="hidden"
+                      />
+
+                      {/* Lỗi tải ảnh nếu có */}
+                      {uploadError && (
+                        <div className="p-3 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4 shrink-0" />
+                          <span>{uploadError}</span>
+                        </div>
+                      )}
+
+                      {/* KHUNG TẢI ẢNH LÊN CLOUDINARY HOẶC HIỂN THỊ ẢNH ĐÃ CÓ */}
+                      {!passageImageUrl ? (
+                        /* Vùng kéo thả & tải file khi chưa có ảnh */
+                        <div
+                          onDragOver={handleDragOver}
+                          onDragLeave={handleDragLeave}
+                          onDrop={handleDrop}
+                          onClick={() => fileInputRef.current?.click()}
+                          className={cn(
+                            "cursor-pointer p-8 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center text-center space-y-3",
+                            isDragging
+                              ? "border-primary bg-primary/5 scale-[1.01]"
+                              : "border-border bg-surface-raised hover:border-primary/50 hover:bg-surface-raised/80",
+                            isUploadingImage && "pointer-events-none opacity-60"
+                          )}
+                        >
+                          {isUploadingImage ? (
+                            <div className="flex flex-col items-center gap-2 py-4">
+                              <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                              <span className="text-xs font-semibold text-foreground">
+                                Đang tải ảnh lên Cloudinary...
+                              </span>
+                              <span className="text-[11px] text-muted">
+                                Vui lòng đợi trong giây lát
+                              </span>
+                            </div>
+                          ) : (
+                            <>
+                              <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
+                                <UploadCloud className="w-6 h-6" />
+                              </div>
+                              <div className="space-y-1">
+                                <p className="text-xs font-bold text-foreground">
+                                  Kéo thả ảnh vào đây hoặc{" "}
+                                  <span className="text-primary underline underline-offset-2">
+                                    chọn file từ máy tính
+                                  </span>
+                                </p>
+                                <p className="text-[11px] text-muted">
+                                  Hỗ trợ JPG, PNG, WebP (Tối đa 5MB) · Tải trực tiếp lên Cloudinary
+                                </p>
+                              </div>
+                            </>
                           )}
                         </div>
-                      </div>
+                      ) : (
+                        /* Khung hiển thị ảnh đã tải lên */
+                        <div className="p-4 rounded-2xl bg-white border border-border shadow-sm space-y-3">
+                          <div className="flex flex-wrap items-center justify-between gap-2 text-xs px-1">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-zinc-700 flex items-center gap-1.5">
+                                <ImageIcon className="w-4 h-4 text-primary" />
+                                <span>Ảnh bài đọc / đề thi đã tải lên:</span>
+                              </span>
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-700 flex items-center gap-1">
+                                <CheckCircle2 className="w-3 h-3" />
+                                {uploadProvider === "cloudinary" ? "Cloudinary Storage" : "Đã lưu trữ"}
+                              </span>
+                            </div>
 
-                      {/* Khung hiển thị trước ảnh - Theo DESIGN.md: Ảnh trang đề nền trắng luôn đặt trong khung sáng, kể cả dark mode */}
-                      {passageImageUrl ? (
-                        <div className="p-3.5 rounded-2xl bg-white border border-border shadow-sm space-y-2">
-                          <div className="flex items-center justify-between text-[11px] text-zinc-600 font-medium px-1">
-                            <span className="flex items-center gap-1.5">
-                              <ImageIcon className="w-3.5 h-3.5 text-primary" />
-                              <span>Xem trước ảnh bài đọc (Khung nền sáng chuẩn tài liệu đề thi):</span>
-                            </span>
-                            <a
-                              href={passageImageUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="text-primary hover:underline"
-                            >
-                              Mở ảnh gốc ↗
-                            </a>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => fileInputRef.current?.click()}
+                                disabled={isUploadingImage}
+                                className="px-3 py-1 rounded-xl border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 text-zinc-700 font-medium text-xs transition-colors flex items-center gap-1"
+                              >
+                                {isUploadingImage ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <UploadCloud className="w-3 h-3 text-primary" />
+                                )}
+                                <span>Thay ảnh khác</span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setPassageImageUrl("");
+                                  setUploadProvider(null);
+                                }}
+                                className="px-2.5 py-1 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-600 font-medium text-xs transition-colors"
+                                title="Xóa ảnh này"
+                              >
+                                Xóa
+                              </button>
+                              <a
+                                href={passageImageUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-primary hover:underline text-xs pl-1 font-medium"
+                              >
+                                Mở ảnh gốc ↗
+                              </a>
+                            </div>
                           </div>
-                          <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white flex justify-center p-2 max-h-[380px]">
+
+                          <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white flex justify-center p-3 max-h-[420px]">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={passageImageUrl}
                               alt="Ảnh bài đọc đề thi"
-                              className="max-h-[360px] w-auto object-contain rounded-lg"
+                              className="max-h-[390px] w-auto object-contain rounded-lg shadow-xs"
                               onError={(e) => {
                                 (e.target as HTMLElement).style.display = "none";
                               }}
                             />
                           </div>
                         </div>
-                      ) : (
-                        <div className="p-6 rounded-2xl border border-dashed border-border bg-surface-raised flex flex-col items-center justify-center text-center space-y-1.5 text-muted">
-                          <ImageIcon className="w-8 h-8 opacity-40" />
-                          <p className="text-xs font-medium text-foreground">Chưa có ảnh bài đọc</p>
-                          <p className="text-[11px] max-w-sm">
-                            Dán đường dẫn ảnh bài đọc hoặc ảnh scan trang đề để hiển thị trực tiếp cho thí sinh làm bài.
-                          </p>
-                        </div>
                       )}
+
+                      {/* Tùy chọn nhập URL thủ công (dành cho trường hợp muốn dán link có sẵn) */}
+                      <details className="text-xs text-muted group">
+                        <summary className="cursor-pointer font-semibold hover:text-foreground list-none flex items-center gap-1.5 py-1">
+                          <span className="group-open:rotate-90 transition-transform">▸</span>
+                          <span>Hoặc xem / chỉnh sửa đường dẫn URL ảnh trực tiếp</span>
+                        </summary>
+                        <div className="pt-2">
+                          <input
+                            type="url"
+                            value={passageImageUrl}
+                            onChange={(e) => setPassageImageUrl(e.target.value)}
+                            placeholder="https://res.cloudinary.com/... hoặc link ảnh khác"
+                            className="w-full min-h-[38px] px-3.5 rounded-xl border border-border bg-surface-raised text-xs font-mono text-foreground outline-none focus:ring-2 focus:ring-primary"
+                          />
+                        </div>
+                      </details>
 
                       {/* Tùy chọn bổ sung văn bản phụ / transcript */}
                       <details className="text-xs text-muted group">
