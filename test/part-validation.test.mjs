@@ -171,3 +171,84 @@ test("validatePartForPublish - hợp lệ khi đáp ứng đủ tất cả tiêu
   const issues = validatePartForPublish(input);
   assert.equal(issues.length, 0);
 });
+
+test("validatePartForPublish - Part 4: chặn công khai nếu thiếu cả passageText và passageImageUrl", () => {
+  const input = {
+    partNo: 4,
+    skill: "READING_WRITING",
+    questionType: "MCQ3",
+    title: "Bài đọc hiểu Part 4",
+    sourceLabel: "KET 5 · Test 1",
+    groupSet: "KET 5",
+    instructions: "Đọc bài đọc và chọn đáp án",
+    status: "PUBLISHED",
+    passageText: "",
+    passageImageUrl: "",
+    questions: [
+      { orderNumber: 1, prompt: "Q1", correctAnswer: "A" },
+      { orderNumber: 2, prompt: "Q2", correctAnswer: "B" },
+      { orderNumber: 3, prompt: "Q3", correctAnswer: "C" },
+      { orderNumber: 4, prompt: "Q4", correctAnswer: "A" },
+      { orderNumber: 5, prompt: "Q5", correctAnswer: "B" },
+      { orderNumber: 6, prompt: "Q6", correctAnswer: "C" },
+      { orderNumber: 7, prompt: "Q7", correctAnswer: "A" },
+    ],
+  };
+
+  const issues = validatePartForPublish(input);
+  assert.equal(issues.length > 0, true);
+  assert.equal(issues.some((issue) => issue.field === "passageImageUrl"), true);
+});
+
+test("validatePartForPublish - Part 4: chấp nhận công khai khi chỉ có passageImageUrl (dùng ảnh bài đọc)", () => {
+  const input = {
+    partNo: 4,
+    skill: "READING_WRITING",
+    questionType: "MCQ3",
+    title: "Bài đọc hiểu Part 4 (dùng ảnh)",
+    sourceLabel: "KET 5 · Test 1",
+    groupSet: "KET 5",
+    instructions: "Đọc bài đọc theo ảnh và chọn đáp án",
+    status: "PUBLISHED",
+    passageText: "", // Rỗng
+    passageImageUrl: "https://example.com/ket5-reading-p4.png", // Có link ảnh
+    questions: [
+      { orderNumber: 1, prompt: "Q1", correctAnswer: "A" },
+      { orderNumber: 2, prompt: "Q2", correctAnswer: "B" },
+      { orderNumber: 3, prompt: "Q3", correctAnswer: "C" },
+      { orderNumber: 4, prompt: "Q4", correctAnswer: "A" },
+      { orderNumber: 5, prompt: "Q5", correctAnswer: "B" },
+      { orderNumber: 6, prompt: "Q6", correctAnswer: "C" },
+      { orderNumber: 7, prompt: "Q7", correctAnswer: "A" },
+    ],
+  };
+
+  const issues = validatePartForPublish(input);
+  assert.equal(issues.length, 0);
+});
+
+test("validatePartForPublish - Part 8: chấp nhận công khai khi có passageImageUrl (ảnh form đề thi)", () => {
+  const input = {
+    partNo: 8,
+    skill: "READING_WRITING",
+    questionType: "FILL_IN",
+    title: "Bài điền form Part 8 (dùng ảnh scan form)",
+    sourceLabel: "KET 5 · Test 1",
+    groupSet: "KET 5",
+    instructions: "Đọc thông tin và điền vào mẫu đơn",
+    status: "PUBLISHED",
+    passageText: null,
+    passageImageUrl: "https://example.com/ket5-part8-form.png",
+    questions: [
+      { orderNumber: 1, prompt: "Name:", correctAnswer: "John" },
+      { orderNumber: 2, prompt: "Age:", correctAnswer: "16" },
+      { orderNumber: 3, prompt: "Day:", correctAnswer: "Tuesday" },
+      { orderNumber: 4, prompt: "Time:", correctAnswer: "4:30 pm" },
+      { orderNumber: 5, prompt: "Price:", correctAnswer: "12 pounds" },
+    ],
+  };
+
+  const issues = validatePartForPublish(input);
+  assert.equal(issues.length, 0);
+});
+

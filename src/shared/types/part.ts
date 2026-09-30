@@ -44,6 +44,7 @@ export interface CreatePartInput {
   
   // Stimulus / Tư liệu bài thi
   passageText?: string | null;
+  passageImageUrl?: string | null;
   audioUrl?: string | null;
   maxPlays?: number;
   transcript?: string | null;

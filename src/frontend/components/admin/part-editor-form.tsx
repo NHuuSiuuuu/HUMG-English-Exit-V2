@@ -65,6 +65,22 @@ function getQuestionTypeForPart(partNo: number): CreatePartInput["questionType"]
   }
 }
 
+// Lấy link ảnh bài đọc / ảnh scan mẫu theo chuẩn Cambridge KET cho Part 4, 5, 7, 8
+function getDefaultPassageImageForPart(partNo: number): string {
+  switch (partNo) {
+    case 4:
+      return "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&auto=format&fit=crop&q=80";
+    case 5:
+      return "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&auto=format&fit=crop&q=80";
+    case 7:
+      return "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80";
+    case 8:
+      return "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&auto=format&fit=crop&q=80";
+    default:
+      return "";
+  }
+}
+
 // Khởi tạo danh sách câu hỏi mẫu mặc định phù hợp cho từng Part
 function getDefaultQuestionsForPart(partNo: number): QuestionInputItem[] {
   const count = KET_PART_QUESTION_COUNTS[partNo] || 5;
@@ -290,6 +306,8 @@ export function PartEditorForm() {
   const [passageText, setPassageText] = React.useState(
     "A: Please show tickets at the entrance.\nB: Swimming pool closed for maintenance today.\nC: Special student discount 20% on Thursdays.\nD: Luggage must not be left unattended.\nE: Turn off all mobile phones during the performance.\nF: No parking here on weekdays.\nG: Fresh sandwiches available from 8 AM.\nH: Free Wi-Fi in the waiting room."
   );
+  const [passageImageUrl, setPassageImageUrl] = React.useState<string>("");
+  const [passageMode, setPassageMode] = React.useState<"image" | "text">("text");
   const [poolOptions, setPoolOptions] = React.useState<PoolOptionDef[]>([
     { letter: "A", text: "Please show tickets at the entrance." },
     { letter: "B", text: "Swimming pool closed for maintenance today." },
@@ -341,6 +359,21 @@ export function PartEditorForm() {
     setTitle(`Bài luyện tập KET - Part ${partNo}: ${def.titleVi}`);
     setInstructions(`Đọc kỹ yêu cầu và hoàn thành ${def.totalQuestions} câu hỏi theo định dạng ${def.questionType}.`);
     setQuestions(getDefaultQuestionsForPart(partNo));
+
+    // Nếu là Part 4, 5, 7, 8 (bài đọc có hình ảnh minh họa/scan form): tự động chuyển sang chế độ ảnh và nạp link mẫu
+    if ([4, 5, 7, 8].includes(partNo)) {
+      setPassageImageUrl(getDefaultPassageImageForPart(partNo));
+      setPassageMode("image");
+      if (partNo === 4) {
+        setPassageText("My holiday in Canada by Mark Davis\nLast summer I went to Canada with my family...");
+      } else if (partNo === 8) {
+        setPassageText("Read the notice and note about the school trip. Fill in the information on the form.");
+      }
+    } else {
+      setPassageMode("text");
+      setPassageImageUrl("");
+    }
+
     setValidationIssues([]);
     setServerError(null);
   };
@@ -413,6 +446,7 @@ export function PartEditorForm() {
       groupSet,
       instructions,
       passageText,
+      passageImageUrl,
       audioUrl,
       poolOptions,
       questions,
@@ -427,6 +461,7 @@ export function PartEditorForm() {
     groupSet,
     instructions,
     passageText,
+    passageImageUrl,
     audioUrl,
     poolOptions,
     questions,
@@ -467,6 +502,7 @@ export function PartEditorForm() {
         difficulty: "MEDIUM",
         status,
         passageText: passageText.trim() || null,
+        passageImageUrl: passageImageUrl.trim() || null,
         audioUrl: isListening ? audioUrl.trim() || null : null,
         maxPlays: isListening ? maxPlays : 2,
         transcript: isListening ? audioScript.trim() || null : null,
@@ -799,19 +835,150 @@ export function PartEditorForm() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {/* Văn bản bài đọc */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-foreground">
-                      Nội dung bài đọc hoặc đoạn văn khuyết (Reading Passage) *
-                    </label>
-                    <textarea
-                      rows={5}
-                      value={passageText}
-                      onChange={(e) => setPassageText(e.target.value)}
-                      placeholder="Nhập nội dung bài đọc, hoặc các mục biển báo A, B, C, D, E..."
-                      className="w-full p-3.5 rounded-xl border border-border bg-surface-raised text-xs sm:text-sm text-foreground outline-none focus:ring-2 focus:ring-primary font-mono leading-relaxed"
-                    />
+                  {/* Tùy chọn chuyển đổi định dạng tư liệu bài đọc cho Part 4, 5, 7, 8 và các Part đọc khác */}
+                  <div className="flex flex-wrap items-center justify-between gap-2 p-1.5 rounded-2xl bg-surface-raised border border-border">
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setPassageMode("image")}
+                        className={cn(
+                          "px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5",
+                          passageMode === "image"
+                            ? "bg-surface text-foreground shadow-sm border border-border"
+                            : "text-muted hover:text-foreground"
+                        )}
+                      >
+                        <ImageIcon className="w-3.5 h-3.5 text-primary" />
+                        <span>
+                          {[4, 5, 7, 8].includes(selectedPartNo)
+                            ? "Ảnh bài đọc / scan đề (Khuyên dùng)"
+                            : "Ảnh bài đọc"}
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPassageMode("text")}
+                        className={cn(
+                          "px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5",
+                          passageMode === "text"
+                            ? "bg-surface text-foreground shadow-sm border border-border"
+                            : "text-muted hover:text-foreground"
+                        )}
+                      >
+                        <FileText className="w-3.5 h-3.5 text-primary" />
+                        <span>Văn bản thuần (Text)</span>
+                      </button>
+                    </div>
+                    {[4, 5, 7, 8].includes(selectedPartNo) && (
+                      <span className="text-[11px] text-muted hidden sm:inline pr-2">
+                        {selectedPartNo === 4 && "Bài đọc hiểu dài / có ảnh minh họa"}
+                        {selectedPartNo === 5 && "Đoạn văn điền từ có ảnh ngữ cảnh"}
+                        {selectedPartNo === 7 && "Thư/Email cần giữ nguyên định dạng đề"}
+                        {selectedPartNo === 8 && "Mẫu form thông tin cần scan trực quan"}
+                      </span>
+                    )}
                   </div>
+
+                  {/* Chế độ Ảnh bài đọc */}
+                  {passageMode === "image" ? (
+                    <div className="space-y-3">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-semibold text-foreground flex items-center justify-between">
+                          <span>Đường dẫn ảnh bài đọc / Scan trang đề (Image URL) *</span>
+                          <span className="text-[11px] text-muted">Hỗ trợ JPG, PNG, WebP</span>
+                        </label>
+                        <div className="flex gap-2">
+                          <input
+                            type="url"
+                            value={passageImageUrl}
+                            onChange={(e) => setPassageImageUrl(e.target.value)}
+                            placeholder="https://.../reading-passage-p4.png"
+                            className="w-full min-h-[42px] px-3.5 rounded-xl border border-border bg-surface-raised text-xs sm:text-sm font-mono text-foreground outline-none focus:ring-2 focus:ring-primary"
+                          />
+                          {passageImageUrl && (
+                            <button
+                              type="button"
+                              onClick={() => setPassageImageUrl("")}
+                              className="px-3 rounded-xl border border-border bg-surface text-xs font-medium text-muted hover:text-destructive hover:border-destructive transition-colors shrink-0"
+                              title="Xóa link ảnh"
+                            >
+                              Xóa
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Khung hiển thị trước ảnh - Theo DESIGN.md: Ảnh trang đề nền trắng luôn đặt trong khung sáng, kể cả dark mode */}
+                      {passageImageUrl ? (
+                        <div className="p-3.5 rounded-2xl bg-white border border-border shadow-sm space-y-2">
+                          <div className="flex items-center justify-between text-[11px] text-zinc-600 font-medium px-1">
+                            <span className="flex items-center gap-1.5">
+                              <ImageIcon className="w-3.5 h-3.5 text-primary" />
+                              <span>Xem trước ảnh bài đọc (Khung nền sáng chuẩn tài liệu đề thi):</span>
+                            </span>
+                            <a
+                              href={passageImageUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-primary hover:underline"
+                            >
+                              Mở ảnh gốc ↗
+                            </a>
+                          </div>
+                          <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white flex justify-center p-2 max-h-[380px]">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={passageImageUrl}
+                              alt="Ảnh bài đọc đề thi"
+                              className="max-h-[360px] w-auto object-contain rounded-lg"
+                              onError={(e) => {
+                                (e.target as HTMLElement).style.display = "none";
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="p-6 rounded-2xl border border-dashed border-border bg-surface-raised flex flex-col items-center justify-center text-center space-y-1.5 text-muted">
+                          <ImageIcon className="w-8 h-8 opacity-40" />
+                          <p className="text-xs font-medium text-foreground">Chưa có ảnh bài đọc</p>
+                          <p className="text-[11px] max-w-sm">
+                            Dán đường dẫn ảnh bài đọc hoặc ảnh scan trang đề để hiển thị trực tiếp cho thí sinh làm bài.
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Tùy chọn bổ sung văn bản phụ / transcript */}
+                      <details className="text-xs text-muted group">
+                        <summary className="cursor-pointer font-semibold hover:text-foreground list-none flex items-center gap-1.5 py-1">
+                          <span className="group-open:rotate-90 transition-transform">▸</span>
+                          <span>Bổ sung nội dung văn bản phụ / Transcript đối chiếu (Tùy chọn)</span>
+                        </summary>
+                        <div className="pt-2">
+                          <textarea
+                            rows={3}
+                            value={passageText}
+                            onChange={(e) => setPassageText(e.target.value)}
+                            placeholder="Nhập nội dung văn bản đối chiếu (nếu muốn lưu kèm ảnh)..."
+                            className="w-full p-3 rounded-xl border border-border bg-surface-raised text-xs text-foreground outline-none focus:ring-2 focus:ring-primary font-mono leading-relaxed"
+                          />
+                        </div>
+                      </details>
+                    </div>
+                  ) : (
+                    /* Chế độ nhập văn bản thuần */
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-foreground">
+                        Nội dung bài đọc hoặc đoạn văn khuyết (Reading Passage) *
+                      </label>
+                      <textarea
+                        rows={6}
+                        value={passageText}
+                        onChange={(e) => setPassageText(e.target.value)}
+                        placeholder="Nhập nội dung bài đọc, hoặc các mục biển báo A, B, C, D, E..."
+                        className="w-full p-3.5 rounded-xl border border-border bg-surface-raised text-xs sm:text-sm text-foreground outline-none focus:ring-2 focus:ring-primary font-mono leading-relaxed"
+                      />
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -1281,6 +1448,20 @@ export function PartEditorForm() {
                         <AlertCircle className="w-3.5 h-3.5" /> Thiếu Audio URL
                       </span>
                     )
+                  ) : [4, 5, 7, 8].includes(selectedPartNo) ? (
+                    passageImageUrl ? (
+                      <span className="font-bold text-success flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Đã có ảnh bài đọc
+                      </span>
+                    ) : passageText ? (
+                      <span className="font-bold text-success flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Đã có bài đọc (Text)
+                      </span>
+                    ) : (
+                      <span className="font-bold text-destructive flex items-center gap-1">
+                        <AlertCircle className="w-3.5 h-3.5" /> Cần ảnh hoặc bài đọc
+                      </span>
+                    )
                   ) : passageText ? (
                     <span className="font-bold text-success flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Đã có bài đọc
@@ -1352,8 +1533,28 @@ export function PartEditorForm() {
               <span className="text-xs text-muted">Tối đa {maxPlays} lần nghe</span>
             </div>
           ) : (
-            <div className="p-5 rounded-2xl bg-surface-raised border border-border font-mono text-xs whitespace-pre-wrap leading-relaxed text-foreground">
-              {passageText}
+            <div className="space-y-4">
+              {passageImageUrl && (
+                <div className="p-4 rounded-2xl bg-white border border-border shadow-sm space-y-2">
+                  <div className="flex items-center justify-between text-[11px] text-zinc-500 font-bold uppercase tracking-wider px-1">
+                    <span>Ảnh tư liệu bài thi (Exam Passage)</span>
+                    <span className="text-zinc-400 font-normal lowercase">khung nền sáng chuẩn tài liệu</span>
+                  </div>
+                  <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white flex justify-center p-3">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={passageImageUrl}
+                      alt="Ảnh bài thi scan"
+                      className="max-h-[500px] w-auto object-contain rounded-lg shadow-sm"
+                    />
+                  </div>
+                </div>
+              )}
+              {passageText && (
+                <div className="p-5 rounded-2xl bg-surface-raised border border-border font-mono text-xs whitespace-pre-wrap leading-relaxed text-foreground">
+                  {passageText}
+                </div>
+              )}
             </div>
           )}
 

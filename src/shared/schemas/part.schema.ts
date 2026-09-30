@@ -79,6 +79,7 @@ export const createPartSchema = z.object({
 
   // Stimulus
   passageText: z.string().nullable().optional(),
+  passageImageUrl: z.string().nullable().optional(),
   audioUrl: z.string().nullable().optional(),
   maxPlays: z.number().int().min(1).max(3).default(2),
   transcript: z.string().nullable().optional(),
@@ -136,12 +137,14 @@ export function validatePartForPublish(input: Partial<CreatePartInput>): PartCom
     }
   }
 
-  // 4. Kiểm tra tư liệu Reading có bài đọc (Part 4, 5, 7, 8)
+  // 4. Kiểm tra tư liệu Reading (Part 4, 5, 7, 8): Chấp nhận Ảnh trang đề HOẶC Văn bản bài đọc
   if ([4, 5, 7, 8].includes(partNo)) {
-    if (!input.passageText || input.passageText.trim() === "") {
+    const hasText = Boolean(input.passageText && input.passageText.trim() !== "");
+    const hasImage = Boolean(input.passageImageUrl && input.passageImageUrl.trim() !== "");
+    if (!hasText && !hasImage) {
       issues.push({
-        field: "passageText",
-        message: `Part ${partNo} bắt buộc phải có nội dung văn bản bài đọc hoặc đoạn văn khuyết`,
+        field: "passageImageUrl",
+        message: `Part ${partNo} bắt buộc phải có ảnh bài đọc / ảnh trang đề hoặc nội dung văn bản`,
         severity: "error",
       });
     }

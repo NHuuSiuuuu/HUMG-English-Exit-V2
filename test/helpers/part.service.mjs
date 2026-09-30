@@ -39,6 +39,7 @@ export function createPartService(dbClient) {
                 type: input.questionType,
                 order: 1,
                 passageText: input.passageText || null,
+                passageImageUrl: input.passageImageUrl || null,
                 audioUrl: input.audioUrl || null,
                 maxPlays: input.maxPlays || 2,
                 transcript: input.transcript || null,

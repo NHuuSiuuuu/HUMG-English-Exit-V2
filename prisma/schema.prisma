@@ -108,6 +108,7 @@ model QuestionGroup {
   type                QuestionType
   order               Int          @default(1)
   passageText         String?      @map("passage_text") @db.Text
+  passageImageUrl     String?      @map("passage_image_url")
   audioUrl            String?      @map("audio_url")
   maxPlays            Int          @default(2) @map("max_plays")
   transcript          String?      @db.Text

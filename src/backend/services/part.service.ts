@@ -52,6 +52,7 @@ export async function createPart(input: CreatePartInput, _adminId?: string) {
             type: input.questionType,
             order: 1,
             passageText: input.passageText || null,
+            passageImageUrl: input.passageImageUrl || null,
             audioUrl: input.audioUrl || null,
             maxPlays: input.maxPlays ?? 2,
             transcript: input.transcript || null,
