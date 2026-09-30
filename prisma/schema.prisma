@@ -210,5 +210,29 @@ model Article {
   @@map("articles")
 }
 
+enum AssetType {
+  AUDIO_MP3
+  IMAGE
+  DOCUMENT_PDF
+  OTHER
+}
+
+model MediaAsset {
+  id        String    @id @default(cuid())
+  name      String
+  url       String
+  publicId  String?   @map("public_id")
+  type      AssetType
+  mimeType  String    @map("mime_type")
+  sizeBytes Int       @map("size_bytes")
+  partTag   String?   @map("part_tag")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@index([type])
+  @@index([partTag])
+  @@map("media_assets")
+}
+
 
 

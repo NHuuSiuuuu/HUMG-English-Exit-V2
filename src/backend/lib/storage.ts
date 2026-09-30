@@ -27,8 +27,11 @@ export interface UploadResult {
   provider: "cloudinary" | "local";
 }
 
-// Giới hạn dung lượng tối đa 5MB
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+// Giới hạn dung lượng tối đa 5MB cho ảnh đề thi riêng lẻ
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+
+// Giới hạn dung lượng tối đa 20MB cho tài liệu & file nghe audio
+const MAX_MEDIA_FILE_SIZE = 20 * 1024 * 1024;
 
 // Danh sách MIME type ảnh được phép tải lên
 const ALLOWED_MIME_TYPES = new Set([
@@ -37,6 +40,26 @@ const ALLOWED_MIME_TYPES = new Set([
   "image/png",
   "image/webp",
   "image/gif",
+]);
+
+// Danh sách MIME types được phép tải lên hệ thống media
+const ALLOWED_MEDIA_MIME_TYPES = new Set([
+  // Ảnh
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  // Audio
+  "audio/mpeg",
+  "audio/mp3",
+  "audio/wav",
+  "audio/ogg",
+  "audio/x-m4a",
+  "audio/mp4",
+  "audio/webm",
+  // PDF & Tài liệu
+  "application/pdf",
 ]);
 
 /**
@@ -54,7 +77,7 @@ export async function uploadExamImage(
   }
 
   // 2. Kiểm tra dung lượng
-  if (buffer.length > MAX_FILE_SIZE) {
+  if (buffer.length > MAX_IMAGE_SIZE) {
     throw new Error("Dung lượng file vượt quá giới hạn cho phép (tối đa 5MB).");
   }
 
@@ -86,7 +109,7 @@ export async function uploadExamImage(
     });
   }
 
-  // 4. Dự phòng: Lưu vào thư mục public/uploads/ khi chưa có API Key Cloudinary
+  // 4. Dự phòng: Lưu vào thư mục public/uploads/passages/ khi chưa có API Key Cloudinary
   const uploadsDir = path.join(process.cwd(), "public", "uploads", "passages");
   await fs.mkdir(uploadsDir, { recursive: true });
 
@@ -102,4 +125,99 @@ export async function uploadExamImage(
     format: ext.replace(".", ""),
     provider: "local",
   };
+}
+
+/**
+ * Upload file đa phương tiện (Audio nghe, Ảnh đề, PDF cẩm nang) lên Cloudinary hoặc lưu cục bộ
+ */
+export async function uploadMediaFile(
+  buffer: Buffer,
+  originalFilename: string,
+  mimeType: string,
+  folder = "humg-english-exit/media"
+): Promise<UploadResult> {
+  const normalizedMime = mimeType.toLowerCase();
+
+  // 1. Kiểm tra MIME type
+  if (!ALLOWED_MEDIA_MIME_TYPES.has(normalizedMime)) {
+    throw new Error(
+      "Định dạng file không được hỗ trợ. Chấp nhận: Audio (MP3, WAV, M4A, OGG), Ảnh (JPG, PNG, WebP) hoặc PDF."
+    );
+  }
+
+  // 2. Kiểm tra dung lượng
+  if (buffer.length > MAX_MEDIA_FILE_SIZE) {
+    throw new Error("Dung lượng file vượt quá giới hạn cho phép (tối đa 20MB).");
+  }
+
+  // Phân loại Cloudinary resource_type
+  let resourceType: "image" | "video" | "raw" = "raw";
+  if (normalizedMime.startsWith("image/")) {
+    resourceType = "image";
+  } else if (normalizedMime.startsWith("audio/")) {
+    resourceType = "video"; // Cloudinary xử lý audio dưới resource_type 'video'
+  }
+
+  // 3. Tải lên Cloudinary nếu có cấu hình
+  if (hasCloudinaryConfig) {
+    return new Promise<UploadResult>((resolve, reject) => {
+      const uploadOptions: Record<string, unknown> = {
+        folder,
+        resource_type: resourceType,
+      };
+
+      if (resourceType === "image") {
+        uploadOptions.transformation = [{ quality: "auto", fetch_format: "auto" }];
+      }
+
+      const uploadStream = cloudinary.uploader.upload_stream(
+        uploadOptions,
+        (error, result) => {
+          if (error || !result) {
+            reject(new Error(error?.message || "Lỗi tải file lên Cloudinary"));
+            return;
+          }
+          resolve({
+            url: result.secure_url,
+            publicId: result.public_id,
+            bytes: result.bytes,
+            format: result.format,
+            provider: "cloudinary",
+          });
+        }
+      );
+
+      uploadStream.end(buffer);
+    });
+  }
+
+  // 4. Dự phòng: Lưu vào thư mục public/uploads/media/ khi chưa có Cloudinary
+  const uploadsDir = path.join(process.cwd(), "public", "uploads", "media");
+  await fs.mkdir(uploadsDir, { recursive: true });
+
+  const ext = path.extname(originalFilename) || "";
+  const baseName = path.basename(originalFilename, ext).replace(/[^a-zA-Z0-9_-]/g, "_");
+  const uniqueName = `${baseName}-${Date.now()}${ext}`;
+  const filePath = path.join(uploadsDir, uniqueName);
+
+  await fs.writeFile(filePath, buffer);
+
+  return {
+    url: `/uploads/media/${uniqueName}`,
+    bytes: buffer.length,
+    format: ext.replace(".", ""),
+    provider: "local",
+  };
+}
+
+/**
+ * Xóa file trên Cloudinary nếu có
+ */
+export async function deleteCloudinaryAsset(publicId: string, resourceType: "image" | "video" | "raw" = "image") {
+  if (!hasCloudinaryConfig || !publicId) return;
+  try {
+    await cloudinary.uploader.destroy(publicId, { resource_type: resourceType });
+  } catch (err) {
+    console.error("Lỗi khi xóa file trên Cloudinary:", err);
+  }
 }
