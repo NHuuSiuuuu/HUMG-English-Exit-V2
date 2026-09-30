@@ -234,5 +234,27 @@ model MediaAsset {
   @@map("media_assets")
 }
 
+model SystemSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       Json
+  description String?
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("system_settings")
+}
+
+model AdminAuditLog {
+  id          String   @id @default(cuid())
+  action      String
+  details     String   @db.Text
+  performedBy String   @map("performed_by")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([action])
+  @@index([createdAt])
+  @@map("admin_audit_logs")
+}
+
 
 
