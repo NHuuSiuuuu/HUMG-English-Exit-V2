@@ -1,4 +1,4 @@
-import { validatePartForPublish } from "../../shared/schemas/part.schema.mjs";
+import { validatePartForPublish } from "./part.schema.mjs";
 
 export class PartValidationError extends Error {
   constructor(message, issues) {

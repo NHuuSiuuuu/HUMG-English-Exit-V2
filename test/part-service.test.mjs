@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createPartService } from "../src/backend/services/part.service.mjs";
+import { createPartService } from "./helpers/part.service.mjs";
 
 test("createPart - ném lỗi nếu lưu trạng thái PUBLISHED mà chưa đạt thẩm định", async () => {
   const mockDb = {

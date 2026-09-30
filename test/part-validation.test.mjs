@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createPartSchema, validatePartForPublish } from "../src/shared/schemas/part.schema.mjs";
+import { createPartSchema, validatePartForPublish } from "./helpers/part.schema.mjs";
 
 test("createPartSchema - chặn partNo không hợp lệ (ngoài khoảng 1-14)", () => {
   const result = createPartSchema.safeParse({

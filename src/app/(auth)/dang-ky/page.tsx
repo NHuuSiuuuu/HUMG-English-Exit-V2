@@ -25,7 +25,9 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          <RegisterForm />
+          <React.Suspense fallback={<div className="py-6 text-center text-xs text-slate-400">Đang tải biểu mẫu...</div>}>
+            <RegisterForm />
+          </React.Suspense>
 
           <div className="border-t border-slate-100 dark:border-slate-800/80 pt-4 text-center text-xs text-slate-500 dark:text-slate-400">
             Đã có tài khoản?{" "}
