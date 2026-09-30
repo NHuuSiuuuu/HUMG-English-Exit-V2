@@ -70,10 +70,12 @@ export default function AdminExamsPage() {
             Ghép đề thi hoàn chỉnh từ 14 phần trong kho, thiết lập thời gian làm bài mặc định 60 phút và quản lý công khai đề.
           </p>
         </div>
-        <Button variant="primary" size="sm" className="gap-1.5 text-xs font-semibold">
-          <Plus className="h-3.5 w-3.5" />
-          <span>Ghép đề thi mới</span>
-        </Button>
+        <Link href="/admin/de-thi/tao-moi">
+          <Button variant="primary" size="sm" className="gap-1.5 text-xs font-semibold shadow-[0_4px_12px_rgba(0,149,246,0.25)]">
+            <Plus className="h-3.5 w-3.5" />
+            <span>Ghép đề thi mới</span>
+          </Button>
+        </Link>
       </div>
 
       <Card>

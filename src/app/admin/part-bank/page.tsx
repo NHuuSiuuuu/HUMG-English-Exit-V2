@@ -19,10 +19,12 @@ export default function AdminPartBankPage() {
             Quản lý ngân hàng 14 dạng bài Cambridge KET. Mỗi phần là một đơn vị độc lập dùng cho cả ôn luyện và ghép đề.
           </p>
         </div>
-        <Button variant="primary" size="sm" className="gap-1.5 text-xs font-semibold">
-          <Plus className="h-3.5 w-3.5" />
-          <span>Tạo Part mới</span>
-        </Button>
+        <Link href="/admin/part-bank/tao-moi">
+          <Button variant="primary" size="sm" className="gap-1.5 text-xs font-semibold shadow-[0_4px_12px_rgba(0,149,246,0.25)]">
+            <Plus className="h-3.5 w-3.5" />
+            <span>Tạo Part mới</span>
+          </Button>
+        </Link>
       </div>
 
       {/* Bộ lọc & Tìm kiếm */}
