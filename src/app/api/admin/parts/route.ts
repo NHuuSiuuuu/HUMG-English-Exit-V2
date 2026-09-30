@@ -3,6 +3,57 @@ import { getCurrentUser } from "@/backend/lib/auth";
 import { partService, PartValidationError } from "@/backend/services/part.service";
 import { createPartSchema } from "@/shared/schemas/part.schema";
 
+export async function GET(request: NextRequest) {
+  try {
+    const user = await getCurrentUser();
+    if (!user || user.role !== "ADMIN") {
+      return NextResponse.json(
+        { error: "Bạn không có quyền truy cập dữ liệu quản trị" },
+        { status: 403 }
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const skillParam = searchParams.get("skill");
+    const statusParam = searchParams.get("status");
+    const partNoParam = searchParams.get("partNo");
+    const searchParam = searchParams.get("search");
+
+    const filters: import("@/shared/types/part").PartFilterOptions = {};
+    if (skillParam && (skillParam === "READING_WRITING" || skillParam === "LISTENING")) {
+      filters.skill = skillParam;
+    }
+    if (statusParam && (statusParam === "DRAFT" || statusParam === "PUBLISHED")) {
+      filters.status = statusParam;
+    }
+    if (partNoParam && !isNaN(Number(partNoParam))) {
+      filters.partNo = Number(partNoParam);
+    }
+    if (searchParam) {
+      filters.search = searchParam;
+    }
+
+    const [parts, stats] = await Promise.all([
+      partService.getParts(filters),
+      partService.getPartStats(),
+    ]);
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        parts,
+        stats,
+      },
+    });
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách Part:", error);
+    return NextResponse.json(
+      { error: "Đã xảy ra lỗi máy chủ khi truy vấn Kho phần" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     // 1. Kiểm tra xác thực quyền Admin

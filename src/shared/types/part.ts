@@ -62,3 +62,34 @@ export interface PartCompletenessIssue {
   message: string;
   severity: "error" | "warning";
 }
+
+export interface PartFilterOptions {
+  skill?: SkillType;
+  partNo?: number;
+  status?: PartStatus;
+  search?: string;
+}
+
+export interface PartListItemDTO {
+  id: string;
+  partNo: number;
+  skill: SkillType;
+  title: string;
+  sourceLabel: string;
+  groupSet: string;
+  difficulty: string;
+  status: PartStatus;
+  createdAt: string;
+  updatedAt: string;
+  questionType: QuestionType;
+  totalQuestions: number;
+}
+
+export interface PartBankStatsDTO {
+  totalParts: number;
+  publishedCount: number;
+  draftCount: number;
+  coveredPartTypesCount: number;
+  countsByPartNo: Record<number, number>;
+}
+
