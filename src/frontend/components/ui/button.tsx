@@ -10,20 +10,20 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", isLoading = false, disabled, children, ...props }, ref) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-heading font-semibold transition-colors duration-150 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none";
+      "inline-flex items-center justify-center font-heading font-semibold transition-all duration-150 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0095F6] disabled:pointer-events-none disabled:opacity-50 select-none";
 
     const variantStyles = {
-      primary: "bg-primary text-primary-foreground hover:opacity-90 active:scale-[0.99] shadow-sm",
-      secondary: "bg-secondary text-primary-foreground hover:opacity-90 active:scale-[0.99]",
-      outline: "border border-border bg-surface text-foreground hover:bg-surface-raised active:scale-[0.99]",
-      ghost: "text-foreground hover:bg-surface-raised active:bg-border/30",
-      danger: "bg-danger text-accent-foreground hover:opacity-90 active:scale-[0.99]",
+      primary: "bg-[#0095F6] hover:bg-sky-600 text-white shadow-[0_2px_10px_rgba(0,149,246,0.25)] active:scale-[0.99]",
+      secondary: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-[0_2px_10px_rgba(16,185,129,0.25)] active:scale-[0.99]",
+      outline: "border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm active:scale-[0.99]",
+      ghost: "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-[0.99]",
+      danger: "bg-rose-500 hover:bg-rose-600 text-white shadow-sm active:scale-[0.99]",
     };
 
     const sizeStyles = {
-      sm: "h-9 px-3 text-sm min-h-[36px]",
-      md: "h-11 px-4 text-base min-h-[44px]", // Đảm bảo vùng bấm tối thiểu 44px theo DESIGN.md
-      lg: "h-12 px-6 text-base font-bold min-h-[48px]",
+      sm: "h-9 px-3.5 text-xs min-h-[36px]",
+      md: "h-11 px-4 text-sm min-h-[44px]",
+      lg: "h-12 px-6 text-sm sm:text-base font-bold min-h-[48px]",
       icon: "h-11 w-11 min-h-[44px] min-w-[44px] p-2",
     };
 

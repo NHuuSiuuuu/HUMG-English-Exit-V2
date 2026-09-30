@@ -38,16 +38,18 @@ export default async function PartDetailPage({ params }: PartDetailPageProps) {
   const firstIncomplete = items.find((it) => !it.isCompleted);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Khối đầu trang: Tiêu đề, Breadcrumb, Tiến độ */}
-      <PartHeader part={part} firstIncompleteItemId={firstIncomplete?.id} />
+    <div className="min-h-screen bg-slate-50/70 dark:bg-[#0B1120] bg-grid-pattern py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        {/* Khối đầu trang: Tiêu đề, Breadcrumb, Tiến độ */}
+        <PartHeader part={part} firstIncompleteItemId={firstIncomplete?.id} />
 
-      {/* Danh sách bài luyện tập với các bộ lọc và 3 kiểu xem */}
-      <div className="space-y-4">
-        <h2 className="text-base font-bold text-[var(--color-navy)] dark:text-sky-300">
-          Danh sách các bài luyện tập
-        </h2>
-        <PartItemsContainer initialItems={items} />
+        {/* Danh sách bài luyện tập */}
+        <div className="space-y-4">
+          <h2 className="text-base font-bold text-slate-800 dark:text-white">
+            Danh sách các bài luyện tập
+          </h2>
+          <PartItemsContainer initialItems={items} />
+        </div>
       </div>
     </div>
   );

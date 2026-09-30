@@ -4,141 +4,147 @@ import * as React from "react";
 import Link from "next/link";
 import { ArrowRight, Clock, Award, ShieldCheck, CheckCircle2, Sparkles, BookOpen } from "lucide-react";
 import { useLanguage } from "@/frontend/providers/language-provider";
-import { Button } from "@/frontend/components/ui/button";
-import { Badge } from "@/frontend/components/ui/badge";
 
 export function HeroSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-surface via-background to-background py-12 md:py-20 lg:py-24">
+    <section className="relative overflow-hidden border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/70 dark:bg-[#0B1120] bg-grid-pattern py-12 md:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Cột trái: Nội dung Hero */}
           <div className="flex flex-col items-start lg:col-span-7 space-y-6">
-            <Badge variant="default" className="gap-1.5 py-1 px-3 text-xs sm:text-sm">
-              <Sparkles className="h-3.5 w-3.5" />
-              {t("landing.hero.badge", "Đề thi chuẩn Cambridge KET (A2 Key)")}
-            </Badge>
+            <div className="inline-flex items-center gap-2 py-1 px-3.5 rounded-full text-xs sm:text-sm font-semibold bg-sky-50 dark:bg-sky-950/60 text-[#0095F6] dark:text-sky-300 border border-sky-100 dark:border-sky-900/50 shadow-sm">
+              <Sparkles className="h-3.5 w-3.5 text-[#0095F6]" />
+              <span>{t("landing.hero.badge", "Đề thi chuẩn Cambridge KET (A2 Key)")}</span>
+            </div>
 
-            <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl lg:text-5xl leading-[1.15] text-foreground">
+            <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl lg:text-5xl leading-[1.15] text-slate-900 dark:text-white">
               {t("landing.hero.title", "Chinh phục chuẩn đầu ra Tiếng Anh HUMG tự tin & hiệu quả")}
             </h1>
 
-            <p className="text-base sm:text-lg text-muted max-w-2xl leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-2xl leading-relaxed font-normal">
               {t(
                 "landing.hero.subtitle",
                 "Nền tảng ôn luyện bám sát 14 dạng bài thi chuẩn đầu ra Trường Đại học Mỏ - Địa chất. Luyện tập theo từng kỹ năng, thi thử 60 phút mô phỏng áp lực thực tế và tra cứu kết quả nhanh chóng."
               )}
             </p>
 
-            {/* Hàng CTA: Desktop ngang, Mobile dọc với nút chính ở trên theo PAGES.md */}
+            {/* Hàng CTA: Nút bo tròn mềm mại phong cách TADR OU */}
             <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3 pt-2">
-              <Link href="/on-luyen" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto gap-2">
-                  <BookOpen className="h-5 w-5" />
-                  {t("landing.hero.ctaPractice", "Bắt đầu ôn luyện")}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
+              <Link
+                href="/on-luyen"
+                className="w-full sm:w-auto min-h-[46px] px-6 py-2.5 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(0,149,246,0.3)] transition-all"
+              >
+                <BookOpen className="h-4 w-4" />
+                <span>Bắt đầu ôn luyện</span>
+                <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/thi-thu" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto gap-2">
-                  <Clock className="h-5 w-5 text-primary" />
-                  {t("landing.hero.ctaExam", "Thi thử 60 phút")}
-                </Button>
+              <Link
+                href="/thi-thu"
+                className="w-full sm:w-auto min-h-[46px] px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-800 font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
+              >
+                <Clock className="h-4 w-4 text-[#0095F6]" />
+                <span>Thi thử 60 phút</span>
               </Link>
-              <Link href="/tra-cuu" className="w-full sm:w-auto">
-                <Button variant="ghost" size="lg" className="w-full sm:w-auto gap-2 text-muted hover:text-foreground">
-                  <ShieldCheck className="h-5 w-5 text-secondary" />
-                  {t("landing.hero.ctaCheckScore", "Tra cứu điểm CFI")}
-                </Button>
+              <Link
+                href="/tra-cuu"
+                className="w-full sm:w-auto min-h-[46px] px-4 py-2.5 rounded-xl text-slate-500 hover:text-slate-900 dark:hover:text-white font-semibold text-sm flex items-center justify-center gap-1.5 transition-all"
+              >
+                <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                <span>Tra cứu điểm CFI</span>
               </Link>
             </div>
 
-            {/* Uy tín & Tiêu chuẩn */}
-            <div className="flex flex-wrap items-center gap-6 pt-4 text-xs sm:text-sm text-muted">
+            {/* 3 Cam kết uy tín */}
+            <div className="flex flex-wrap items-center gap-6 pt-4 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-success" />
+                <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                 <span>14 Part chuẩn Cambridge KET</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-success" />
+                <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                 <span>Đồng hồ đếm ngược server 60 phút</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-success" />
+                <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                 <span>Tự động lưu nháp liên tục</span>
               </div>
             </div>
           </div>
 
-          {/* Cột phải: Mockup bài thi KET thực tế */}
+          {/* Cột phải: Mockup bài thi KET bo tròn lớn rounded-3xl */}
           <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-md rounded-lg border border-border bg-surface p-6 shadow-md transition-all">
+            <div className="relative w-full max-w-md rounded-3xl border border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-6 shadow-[0_10px_35px_-4px_rgba(0,0,0,0.06)] transition-all">
               {/* Header của thẻ Mockup */}
-              <div className="flex items-center justify-between border-b border-border pb-4">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-accent animate-pulse" />
-                  <span className="font-heading font-bold text-sm text-foreground">
-                    {t("landing.hero.preview.title", "Đề thi thử chuẩn số 01")}
+                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="font-bold text-sm text-slate-800 dark:text-white">
+                    Đề thi thử chuẩn số 01
                   </span>
                 </div>
-                <div className="flex items-center gap-1.5 rounded-md bg-primary/10 px-2.5 py-1 text-xs font-bold text-primary">
+                <div className="flex items-center gap-1.5 rounded-full bg-sky-50 dark:bg-sky-950/60 px-3 py-1 text-xs font-mono font-bold text-[#0095F6] dark:text-sky-300">
                   <Clock className="h-3.5 w-3.5" />
-                  <span>{t("landing.hero.preview.time", "60:00")}</span>
+                  <span>60:00</span>
                 </div>
               </div>
 
               {/* Tiến độ & Phần thi */}
-              <div className="mt-4 space-y-3">
-                <div className="flex items-center justify-between text-xs text-muted">
-                  <span className="font-semibold text-foreground">
-                    {t("landing.hero.preview.partLabel", "Phần 1/14: Biển báo & Thông báo")}
+              <div className="mt-4 space-y-2">
+                <div className="flex items-center justify-between text-xs text-slate-400">
+                  <span className="font-semibold text-slate-700 dark:text-slate-200">
+                    Phần 1/14: Biển báo & Thông báo
                   </span>
-                  <span>{t("landing.hero.preview.progress", "18/75 câu")}</span>
+                  <span>18/75 câu</span>
                 </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-surface-raised">
-                  <div className="h-full w-[24%] rounded-full bg-secondary transition-all" />
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+                  <div className="h-full w-[24%] rounded-full bg-[#0095F6] transition-all" />
                 </div>
               </div>
 
-              {/* Câu hỏi mẫu minh họa */}
-              <div className="mt-5 rounded-md border border-border bg-surface-raised p-4 space-y-3">
+              {/* Câu hỏi mẫu minh họa phong cách TADR OU */}
+              <div className="mt-5 rounded-2xl bg-slate-50/70 dark:bg-slate-800/40 p-4 space-y-3 border border-slate-100 dark:border-slate-800">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-muted uppercase">Question 01 · Signs</span>
-                  <span className="text-xs text-secondary font-semibold">1 point</span>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">
+                    Question 01 · Signs
+                  </span>
+                  <span className="text-[11px] text-sky-600 dark:text-sky-400 font-bold">1 point</span>
                 </div>
-                {/* Giữ ảnh và nội dung đề trên nền sáng chuẩn WCAG */}
-                <div className="rounded border border-border/80 bg-white p-3 text-slate-900 shadow-sm text-center">
-                  <p className="font-bold text-xs uppercase tracking-wide text-red-600">NOTICE</p>
-                  <p className="font-semibold text-sm mt-1">NO MOBILE PHONES IN READING ROOM</p>
+
+                <div className="rounded-xl border border-slate-200/70 bg-white p-3 text-slate-900 shadow-sm text-center">
+                  <p className="font-bold text-xs uppercase tracking-wide text-rose-600">NOTICE</p>
+                  <p className="font-semibold text-xs sm:text-sm mt-0.5">NO MOBILE PHONES IN READING ROOM</p>
                 </div>
-                <p className="text-sm font-medium text-foreground">
-                  {t("landing.hero.preview.questionSample", "Where can you see this notice?")}
+
+                <p className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100">
+                  Where can you see this notice?
                 </p>
-                <div className="space-y-1.5 text-xs sm:text-sm">
-                  <div className="flex items-center gap-2 rounded border border-primary/40 bg-primary/10 p-2 text-primary font-medium">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
-                    <span>{t("landing.hero.preview.optionA", "A. In a library")}</span>
+
+                {/* Các phương án A, B, C */}
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-center gap-2 rounded-xl border-2 border-[#0095F6] bg-sky-50/40 dark:bg-sky-950/30 p-2.5 text-[#0095F6] font-semibold">
+                    <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+                    <span>A. In a library</span>
                   </div>
-                  <div className="flex items-center gap-2 rounded border border-border bg-surface p-2 text-muted">
-                    <span className="h-4 w-4 rounded-full border border-muted/50 inline-block shrink-0" />
-                    <span>{t("landing.hero.preview.optionB", "B. On a train")}</span>
+                  <div className="flex items-center gap-2 rounded-xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 p-2.5 text-slate-600 dark:text-slate-300">
+                    <span className="h-3.5 w-3.5 rounded-full border border-slate-300 inline-block shrink-0" />
+                    <span>B. On a train</span>
                   </div>
-                  <div className="flex items-center gap-2 rounded border border-border bg-surface p-2 text-muted">
-                    <span className="h-4 w-4 rounded-full border border-muted/50 inline-block shrink-0" />
-                    <span>{t("landing.hero.preview.optionC", "C. In a museum")}</span>
+                  <div className="flex items-center gap-2 rounded-xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 p-2.5 text-slate-600 dark:text-slate-300">
+                    <span className="h-3.5 w-3.5 rounded-full border border-slate-300 inline-block shrink-0" />
+                    <span>C. In a museum</span>
                   </div>
                 </div>
               </div>
 
               {/* Chân card mockup */}
-              <div className="mt-4 flex items-center justify-between pt-3 border-t border-border text-xs text-muted">
-                <span className="flex items-center gap-1.5 font-medium text-success">
+              <div className="mt-4 flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-400">
+                <span className="flex items-center gap-1.5 font-medium text-emerald-500">
                   <Award className="h-3.5 w-3.5" />
-                  {t("landing.hero.preview.verifiedBadge", "Chấm tự động tức thì")}
+                  <span>Chấm tự động tức thì</span>
                 </span>
-                <span className="font-mono text-[11px] bg-surface-raised px-2 py-0.5 rounded">
+                <span className="font-mono text-[11px] bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
                   Server Time Sync
                 </span>
               </div>

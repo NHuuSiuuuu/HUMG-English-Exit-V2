@@ -1,98 +1,199 @@
 import * as React from "react";
 import Link from "next/link";
-import { BookOpen, ArrowLeft, ArrowRight } from "lucide-react";
+import { Headphones, BookOpen, Clock, ArrowRight, ChevronRight, Sparkles } from "lucide-react";
 import { EXAM_PARTS } from "@/shared/constants/exam-parts";
-import { Button } from "@/frontend/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/frontend/components/ui/card";
-import { Badge } from "@/frontend/components/ui/badge";
+
+export const metadata = {
+  title: "Luyện thi đầu ra — HUMG English Exit",
+  description: "Chọn kỹ năng Nghe hoặc Đọc & Viết để bắt đầu ôn luyện chuẩn format Cambridge KET A2",
+};
 
 export default function PracticeHubPage() {
   const rwParts = EXAM_PARTS.filter((p) => p.skill === "reading_writing");
   const listeningParts = EXAM_PARTS.filter((p) => p.skill === "listening");
 
   return (
-    <div className="py-10 md:py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
-        {/* Tiêu đề trang */}
-        <div className="space-y-3">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            <span>Về trang chủ</span>
+    <div className="min-h-screen bg-slate-50/70 dark:bg-[#0B1120] bg-grid-pattern py-10 md:py-16">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-12">
+        {/* Breadcrumb phong cách TADR OU */}
+        <nav className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
+          <Link href="/" className="hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+            Trang chủ
           </Link>
-          <h1 className="text-3xl font-extrabold text-foreground sm:text-4xl">
-            Ôn luyện từng phần
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-sky-600 dark:text-sky-400 font-bold">Luyện thi đầu ra</span>
+        </nav>
+
+        {/* Tiêu đề trung tâm trang nhã */}
+        <div className="text-center space-y-2.5 max-w-xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Luyện thi đầu ra
           </h1>
-          <p className="text-muted text-base max-w-2xl leading-relaxed">
-            Chọn một dạng bài Cambridge KET để bắt đầu luyện tập chuyên sâu. Mỗi phần đều có giải thích chi tiết và không giới hạn thời gian.
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-normal">
+            Chọn một kỹ năng bên dưới để bắt đầu luyện tập chuyên sâu
           </p>
         </div>
 
-        {/* Khối Reading & Writing */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 border-b border-border pb-3">
-            <Badge variant="default" className="text-xs">Reading & Writing</Badge>
-            <h2 className="text-xl font-bold font-heading text-foreground">
-              9 Dạng bài Đọc & Viết (Phần 1 - 9)
+        {/* 3 Thẻ Kỹ Năng Lớn phong cách TADR OU (giống hệt hình ảnh mẫu 1) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Thẻ 1: Luyện Nghe */}
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between hover:shadow-soft-lg hover:-translate-y-1 transition-all text-center">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto shadow-sm">
+                <Headphones className="w-6 h-6" />
+              </div>
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                Luyện Nghe
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                Nghe và trả lời câu hỏi trắc nghiệm theo format đề thi Cambridge KET (5 phần)
+              </p>
+            </div>
+            <div className="mt-6 pt-2">
+              <Link
+                href="/on-luyen/listening/10"
+                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(0,149,246,0.25)] transition-all"
+              >
+                <span>→ Bắt đầu</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Thẻ 2: Luyện Đọc & Viết */}
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between hover:shadow-soft-lg hover:-translate-y-1 transition-all text-center">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center mx-auto shadow-sm">
+                <BookOpen className="w-6 h-6" />
+              </div>
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                Luyện Đọc & Viết
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                Luyện đọc hiểu từ vựng, ngữ pháp, điền đoạn và viết note ngắn (9 phần)
+              </p>
+            </div>
+            <div className="mt-6 pt-2">
+              <Link
+                href="/on-luyen/reading_writing/1"
+                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(0,149,246,0.25)] transition-all"
+              >
+                <span>→ Bắt đầu</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Thẻ 3: Phòng Luyện Đề Thi */}
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 flex flex-col justify-between hover:shadow-soft-lg hover:-translate-y-1 transition-all text-center">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto shadow-sm">
+                <Clock className="w-6 h-6" />
+              </div>
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                Phòng Luyện Đề Thi
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                Mô phỏng đề thi đầu ra đầy đủ 14 phần với thời gian thực và tự động chấm điểm
+              </p>
+            </div>
+            <div className="mt-6 pt-2">
+              <Link
+                href="/thi-thu"
+                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(0,149,246,0.25)] transition-all"
+              >
+                <span>→ Bắt đầu</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Danh mục chi tiết 9 Part Đọc & Viết */}
+        <div className="space-y-5 pt-4">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-6 rounded-full bg-purple-500" />
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+              Kỹ năng Đọc & Viết (Part 1 – Part 9)
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {rwParts.map((part) => (
-              <Card key={part.partNo} className="flex flex-col justify-between hover:border-primary/40 hover:shadow-md transition-all">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-heading font-extrabold text-xs px-2 py-0.5 rounded bg-primary/10 text-primary">
+              <div
+                key={part.partNo}
+                className="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.02)] border border-slate-100 dark:border-slate-800/80 hover:shadow-soft transition-all flex flex-col justify-between"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
                       Part {part.partNo}
                     </span>
-                    <span className="text-xs text-muted font-medium">{part.questionRange} ({part.totalQuestions} câu)</span>
+                    <span className="text-xs text-slate-400">
+                      {part.totalQuestions} câu hỏi
+                    </span>
                   </div>
-                  <CardTitle className="text-lg">{part.titleVi}</CardTitle>
-                  <CardDescription className="text-xs text-muted mt-1">{part.questionType}</CardDescription>
-                </CardHeader>
-                <CardFooter className="pt-2">
-                  <Link href={`/on-luyen/reading_writing/${part.partNo}`} className="w-full">
-                    <Button variant="outline" size="sm" className="w-full justify-between group">
-                      <span>Luyện phần này</span>
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
+                  <h3 className="text-base font-bold text-slate-800 dark:text-white line-clamp-1">
+                    {part.titleVi}
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                    {part.questionType}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/60">
+                  <Link
+                    href={`/on-luyen/reading_writing/${part.partNo}`}
+                    className="w-full min-h-[38px] py-1.5 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-sky-50 dark:hover:bg-sky-950/40 text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 font-semibold text-xs flex items-center justify-between transition-all"
+                  >
+                    <span>Luyện phần này</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
-                </CardFooter>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Khối Listening */}
-        <div className="space-y-4 pt-6">
-          <div className="flex items-center gap-2 border-b border-border pb-3">
-            <Badge variant="secondary" className="text-xs">Listening</Badge>
-            <h2 className="text-xl font-bold font-heading text-foreground">
-              5 Dạng bài Nghe (Phần 10 - 14)
+        {/* Danh mục chi tiết 5 Part Nghe */}
+        <div className="space-y-5 pt-4">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-6 rounded-full bg-sky-500" />
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+              Kỹ năng Nghe (Part 10 – Part 14)
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {listeningParts.map((part) => (
-              <Card key={part.partNo} className="flex flex-col justify-between hover:border-secondary/40 hover:shadow-md transition-all">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-heading font-extrabold text-xs px-2 py-0.5 rounded bg-secondary/15 text-secondary">
+              <div
+                key={part.partNo}
+                className="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.02)] border border-slate-100 dark:border-slate-800/80 hover:shadow-soft transition-all flex flex-col justify-between"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400">
                       Part {part.partNo}
                     </span>
-                    <span className="text-xs text-muted font-medium">{part.questionRange} ({part.totalQuestions} câu)</span>
+                    <span className="text-xs text-slate-400">
+                      {part.totalQuestions} câu hỏi
+                    </span>
                   </div>
-                  <CardTitle className="text-lg">{part.titleVi}</CardTitle>
-                  <CardDescription className="text-xs text-muted mt-1">{part.questionType}</CardDescription>
-                </CardHeader>
-                <CardFooter className="pt-2">
-                  <Link href={`/on-luyen/listening/${part.partNo}`} className="w-full">
-                    <Button variant="outline" size="sm" className="w-full justify-between group">
-                      <span>Luyện phần này</span>
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
+                  <h3 className="text-base font-bold text-slate-800 dark:text-white line-clamp-1">
+                    {part.titleVi}
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                    {part.questionType}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/60">
+                  <Link
+                    href={`/on-luyen/listening/${part.partNo}`}
+                    className="w-full min-h-[38px] py-1.5 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-sky-50 dark:hover:bg-sky-950/40 text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 font-semibold text-xs flex items-center justify-between transition-all"
+                  >
+                    <span>Luyện phần này</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
-                </CardFooter>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </div>

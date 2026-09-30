@@ -4,8 +4,6 @@ import * as React from "react";
 import Link from "next/link";
 import { BookOpen, Clock, Search, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/frontend/providers/language-provider";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/frontend/components/ui/card";
-import { Button } from "@/frontend/components/ui/button";
 
 export function FeatureCards() {
   const { t } = useLanguage();
@@ -13,7 +11,9 @@ export function FeatureCards() {
   const features = [
     {
       icon: BookOpen,
-      iconBg: "bg-primary/10 text-primary",
+      iconColor: "text-[#0095F6]",
+      iconBg: "bg-sky-50 dark:bg-sky-950/60",
+      btnClass: "bg-[#0095F6] hover:bg-sky-600 text-white shadow-[0_4px_12px_rgba(0,149,246,0.25)]",
       title: t("landing.features.practice.title", "Ôn luyện từng phần"),
       desc: t(
         "landing.features.practice.desc",
@@ -25,7 +25,9 @@ export function FeatureCards() {
     },
     {
       icon: Clock,
-      iconBg: "bg-secondary/15 text-secondary",
+      iconColor: "text-emerald-600 dark:text-emerald-400",
+      iconBg: "bg-emerald-50 dark:bg-emerald-950/60",
+      btnClass: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-[0_4px_12px_rgba(16,185,129,0.25)]",
       title: t("landing.features.exam.title", "Thi thử mô phỏng 60 phút"),
       desc: t(
         "landing.features.exam.desc",
@@ -38,7 +40,9 @@ export function FeatureCards() {
     },
     {
       icon: Search,
-      iconBg: "bg-accent/10 text-accent",
+      iconColor: "text-purple-600 dark:text-purple-400",
+      iconBg: "bg-purple-50 dark:bg-purple-950/60",
+      btnClass: "bg-purple-600 hover:bg-purple-700 text-white shadow-[0_4px_12px_rgba(147,51,234,0.25)]",
       title: t("landing.features.score.title", "Tra cứu điểm & Lịch thi"),
       desc: t(
         "landing.features.score.desc",
@@ -51,16 +55,16 @@ export function FeatureCards() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-background">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
-          <span className="text-xs font-heading font-bold uppercase tracking-widest text-primary">
+    <section className="py-16 sm:py-20 bg-slate-50/50 dark:bg-[#0B1120]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-2.5">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#0095F6]">
             {t("landing.features.tag", "Tính năng trọng tâm")}
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             {t("landing.features.title", "Mọi công cụ bạn cần để vượt qua chuẩn đầu ra")}
           </h2>
-          <p className="text-sm sm:text-base text-muted leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
             {t(
               "landing.features.subtitle",
               "Được thiết kế tối ưu cho thói quen học tập và cấu trúc bài thi thực tế của sinh viên Mỏ - Địa chất."
@@ -72,37 +76,38 @@ export function FeatureCards() {
           {features.map((item, idx) => {
             const Icon = item.icon;
             return (
-              <Card
+              <div
                 key={idx}
-                className={`flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all ${
-                  item.highlight ? "ring-1 ring-primary/30" : ""
-                }`}
+                className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 hover:shadow-soft-lg hover:-translate-y-1 transition-all flex flex-col justify-between"
               >
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <div className={`p-3 rounded-lg ${item.iconBg}`}>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className={`p-3 rounded-2xl ${item.iconBg} ${item.iconColor} shadow-sm`}>
                       <Icon className="h-6 w-6" />
                     </div>
-                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded bg-surface-raised text-muted border border-border">
+                    <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                       {item.badge}
                     </span>
                   </div>
-                  <CardTitle className="text-xl pt-2">{item.title}</CardTitle>
-                  <CardDescription className="text-sm pt-1">{item.desc}</CardDescription>
-                </CardHeader>
 
-                <CardFooter className="pt-2">
-                  <Link href={item.href} className="w-full">
-                    <Button
-                      variant={item.highlight ? "primary" : "outline"}
-                      className="w-full justify-between group"
-                    >
-                      <span>{item.action}</span>
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+                    {item.desc}
+                  </p>
+                </div>
+
+                <div className="pt-6">
+                  <Link
+                    href={item.href}
+                    className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all ${item.btnClass}`}
+                  >
+                    <span>{item.action}</span>
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
-                </CardFooter>
-              </Card>
+                </div>
+              </div>
             );
           })}
         </div>

@@ -2,15 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, Calendar, Clock, BookOpen } from "lucide-react";
-import { useLanguage } from "@/frontend/providers/language-provider";
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/frontend/components/ui/card";
-import { Badge } from "@/frontend/components/ui/badge";
-import { Button } from "@/frontend/components/ui/button";
+import { ArrowRight, Calendar, Clock } from "lucide-react";
 
 export function LatestArticles() {
-  const { t } = useLanguage();
-
   const sampleArticles = [
     {
       id: "1",
@@ -18,6 +12,7 @@ export function LatestArticles() {
       title: "Tổng hợp toàn bộ quy định Chuẩn đầu ra Ngoại ngữ HUMG mới nhất",
       excerpt: "Chi tiết các chứng chỉ được công nhận, điểm quy đổi, thời hạn nộp chứng chỉ và các đợt thi đánh giá năng lực tại trường.",
       category: "Quy định & Lịch thi",
+      categoryBg: "bg-sky-50 dark:bg-sky-950/60 text-[#0095F6] dark:text-sky-300",
       date: "28/09/2026",
       readTime: "5 phút đọc",
     },
@@ -27,6 +22,7 @@ export function LatestArticles() {
       title: "Chiến thuật làm 9 Phần Reading & Writing không bị thiếu thời gian",
       excerpt: "Cách phân bổ 40 phút cho Reading, 15 phút cho Part 9 và mẹo tránh bẫy các biển báo thông báo trong đề Cambridge KET.",
       category: "Mẹo thi cử",
+      categoryBg: "bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400",
       date: "24/09/2026",
       readTime: "7 phút đọc",
     },
@@ -36,76 +32,78 @@ export function LatestArticles() {
       title: "Bí quyết chinh phục 5 câu nghe chọn tranh Part 10 Cambridge KET",
       excerpt: "Nhận biết bẫy gây nhiễu về giờ đồng hồ, giá tiền và hoạt động thường gặp trong các đoạn hội thoại ngắn.",
       category: "Kỹ năng Listening",
+      categoryBg: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400",
       date: "20/09/2026",
       readTime: "6 phút đọc",
     },
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-surface border-t border-border">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-          <div className="space-y-3 max-w-2xl">
-            <Badge variant="default" className="px-3 py-1 font-heading">
-              {t("landing.articles.tag", "Tài liệu & Kinh nghiệm")}
-            </Badge>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground">
-              {t("landing.articles.title", "Bài viết hướng dẫn & Mẹo làm bài mới nhất")}
+    <section className="py-16 sm:py-20 bg-slate-50/50 dark:bg-[#0B1120]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="space-y-2.5 max-w-2xl">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#0095F6]">
+              Tài liệu & Kinh nghiệm
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Bài viết hướng dẫn & Mẹo làm bài mới nhất
             </h2>
-            <p className="text-sm sm:text-base text-muted leading-relaxed">
-              {t(
-                "landing.articles.subtitle",
-                "Kinh nghiệm thực tế tổng hợp từ các anh chị khóa trước đạt chuẩn đầu ra điểm cao."
-              )}
+            <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
+              Kinh nghiệm thực tế tổng hợp từ các anh chị khóa trước đạt chuẩn đầu ra điểm cao.
             </p>
           </div>
-          <Link href="/bai-viet" className="shrink-0">
-            <Button variant="outline" className="gap-2">
-              <span>{t("landing.articles.viewAll", "Xem tất cả bài viết")}</span>
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+          <Link
+            href="/bai-viet"
+            className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-800 text-xs font-bold shadow-sm transition-all"
+          >
+            <span>Xem tất cả bài viết</span>
+            <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {sampleArticles.map((article) => (
-            <Card key={article.id} className="flex flex-col justify-between hover:shadow-md hover:border-primary/40 transition-all">
-              <CardHeader className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <Badge variant="secondary" className="font-semibold text-xs">
+            <div
+              key={article.id}
+              className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 hover:shadow-soft-lg hover:-translate-y-1 transition-all flex flex-col justify-between"
+            >
+              <div className="space-y-3.5">
+                <div className="flex items-center justify-between">
+                  <span className={`text-[11px] font-bold px-3 py-1 rounded-full ${article.categoryBg}`}>
                     {article.category}
-                  </Badge>
-                  <div className="flex items-center gap-1 text-xs text-muted">
+                  </span>
+                  <div className="flex items-center gap-1 text-xs text-slate-400">
                     <Clock className="h-3.5 w-3.5" />
                     <span>{article.readTime}</span>
                   </div>
                 </div>
 
                 <Link href={`/bai-viet/${article.slug}`}>
-                  <CardTitle className="text-lg hover:text-primary transition-colors line-clamp-2">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white hover:text-[#0095F6] transition-colors line-clamp-2 leading-snug">
                     {article.title}
-                  </CardTitle>
+                  </h3>
                 </Link>
 
-                <CardDescription className="text-sm mt-2 line-clamp-3 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed font-normal">
                   {article.excerpt}
-                </CardDescription>
-              </CardHeader>
+                </p>
+              </div>
 
-              <CardFooter className="p-6 pt-0 flex items-center justify-between border-t border-border mt-auto pt-4 text-xs text-muted">
+              <div className="pt-5 border-t border-slate-100 dark:border-slate-800/60 mt-6 flex items-center justify-between text-xs text-slate-400">
                 <div className="flex items-center gap-1.5">
                   <Calendar className="h-3.5 w-3.5" />
                   <span>{article.date}</span>
                 </div>
                 <Link
                   href={`/bai-viet/${article.slug}`}
-                  className="font-heading font-semibold text-primary hover:underline flex items-center gap-1"
+                  className="font-bold text-[#0095F6] hover:underline flex items-center gap-1"
                 >
-                  <span>{t("landing.articles.readMore", "Đọc bài viết")}</span>
+                  <span>Đọc tiếp</span>
                   <ArrowRight className="h-3 w-3" />
                 </Link>
-              </CardFooter>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { Play, Pause, RotateCcw, Volume2, FileText, ChevronDown, ChevronUp } from "lucide-react";
+import { Play, Pause, RotateCcw, FileText, ChevronDown, ChevronUp } from "lucide-react";
 
 interface AudioPlayerListeningProps {
   audioUrl?: string;
@@ -10,8 +10,8 @@ interface AudioPlayerListeningProps {
 }
 
 /**
- * Trình phát âm thanh cho phần thi Listening KET (Part 10–14)
- * Hỗ trợ phát audio, tua lại 5 giây, điều chỉnh âm lượng, và mở transcript sau khi nộp bài
+ * Trình phát âm thanh cho phần Listening chuẩn phong cách TADR OU:
+ * Thanh bo cong mềm mại với tông màu tím sang trọng (giống hình mẫu 3), thanh tua mượt mà
  */
 export function AudioPlayerListening({
   audioUrl,
@@ -76,38 +76,39 @@ export function AudioPlayerListening({
   if (!audioUrl) return null;
 
   return (
-    <div className="bg-[var(--surface-paper)] border border-[var(--border-subtle)] rounded-lg p-4 shadow-sm space-y-3">
+    <div className="space-y-2">
       <audio ref={audioRef} src={audioUrl} preload="metadata" />
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Thanh Audio Player Tím Sang Trọng giống TADR OU */}
+      <div className="bg-[#38114f] dark:bg-[#280c38] text-white rounded-xl px-4 py-3 flex items-center justify-between gap-4 shadow-sm">
         {/* Nút Play / Pause & Tua 5s */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5 shrink-0">
           <button
             type="button"
             onClick={togglePlay}
-            aria-label={isPlaying ? "Tạm dừng audio" : "Phát audio"}
-            className="w-11 h-11 rounded-full bg-[var(--color-navy)] hover:opacity-95 text-white flex items-center justify-center transition-all shadow-sm"
+            aria-label={isPlaying ? "Tạm dừng" : "Phát audio"}
+            className="w-8 h-8 rounded-full bg-white text-[#38114f] hover:bg-slate-100 flex items-center justify-center transition-all shadow-sm"
           >
-            {isPlaying ? <Pause className="w-5 h-5 fill-white" /> : <Play className="w-5 h-5 fill-white ml-0.5" />}
+            {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
           </button>
 
           <button
             type="button"
             onClick={rewind5s}
-            aria-label="Tua lại 5 giây"
-            className="w-9 h-9 rounded-full border border-[var(--border-subtle)] hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--text-primary)] flex items-center justify-center transition-all"
+            aria-label="Tua lại 5s"
+            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all"
             title="Tua lại 5 giây"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-3.5 h-3.5" />
           </button>
 
-          <span className="text-xs font-mono font-semibold text-[var(--text-primary)] ml-1">
-            {formatTime(currentTime)} / {formatTime(duration)}
+          <span className="text-xs font-mono font-medium text-white/90">
+            {formatTime(currentTime)}
           </span>
         </div>
 
-        {/* Thanh trượt tiến độ */}
-        <div className="flex-1 max-w-md flex items-center gap-2">
+        {/* Thanh trượt tiến độ mượt mà */}
+        <div className="flex-1 flex items-center gap-3">
           <input
             type="range"
             min={0}
@@ -116,33 +117,41 @@ export function AudioPlayerListening({
             value={currentTime}
             onChange={handleSeek}
             aria-label="Tiến độ phát audio"
-            className="w-full accent-[var(--color-navy)] h-2 rounded-lg cursor-pointer bg-slate-200 dark:bg-slate-700"
+            className="w-full accent-white h-1.5 rounded-lg cursor-pointer bg-white/20 hover:bg-white/30 transition-all"
           />
         </div>
 
-        {/* Nút xem Transcript (chỉ hiện khi đã nộp bài) */}
+        {/* Tổng thời lượng */}
+        <div className="shrink-0 text-xs font-mono font-medium text-white/70">
+          {formatTime(duration)}
+        </div>
+      </div>
+
+      {/* Dòng ghi chú chế độ luyện tập như hình mẫu 3 */}
+      <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 px-1">
+        <span>Chế độ luyện tập: Bạn có thể tạm dừng, tua và nghe lại không giới hạn.</span>
+
+        {/* Nút xem Transcript sau khi nộp */}
         {isGraded && transcript && (
           <button
             type="button"
             onClick={() => setShowTranscript(!showTranscript)}
-            className="min-h-[44px] px-3.5 py-1.5 rounded-lg border border-sky-300 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/40 text-sky-800 dark:text-sky-300 text-xs font-bold flex items-center gap-1.5 hover:bg-sky-100 transition-all shrink-0"
+            className="text-sky-600 dark:text-sky-400 hover:underline font-semibold flex items-center gap-1"
           >
-            <FileText className="w-4 h-4" />
-            <span>Lời thoại (Transcript)</span>
-            {showTranscript ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            <FileText className="w-3.5 h-3.5" />
+            <span>{showTranscript ? "Ẩn lời thoại" : "Xem lời thoại (Transcript)"}</span>
+            {showTranscript ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
           </button>
         )}
       </div>
 
-      {/* Khối hiển thị Lời thoại Transcript */}
+      {/* Khối hiển thị transcript nếu mở */}
       {showTranscript && transcript && (
-        <div className="mt-3 p-4 rounded-lg bg-[var(--surface-bg)] border border-sky-200 dark:border-sky-900 text-xs leading-relaxed text-[var(--text-primary)] whitespace-pre-line space-y-2">
-          <p className="font-bold text-[var(--color-navy)] dark:text-sky-300 uppercase tracking-wide">
+        <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 text-xs leading-relaxed text-slate-700 dark:text-slate-200 whitespace-pre-line space-y-1.5 animate-in fade-in">
+          <p className="font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider text-[11px]">
             Audio Script / Transcript:
           </p>
-          <div className="font-sans font-medium text-slate-800 dark:text-slate-200">
-            {transcript}
-          </div>
+          <div className="font-sans font-normal">{transcript}</div>
         </div>
       )}
     </div>

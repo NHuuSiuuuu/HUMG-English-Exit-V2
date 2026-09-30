@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import type { QuestionGroupDef } from "@/shared/types/question";
 import type { QuestionGradingDetail } from "@/shared/types/practice";
 import { CheckCircle2, XCircle, Info, FileText } from "lucide-react";
@@ -14,8 +14,9 @@ interface Mcq3RendererProps {
 }
 
 /**
- * Renderer cho trắc nghiệm 3 lựa chọn (A/B/C hoặc Right/Wrong/Doesn't say)
- * Hỗ trợ bài đọc dài (Part 4) và câu hỏi đơn lẻ (Part 2, 3, 12)
+ * Renderer trắc nghiệm phong cách TADR OU:
+ * Hoàn toàn loại bỏ border xám dày đặc. Các phương án A, B, C là các thẻ bo góc rounded-xl,
+ * viền siêu mờ nhẹ, khi được chọn có viền xanh dương rực rỡ và chữ xanh dương thanh thoát.
  */
 export function Mcq3Renderer({
   group,
@@ -28,146 +29,103 @@ export function Mcq3Renderer({
 
   return (
     <div className="space-y-6">
-      {/* Khối hướng dẫn và ví dụ câu 0 */}
-      <div className="bg-[var(--surface-paper)] border border-[var(--border-subtle)] rounded-lg p-4 space-y-3">
-        <p className="text-sm font-medium text-[var(--text-primary)] leading-relaxed">
-          {group.instruction}
-        </p>
-        {group.example && (
-          <div className="bg-[var(--surface-bg)] border border-[var(--border-subtle)] rounded p-3 text-sm flex items-start gap-2.5">
-            <span className="font-bold text-[var(--color-navy)] bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-[var(--border-subtle)]">
-              Ví dụ 0:
-            </span>
-            <div className="flex-1">
-              <span className="text-[var(--text-primary)]">{group.example.question}</span>
-              <div className="mt-1 flex items-center gap-2 text-xs">
-                <span className="font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded">
-                  Đáp án: {group.example.correctAnswer} ✓
-                </span>
-                <span className="text-[var(--text-secondary)]">{group.example.explanation}</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Bố cục: Nếu có bài đọc thì 2 cột, không thì 1 cột */}
-      <div className={`grid grid-cols-1 ${hasPassage ? "lg:grid-cols-12" : ""} gap-6 items-start`}>
+      {/* Bố cục: Nếu có bài đọc dài (Part 4) thì 2 cột, còn lại 1 cột thoáng */}
+      <div className={`grid grid-cols-1 ${hasPassage ? "lg:grid-cols-12 gap-8" : "gap-6"} items-start`}>
+        {/* Cột Bài đọc (nếu có) */}
         {hasPassage && (
-          <div className="lg:col-span-6 bg-[var(--surface-paper)] border border-[var(--border-subtle)] rounded-lg p-5 sticky top-24 max-h-[calc(100vh-140px)] overflow-y-auto">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] mb-3 pb-2 border-b border-[var(--border-subtle)]">
+          <div className="lg:col-span-5 bg-slate-50 dark:bg-slate-800/40 rounded-2xl p-5 sm:p-6 sticky top-20 max-h-[calc(100vh-140px)] overflow-y-auto">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3 pb-2 border-b border-slate-200/60 dark:border-slate-700/60">
               <FileText className="w-4 h-4 text-sky-500" />
-              <span>Nội dung bài đọc (Reading Passage)</span>
+              <span>Nội dung bài đọc</span>
             </div>
-            <div className="text-sm leading-relaxed text-[var(--text-primary)] whitespace-pre-line space-y-3 font-normal">
+            <div className="text-sm leading-relaxed text-slate-700 dark:text-slate-200 whitespace-pre-line space-y-3 font-normal">
               {group.passageText}
             </div>
           </div>
         )}
 
-        {/* Danh sách câu hỏi MCQ3 */}
-        <div className={`${hasPassage ? "lg:col-span-6" : "max-w-3xl"} space-y-4`}>
+        {/* Danh sách các câu hỏi trắc nghiệm */}
+        <div className={`${hasPassage ? "lg:col-span-7" : "max-w-4xl mx-auto w-full"} space-y-6`}>
           {group.items.map((item) => {
             const currentAns = answers[item.id] || "";
             const grade = gradingDetails[item.id];
             const options = item.options || [];
 
             return (
-              <div
-                key={item.id}
-                className={`p-4 rounded-lg border transition-all ${
-                  isGraded
-                    ? grade?.isCorrect
-                      ? "bg-emerald-50/40 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800"
-                      : "bg-rose-50/40 dark:bg-rose-950/20 border-rose-300 dark:border-rose-800"
-                    : "bg-[var(--surface-paper)] border-[var(--border-subtle)] hover:border-slate-400"
-                }`}
-              >
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="flex items-start gap-2.5">
-                    <span className="font-bold text-sm text-[var(--color-navy)] dark:text-sky-400 min-w-[28px]">
-                      {item.orderNumber}.
+              <div key={item.id} className="space-y-3">
+                {/* Tiêu đề câu hỏi: Q1. ... */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-1.5 text-sm sm:text-[15px] font-semibold text-slate-800 dark:text-slate-100 leading-snug">
+                    <span className="text-slate-900 dark:text-white font-bold">
+                      Q{item.orderNumber}.
                     </span>
-                    <p className="text-sm font-medium text-[var(--text-primary)] leading-snug">
-                      {item.prompt}
-                    </p>
+                    <span>{item.prompt}</span>
                   </div>
                   {isGraded && (
-                    <div>
+                    <div className="shrink-0">
                       {grade?.isCorrect ? (
-                        <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                        <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
                       ) : (
-                        <XCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0" />
+                        <XCircle className="w-5 h-5 text-rose-500 shrink-0" />
                       )}
                     </div>
                   )}
                 </div>
 
-                {/* Các phương án A, B, C */}
-                <div className="space-y-2">
+                {/* Các phương án A, B, C, D (Lưới 2 cột hoặc 1 cột thoáng theo mẫu TADR OU) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {options.map((opt) => {
                     const isSelected = currentAns === opt.label;
                     const isCorrectAnswer = isGraded && grade?.correctAnswer === opt.label;
 
-                    let cardClass =
-                      "border-[var(--border-subtle)] bg-[var(--surface-bg)] hover:bg-slate-100 dark:hover:bg-slate-800/80";
-                    let badgeClass = "bg-slate-200 dark:bg-slate-700 text-[var(--text-primary)]";
+                    // Trạng thái bình thường: viền mờ 1px, nền trắng
+                    let optionStyle =
+                      "border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-sky-300 hover:bg-sky-50/20";
 
+                    // Trạng thái ĐÃ CHỌN (giống hình mẫu 3: viền xanh dương 2px, chữ xanh dương, rất thoáng đãng)
                     if (isSelected) {
-                      cardClass =
-                        "border-[var(--color-navy)] bg-sky-50/60 dark:bg-sky-950/40 ring-1 ring-[var(--color-navy)]";
-                      badgeClass = "bg-[var(--color-navy)] text-white";
+                      optionStyle =
+                        "border-2 border-[#0095F6] text-[#0095F6] dark:text-sky-400 font-semibold bg-sky-50/30 dark:bg-sky-950/20";
                     }
 
+                    // Trạng thái đã chấm điểm
                     if (isGraded) {
                       if (isCorrectAnswer) {
-                        cardClass =
-                          "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 ring-1 ring-emerald-500";
-                        badgeClass = "bg-emerald-600 text-white";
+                        optionStyle =
+                          "border-2 border-emerald-500 text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50/40 dark:bg-emerald-950/30";
                       } else if (isSelected && !grade?.isCorrect) {
-                        cardClass =
-                          "border-rose-500 bg-rose-50 dark:bg-rose-950/50 line-through opacity-80";
-                        badgeClass = "bg-rose-600 text-white";
+                        optionStyle =
+                          "border-2 border-rose-400 text-rose-600 dark:text-rose-400 line-through bg-rose-50/30 dark:bg-rose-950/30";
                       }
                     }
 
                     return (
-                      <label
+                      <button
                         key={opt.label}
-                        className={`min-h-[44px] flex items-center gap-3 px-3.5 py-2.5 rounded border cursor-pointer transition-all ${cardClass}`}
+                        type="button"
+                        disabled={isGraded}
+                        onClick={() => onAnswerChange(item.id, opt.label)}
+                        className={`min-h-[44px] px-4 py-2.5 rounded-xl text-left text-xs sm:text-sm transition-all flex items-center gap-2.5 ${optionStyle}`}
                       >
-                        <input
-                          type="radio"
-                          name={`question-${item.id}`}
-                          value={opt.label}
-                          checked={isSelected}
-                          disabled={isGraded}
-                          onChange={() => onAnswerChange(item.id, opt.label)}
-                          className="sr-only"
-                        />
-                        <span
-                          className={`w-6 h-6 shrink-0 flex items-center justify-center font-bold text-xs rounded transition-colors ${badgeClass}`}
-                        >
-                          {opt.label}
+                        <span className="font-bold opacity-80 shrink-0">
+                          {opt.label}.
                         </span>
-                        <span className="text-sm text-[var(--text-primary)] font-medium leading-snug">
-                          {opt.text}
-                        </span>
-                      </label>
+                        <span className="leading-snug">{opt.text}</span>
+                      </button>
                     );
                   })}
                 </div>
 
-                {/* Phần giải thích chi tiết */}
+                {/* Phần giải thích chi tiết sau khi nộp */}
                 {isGraded && grade && (
-                  <div className="mt-3.5 pt-2.5 text-xs border-t border-[var(--border-subtle)] space-y-1">
-                    <p className="font-semibold text-[var(--text-primary)]">
+                  <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 text-xs space-y-1">
+                    <p className="font-semibold text-slate-800 dark:text-slate-100">
                       Đáp án đúng:{" "}
                       <span className="text-emerald-600 dark:text-emerald-400 font-bold">
                         {grade.correctAnswer}
                       </span>
                     </p>
-                    <p className="text-[var(--text-secondary)] leading-relaxed flex items-start gap-1.5">
+                    <p className="text-slate-500 dark:text-slate-400 leading-relaxed flex items-start gap-1.5">
                       <Info className="w-3.5 h-3.5 shrink-0 text-sky-500 mt-0.5" />
                       <span>{grade.explanation}</span>
                     </p>

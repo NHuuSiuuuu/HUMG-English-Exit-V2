@@ -4,39 +4,37 @@
 
 @layer base {
   :root {
-    --background: #F4F7FB;
+    --background: #F8FAFC;
     --surface: #FFFFFF;
-    --surface-raised: #E6EDF6;
-    --foreground: #14243A;
-    --muted: #52627A;
-    --primary: #1248A0;
+    --surface-raised: #F1F5F9;
+    --foreground: #0F172A;
+    --muted: #64748B;
+    --primary: #0095F6;
     --primary-foreground: #FFFFFF;
-    --accent: #B83E2B;
+    --accent: #F43F5E;
     --accent-foreground: #FFFFFF;
-    --secondary: #2C766E;
-    --border: #D5DEEB;
-    --success: #28715E;
-    --danger: #B83E2B;
+    --secondary: #10B981;
+    --border: rgba(226, 232, 240, 0.7);
+    --border-subtle: rgba(241, 245, 249, 0.85);
+    --success: #10B981;
+    --danger: #EF4444;
   }
 
   .dark {
-    --background: #101925;
-    --surface: #1A2737;
-    --surface-raised: #243448;
-    --foreground: #E9F0F8;
-    --muted: #A8B7C9;
-    --primary: #78A9FF;
-    --primary-foreground: #101925;
-    --accent: #FF8873;
-    --accent-foreground: #14243A;
-    --secondary: #68BDB1;
-    --border: #3A4A5E;
-    --success: #68BDB1;
-    --danger: #FF8873;
-  }
-
-  * {
-    border-color: var(--border);
+    --background: #0B1120;
+    --surface: #151E2E;
+    --surface-raised: #1E293B;
+    --foreground: #F8FAFC;
+    --muted: #94A3B8;
+    --primary: #38BDF8;
+    --primary-foreground: #0B1120;
+    --accent: #FB7185;
+    --accent-foreground: #0F172A;
+    --secondary: #34D399;
+    --border: rgba(51, 65, 85, 0.5);
+    --border-subtle: rgba(30, 41, 59, 0.7);
+    --success: #34D399;
+    --danger: #F87171;
   }
 
   html {
@@ -47,7 +45,7 @@
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans), system-ui, sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -60,11 +58,51 @@
     line-height: 1.25;
   }
 
-  /* Trạng thái focus nhìn thấy được bằng bàn phím theo chuẩn tiếp cận WCAG */
   :focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
   }
+}
+
+/* Lưới ô vuông mờ hiện đại phong cách TADR OU */
+.bg-grid-pattern {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
+
+.dark .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+}
+
+/* Thẻ Card phong cách mềm mại của TADR OU */
+.card-soft {
+  background-color: var(--surface);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(226, 232, 240, 0.65);
+}
+
+.dark .card-soft {
+  border-color: rgba(51, 65, 85, 0.5);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
+}
+
+/* Nút bấm bo tròn năng động */
+.btn-brand {
+  background-color: #0095F6;
+  color: #FFFFFF;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all 0.15s ease-in-out;
+}
+.btn-brand:hover {
+  background-color: #0084dc;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 149, 246, 0.25);
 }
 
 /* Tôn trọng người dùng tắt hiệu ứng chuyển động */

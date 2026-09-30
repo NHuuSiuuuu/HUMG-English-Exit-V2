@@ -9,47 +9,48 @@ interface PracticeItemCardProps {
 }
 
 /**
- * Thẻ bài luyện tập hỗ trợ 2 chế độ hiển thị: Grid (hộp) và List (dòng gọn)
+ * Thẻ bài luyện tập phong cách TADR OU:
+ * Bo tròn lớn rounded-2xl, shadow mềm, viền siêu mờ, nút bấm màu xanh tươi rực rỡ
  */
 export function PracticeItemCard({ item, viewMode = "grid" }: PracticeItemCardProps) {
   const itemUrl = `/on-luyen/${item.skill}/${item.partNo}/${item.id}`;
 
   if (viewMode === "list") {
     return (
-      <div className="flex items-center justify-between p-3.5 bg-[var(--surface-paper)] border border-[var(--border-subtle)] rounded-lg hover:border-slate-400 transition-all gap-4">
-        <div className="flex items-center gap-3 min-w-0">
+      <div className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800/80 hover:shadow-soft transition-all gap-4">
+        <div className="flex items-center gap-3.5 min-w-0">
           {item.isCompleted ? (
-            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
           ) : (
-            <Circle className="w-5 h-5 text-slate-400 shrink-0" />
+            <Circle className="w-5 h-5 text-slate-300 dark:text-slate-600 shrink-0" />
           )}
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs px-2 py-0.5 rounded font-semibold bg-slate-100 dark:bg-slate-800 text-[var(--color-navy)] dark:text-sky-300">
+              <span className="text-[11px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400">
                 {item.sourceLabel}
               </span>
-              <p className="text-sm font-semibold text-[var(--text-primary)] truncate">
+              <p className="text-sm font-semibold text-slate-800 dark:text-white truncate">
                 {item.title}
               </p>
             </div>
-            <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-              {item.totalQuestions} câu hỏi
+            <p className="text-xs text-slate-400 mt-0.5">
+              {item.totalQuestions} câu hỏi trắc nghiệm
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
           {item.isCompleted && item.bestScore !== undefined && (
-            <span className="text-xs font-bold px-2.5 py-1 rounded bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+            <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400">
               {item.bestScore}%
             </span>
           )}
           <Link
             href={itemUrl}
-            className={`min-h-[44px] px-4 py-2 rounded text-xs font-bold flex items-center gap-1.5 transition-all ${
+            className={`min-h-[40px] px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
               item.isCompleted
-                ? "border border-[var(--border-subtle)] hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--text-primary)]"
-                : "bg-[var(--color-navy)] hover:opacity-95 text-white shadow-sm"
+                ? "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200/80 text-slate-700 dark:text-slate-200"
+                : "bg-[#0095F6] hover:bg-sky-600 text-white shadow-[0_2px_8px_rgba(0,149,246,0.25)]"
             }`}
           >
             {item.isCompleted ? (
@@ -59,7 +60,7 @@ export function PracticeItemCard({ item, viewMode = "grid" }: PracticeItemCardPr
               </>
             ) : (
               <>
-                <span>Làm bài</span>
+                <span>Bắt đầu</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </>
             )}
@@ -71,40 +72,40 @@ export function PracticeItemCard({ item, viewMode = "grid" }: PracticeItemCardPr
 
   // Chế độ Grid (Mặc định)
   return (
-    <div className="bg-[var(--surface-paper)] border border-[var(--border-subtle)] rounded-lg p-5 flex flex-col justify-between hover:border-slate-400 transition-all shadow-sm">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 flex flex-col justify-between hover:shadow-soft-lg hover:-translate-y-0.5 transition-all border border-slate-100 dark:border-slate-800/80 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
       <div className="space-y-3">
         <div className="flex items-center justify-between gap-2">
-          <span className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-sky-50 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
+          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400">
             {item.sourceLabel}
           </span>
           {item.isCompleted ? (
-            <span className="flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Đã làm ({item.bestScore}%)</span>
+            <span className="flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-0.5 rounded-full">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>{item.bestScore}%</span>
             </span>
           ) : (
-            <span className="text-xs text-[var(--text-secondary)]">Chưa làm</span>
+            <span className="text-xs text-slate-400 font-medium">Chưa làm</span>
           )}
         </div>
 
-        <h3 className="text-sm font-bold text-[var(--text-primary)] line-clamp-2 leading-snug">
+        <h3 className="text-sm font-bold text-slate-800 dark:text-white line-clamp-2 leading-snug">
           {item.title}
         </h3>
-        <p className="text-xs text-[var(--text-secondary)]">
+        <p className="text-xs text-slate-400 font-normal">
           Gồm {item.totalQuestions} câu hỏi trắc nghiệm
         </p>
       </div>
 
-      <div className="mt-5 pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
-        <span className="text-xs font-medium text-[var(--text-secondary)]">
-          Bộ đề: {item.groupSet}
+      <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between">
+        <span className="text-xs font-medium text-slate-400">
+          {item.groupSet}
         </span>
         <Link
           href={itemUrl}
-          className={`min-h-[44px] px-4 py-2 rounded text-xs font-bold flex items-center gap-1.5 transition-all ${
+          className={`min-h-[40px] px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
             item.isCompleted
-              ? "border border-[var(--border-subtle)] hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--text-primary)]"
-              : "bg-[var(--color-navy)] hover:opacity-95 text-white shadow-sm"
+              ? "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200/80 text-slate-700 dark:text-slate-200"
+              : "bg-[#0095F6] hover:bg-sky-600 text-white shadow-[0_2px_8px_rgba(0,149,246,0.25)]"
           }`}
         >
           {item.isCompleted ? (

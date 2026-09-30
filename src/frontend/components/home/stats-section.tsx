@@ -1,63 +1,60 @@
 "use client";
 
 import * as React from "react";
-import { useLanguage } from "@/frontend/providers/language-provider";
 import { BookOpen, Clock, Zap, Laptop } from "lucide-react";
 
 export function StatsSection() {
-  const { t } = useLanguage();
-
   const stats = [
     {
-      value: t("landing.stats.item1Value", "14"),
-      label: t("landing.stats.item1Label", "Dạng bài ôn luyện chuẩn"),
+      value: "14",
+      label: "Dạng bài ôn luyện chuẩn KET",
       icon: BookOpen,
-      color: "text-primary",
+      iconBg: "bg-sky-50 dark:bg-sky-950/60 text-[#0095F6]",
     },
     {
-      value: t("landing.stats.item2Value", "60"),
+      value: "60",
       suffix: "phút",
-      label: t("landing.stats.item2Label", "Phút thi thử mô phỏng"),
+      label: "Phút thi thử mô phỏng thực tế",
       icon: Clock,
-      color: "text-secondary",
+      iconBg: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400",
     },
     {
-      value: t("landing.stats.item3Value", "100%"),
-      label: t("landing.stats.item3Label", "Chấm điểm tự động tức thì"),
+      value: "100%",
+      label: "Chấm điểm & giải thích tức thì",
       icon: Zap,
-      color: "text-accent",
+      iconBg: "bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400",
     },
     {
-      value: t("landing.stats.item4Value", "24/7"),
-      label: t("landing.stats.item4Label", "Luyện tập mọi lúc trên mọi thiết bị"),
+      value: "24/7",
+      label: "Luyện tập linh hoạt mọi thiết bị",
       icon: Laptop,
-      color: "text-primary",
+      iconBg: "bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400",
     },
   ];
 
   return (
-    <section className="py-12 sm:py-16 bg-surface-raised/50 border-b border-border">
+    <section className="py-12 sm:py-16 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800/80">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           {stats.map((item, idx) => {
             const Icon = item.icon;
             return (
               <div
                 key={idx}
-                className="flex flex-col items-center text-center p-6 rounded-lg bg-surface border border-border shadow-sm transition-transform hover:-translate-y-0.5"
+                className="flex flex-col items-center text-center p-6 rounded-3xl bg-slate-50/60 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/80 hover:shadow-soft hover:-translate-y-0.5 transition-all"
               >
-                <div className={`p-2.5 rounded-md bg-surface-raised mb-3 ${item.color}`}>
-                  <Icon className="h-6 w-6" />
+                <div className={`p-3 rounded-2xl mb-3 ${item.iconBg} shadow-sm`}>
+                  <Icon className="h-5 w-5" />
                 </div>
                 <div className="flex items-baseline gap-1">
-                  <span className="font-heading font-extrabold text-3xl sm:text-4xl text-foreground">
+                  <span className="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900 dark:text-white">
                     {item.value}
                   </span>
                   {item.suffix && (
-                    <span className="text-sm font-semibold text-muted">{item.suffix}</span>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-400">{item.suffix}</span>
                   )}
                 </div>
-                <p className="mt-2 text-xs sm:text-sm text-muted font-medium">
+                <p className="mt-1.5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
                   {item.label}
                 </p>
               </div>

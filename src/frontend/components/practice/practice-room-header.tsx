@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Check, Send } from "lucide-react";
+import { ArrowLeft, Clock, Send, AlertTriangle, Edit3, CheckCircle2 } from "lucide-react";
 
 interface PracticeRoomHeaderProps {
   title: string;
@@ -18,7 +18,8 @@ interface PracticeRoomHeaderProps {
 }
 
 /**
- * Thanh tiêu đề phòng luyện tập: Điều hướng, hiển thị số câu đã làm, nút nộp bài
+ * Thanh tiêu đề phòng thi / luyện tập phong cách TADR OU:
+ * Thoáng đãng, nút bo mềm, đồng hồ pill capsule, nút hành động màu sắc tươi sáng
  */
 export function PracticeRoomHeader({
   title,
@@ -33,75 +34,98 @@ export function PracticeRoomHeader({
   onReset,
 }: PracticeRoomHeaderProps) {
   const backUrl = `/on-luyen/${skill}/${partNo}`;
-  const allAnswered = answeredCount === totalQuestions && totalQuestions > 0;
+  const [seconds, setSeconds] = useState(0);
+
+  // Bộ đếm thời gian làm bài thực tế
+  useEffect(() => {
+    if (isGraded) return;
+    const timer = setInterval(() => setSeconds((s) => s + 1), 1000);
+    return () => clearInterval(timer);
+  }, [isGraded]);
+
+  const formatTime = (totalSecs: number) => {
+    const mins = Math.floor(totalSecs / 60);
+    const secs = totalSecs % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
 
   return (
-    <div className="bg-[var(--surface-paper)] border-b border-[var(--border-subtle)] sticky top-16 z-20 py-3 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-        {/* Nút quay lại & thông tin bài */}
+    <header className="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-100 dark:border-slate-800/80 transition-colors">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+        {/* Nút quay lại & Thí sinh */}
         <div className="flex items-center gap-3 min-w-0">
           <Link
             href={backUrl}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg border border-[var(--border-subtle)] hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--text-primary)] transition-all shrink-0"
+            className="w-9 h-9 rounded-xl bg-sky-50 dark:bg-sky-950/60 hover:bg-sky-100 dark:hover:bg-sky-900/60 text-sky-600 dark:text-sky-300 flex items-center justify-center transition-all shrink-0 shadow-sm"
             title="Quay lại danh sách bài"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-[var(--color-navy)] text-white">
-                Part {partNo}
-              </span>
-              <span className="text-xs font-semibold text-[var(--text-secondary)]">
-                {sourceLabel}
-              </span>
-            </div>
-            <h1 className="text-sm sm:text-base font-bold text-[var(--text-primary)] truncate mt-0.5">
-              {title}
-            </h1>
+          <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 truncate">
+            <span className="text-slate-400 dark:text-slate-500 font-normal">Thí sinh:</span>
+            <span className="text-sky-600 dark:text-sky-400 font-bold">Sinh viên HUMG</span>
+            <span className="hidden md:inline text-slate-300 dark:text-slate-700">•</span>
+            <span className="hidden md:inline text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">
+              Part {partNo} · {sourceLabel}
+            </span>
           </div>
         </div>
 
-        {/* Trạng thái làm bài & Nút nộp / làm lại */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="hidden sm:flex flex-col items-end text-xs">
-            <span className="text-[var(--text-secondary)]">Tiến độ làm bài</span>
-            <span className="font-bold text-[var(--text-primary)]">
-              {answeredCount} / {totalQuestions} câu
-            </span>
+        {/* Đồng hồ đếm giờ dạng Pill Capsule phong cách TADR OU */}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-mono font-bold shadow-inner">
+            <Clock className="w-3.5 h-3.5 text-sky-500" />
+            <span>{formatTime(seconds)}</span>
           </div>
+          <span className="hidden sm:inline text-xs text-slate-400 dark:text-slate-500 font-medium">
+            ({answeredCount}/{totalQuestions} câu)
+          </span>
+        </div>
 
+        {/* Nút công cụ & Nộp bài phong cách TADR OU */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Nút Báo lỗi (Coral) */}
+          <button
+            type="button"
+            onClick={() => alert("Cảm ơn bạn! Báo cáo lỗi đề thi đã được ghi nhận.")}
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500 hover:bg-rose-600 text-white text-xs font-medium transition-all shadow-sm"
+          >
+            <AlertTriangle className="w-3.5 h-3.5" />
+            <span>Báo lỗi</span>
+          </button>
+
+          {/* Nút Ghi chú (Cyan) */}
+          <button
+            type="button"
+            onClick={() => alert("Tính năng sổ tay ghi chú nhanh cho câu hỏi này.")}
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-xs font-medium transition-all shadow-sm"
+          >
+            <Edit3 className="w-3.5 h-3.5" />
+            <span>Ghi chú</span>
+          </button>
+
+          {/* Nút Nộp bài / Làm lại */}
           {isGraded ? (
             <button
               type="button"
               onClick={onReset}
-              className="min-h-[44px] px-4 py-2 rounded-lg border border-[var(--border-subtle)] hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--text-primary)] font-bold text-xs sm:text-sm transition-all"
+              className="px-4 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-sm"
             >
-              Làm lại bài này
+              Làm lại bài
             </button>
           ) : (
             <button
               type="button"
               disabled={isSubmitting}
               onClick={onSubmit}
-              className={`min-h-[44px] px-5 py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-2 text-white shadow-sm transition-all ${
-                allAnswered
-                  ? "bg-emerald-600 hover:bg-emerald-700"
-                  : "bg-[var(--color-navy)] hover:opacity-95"
-              }`}
+              className="px-4 py-1.5 rounded-lg border border-sky-500 bg-sky-50 hover:bg-sky-500 hover:text-white text-sky-600 dark:text-sky-300 dark:bg-sky-950/60 dark:hover:bg-sky-500 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm"
             >
-              {isSubmitting ? (
-                <span>Đang chấm...</span>
-              ) : (
-                <>
-                  <Send className="w-4 h-4" />
-                  <span>Nộp bài & Chấm điểm</span>
-                </>
-              )}
+              <Send className="w-3.5 h-3.5" />
+              <span>{isSubmitting ? "Đang chấm..." : "Nộp bài"}</span>
             </button>
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 }

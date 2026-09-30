@@ -15,24 +15,24 @@ export function AccordionItem({ title, children, isOpenDefault = false }: Accord
   const contentId = React.useId();
 
   return (
-    <div className="border-b border-border py-4 transition-colors">
+    <div className="border-b border-slate-100 dark:border-slate-800/80 py-4 transition-colors last:border-b-0">
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-controls={contentId}
-        className="flex w-full items-center justify-between text-left font-heading text-lg font-bold text-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm p-1"
+        className="flex w-full items-center justify-between text-left font-bold text-sm sm:text-base text-slate-800 dark:text-slate-100 hover:text-[#0095F6] transition-colors focus-visible:outline-none rounded-lg p-1"
       >
         <span className="pr-4">{title}</span>
         <ChevronDown
           className={cn(
-            "h-5 w-5 shrink-0 text-muted transition-transform duration-200",
-            isOpen && "rotate-180 text-primary"
+            "h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200",
+            isOpen && "rotate-180 text-[#0095F6]"
           )}
         />
       </button>
       {isOpen && (
-        <div id={contentId} className="pt-3 pb-1 text-base text-muted leading-relaxed font-sans animate-in fade-in-50 duration-150">
+        <div id={contentId} className="pt-2.5 pb-1 text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-normal animate-in fade-in-50 duration-150">
           {children}
         </div>
       )}
@@ -41,5 +41,5 @@ export function AccordionItem({ title, children, isOpenDefault = false }: Accord
 }
 
 export function Accordion({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn("divide-y divide-border", className)}>{children}</div>;
+  return <div className={cn("divide-y divide-slate-100 dark:divide-slate-800/80", className)}>{children}</div>;
 }
