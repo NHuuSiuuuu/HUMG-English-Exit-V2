@@ -4,39 +4,25 @@ import * as React from "react";
 import Link from "next/link";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 
-export function LatestArticles() {
-  const sampleArticles = [
-    {
-      id: "1",
-      slug: "quy-dinh-chuan-dau-ra-ngoai-ngu-humg-2026",
-      title: "Tổng hợp toàn bộ quy định Chuẩn đầu ra Ngoại ngữ HUMG mới nhất",
-      excerpt: "Chi tiết các chứng chỉ được công nhận, điểm quy đổi, thời hạn nộp chứng chỉ và các đợt thi đánh giá năng lực tại trường.",
-      category: "Quy định & Lịch thi",
-      categoryBg: "bg-sky-50 dark:bg-sky-950/60 text-[#0095F6] dark:text-sky-300",
-      date: "28/09/2026",
-      readTime: "5 phút đọc",
-    },
-    {
-      id: "2",
-      slug: "meo-lam-reading-writing-ket-a2-dat-diem-cao",
-      title: "Chiến thuật làm 9 Phần Reading & Writing không bị thiếu thời gian",
-      excerpt: "Cách phân bổ 40 phút cho Reading, 15 phút cho Part 9 và mẹo tránh bẫy các biển báo thông báo trong đề Cambridge KET.",
-      category: "Mẹo thi cử",
-      categoryBg: "bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400",
-      date: "24/09/2026",
-      readTime: "7 phút đọc",
-    },
-    {
-      id: "3",
-      slug: "bi-quyet-nghe-part-10-tranh-hoi-thoai",
-      title: "Bí quyết chinh phục 5 câu nghe chọn tranh Part 10 Cambridge KET",
-      excerpt: "Nhận biết bẫy gây nhiễu về giờ đồng hồ, giá tiền và hoạt động thường gặp trong các đoạn hội thoại ngắn.",
-      category: "Kỹ năng Listening",
-      categoryBg: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400",
-      date: "20/09/2026",
-      readTime: "6 phút đọc",
-    },
-  ];
+export interface ArticleSummaryItem {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  readTimeMinutes?: number;
+  publishedAt: string | null;
+}
+
+interface LatestArticlesProps {
+  articles?: ArticleSummaryItem[];
+}
+
+export function LatestArticles({ articles = [] }: LatestArticlesProps) {
+  // Nếu chưa có bài viết nào được công khai trong DB: ẩn khối bài viết theo docs/PAGES.md
+  if (!articles || articles.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-16 sm:py-20 bg-transparent">
@@ -63,19 +49,19 @@ export function LatestArticles() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {sampleArticles.map((article) => (
+          {articles.map((article) => (
             <div
               key={article.id}
               className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-300 ease-in-out flex flex-col justify-between"
             >
               <div className="space-y-3.5">
                 <div className="flex items-center justify-between">
-                  <span className={`text-[11px] font-bold px-3 py-1 rounded-full ${article.categoryBg}`}>
+                  <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-sky-50 dark:bg-sky-950/60 text-[#0095F6] dark:text-sky-300">
                     {article.category}
                   </span>
                   <div className="flex items-center gap-1 text-xs text-slate-400">
                     <Clock className="h-3.5 w-3.5" />
-                    <span>{article.readTime}</span>
+                    <span>{article.readTimeMinutes || 5} phút đọc</span>
                   </div>
                 </div>
 
@@ -93,7 +79,7 @@ export function LatestArticles() {
               <div className="pt-5 border-t border-slate-100 dark:border-slate-800/60 mt-6 flex items-center justify-between text-xs text-slate-400">
                 <div className="flex items-center gap-1.5">
                   <Calendar className="h-3.5 w-3.5" />
-                  <span>{article.date}</span>
+                  <span>{article.publishedAt || "Mới đăng"}</span>
                 </div>
                 <Link
                   href={`/bai-viet/${article.slug}`}

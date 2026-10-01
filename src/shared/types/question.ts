@@ -35,6 +35,7 @@ export interface QuestionGroupDef {
   title: string;                 // Tiêu đề phần (ví dụ "Questions 1–5")
   instruction: string;           // Hướng dẫn làm bài
   passageText?: string;          // Bài đọc hoặc đoạn văn khuyết (Part 4, 5, 7, 8)
+  passageImageUrl?: string;      // Đường dẫn ảnh bài đọc (nếu có)
   example?: {                    // Dòng ví dụ (câu 0) luôn có dấu ✓
     question: string;
     correctAnswer: string;

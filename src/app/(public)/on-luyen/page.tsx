@@ -1,16 +1,17 @@
 import * as React from "react";
 import Link from "next/link";
 import { Headphones, BookOpen, Clock, ArrowRight, ArrowLeft } from "lucide-react";
-import { EXAM_PARTS } from "@/shared/constants/exam-parts";
+import { getPartSummaryList } from "@/backend/services/practice.service";
 
 export const metadata = {
   title: "Luyện thi đầu ra — HUMG English Exit",
   description: "Chọn kỹ năng Nghe hoặc Đọc & Viết để bắt đầu ôn luyện chuẩn format Cambridge KET A2",
 };
 
-export default function PracticeHubPage() {
-  const rwParts = EXAM_PARTS.filter((p) => p.skill === "reading_writing");
-  const listeningParts = EXAM_PARTS.filter((p) => p.skill === "listening");
+export default async function PracticeHubPage() {
+  const allParts = await getPartSummaryList();
+  const rwParts = allParts.filter((p) => p.skill === "reading_writing");
+  const listeningParts = allParts.filter((p) => p.skill === "listening");
 
   return (
     <div className="min-h-screen bg-transparent py-10 md:py-16">
@@ -125,14 +126,14 @@ export default function PracticeHubPage() {
                       Part {part.partNo}
                     </span>
                     <span className="text-xs text-slate-400">
-                      {part.totalQuestions} câu hỏi
+                      {part.totalItems > 0 ? `${part.totalItems} bài luyện` : "Sắp có"}
                     </span>
                   </div>
                   <h3 className="text-base font-bold text-slate-800 dark:text-white line-clamp-1">
                     {part.titleVi}
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
-                    {part.questionType}
+                    {part.descriptionVi}
                   </p>
                 </div>
 
@@ -171,14 +172,14 @@ export default function PracticeHubPage() {
                       Part {part.partNo}
                     </span>
                     <span className="text-xs text-slate-400">
-                      {part.totalQuestions} câu hỏi
+                      {part.totalItems > 0 ? `${part.totalItems} bài luyện` : "Sắp có"}
                     </span>
                   </div>
                   <h3 className="text-base font-bold text-slate-800 dark:text-white line-clamp-1">
                     {part.titleVi}
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-normal">
-                    {part.questionType}
+                    {part.descriptionVi}
                   </p>
                 </div>
 

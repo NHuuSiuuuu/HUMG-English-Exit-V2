@@ -7,8 +7,12 @@ import { HowItWorks } from "@/frontend/components/home/how-it-works";
 import { LatestArticles } from "@/frontend/components/home/latest-articles";
 import { FAQSection } from "@/frontend/components/home/faq-section";
 
+import { articleService } from "@/backend/services/article.service";
+
 // Trang chủ (Landing page) - ghép các khối giao diện theo thứ tự quy định trong docs/PAGES.md
-export default function HomePage() {
+export default async function HomePage() {
+  const latestArticles = await articleService.getLatestArticles(3);
+
   return (
     <div className="flex flex-col">
       {/* 1. Hero: tiêu đề, mô tả ngắn, CTA kép, mockup bài thi */}
@@ -26,8 +30,8 @@ export default function HomePage() {
       {/* 5. Cách hoạt động: 3 bước ôn luyện */}
       <HowItWorks />
 
-      {/* 6. Bài viết mới nhất & cẩm nang */}
-      <LatestArticles />
+      {/* 6. Bài viết mới nhất & cẩm nang từ cơ sở dữ liệu thật */}
+      <LatestArticles articles={latestArticles} />
 
       {/* 7. Câu hỏi thường gặp (FAQ Accordion) */}
       <FAQSection />
