@@ -62,7 +62,7 @@ export function Header() {
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center space-x-1 lg:space-x-1.5">
           {navLinks.map((link) => {
-            const isActive = pathname.startsWith(link.href);
+            const isActive = pathname ? pathname.startsWith(link.href) : false;
             return (
               <Link
                 key={link.href}

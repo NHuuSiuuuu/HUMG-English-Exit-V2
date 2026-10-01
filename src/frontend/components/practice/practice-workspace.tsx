@@ -173,23 +173,6 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
             />
           </div>
         </div>
-
-        {/* Chân trang phân chia phần (Pill Tabs) giống hình mẫu 3 */}
-        <div className="flex items-center justify-center gap-2 pt-2">
-          <span className="px-4 py-1.5 rounded-lg bg-[#0095F6] text-white text-xs font-bold shadow-sm">
-            Part {itemDetail.partNo}
-          </span>
-          {itemDetail.partNo > 1 && (
-            <span className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-500 text-xs font-medium border border-slate-200/60 dark:border-slate-700">
-              Part {itemDetail.partNo - 1}
-            </span>
-          )}
-          {itemDetail.partNo < 14 && (
-            <span className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-500 text-xs font-medium border border-slate-200/60 dark:border-slate-700">
-              Part {itemDetail.partNo + 1}
-            </span>
-          )}
-        </div>
       </main>
     </div>
   );

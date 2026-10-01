@@ -116,3 +116,31 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Đảm bảo cỡ chữ của toàn bộ thẻ <p> trên màn hình desktop (>= 768px) đạt tối thiểu 14px */
+@media (min-width: 768px) {
+  /* Ghi đè các thẻ <p> có class chữ nhỏ hơn 14px (text-xs, text-[...px] < 14px) */
+  p.text-xs,
+  p[class*="text-xs"]:not([class*="sm:text-base"]):not([class*="md:text-base"]):not([class*="lg:text-base"]):not([class*="sm:text-lg"]):not([class*="md:text-lg"]):not([class*="lg:text-lg"]):not([class*="sm:text-xl"]):not([class*="md:text-xl"]):not([class*="lg:text-xl"]),
+  p.text-\[10px\],
+  p.text-\[11px\],
+  p.text-\[12px\],
+  p.text-\[13px\],
+  p[class*="text-[10px]"],
+  p[class*="text-[11px]"],
+  p[class*="text-[12px]"],
+  p[class*="text-[13px]"] {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Thẻ <p> nằm bên trong các vùng chứa chữ nhỏ cũng đạt tối thiểu 14px */
+  .text-xs p:not([class*="text-sm"]):not([class*="text-base"]):not([class*="text-lg"]):not([class*="text-xl"]),
+  .text-\[11px\] p:not([class*="text-sm"]):not([class*="text-base"]):not([class*="text-lg"]):not([class*="text-xl"]),
+  .text-\[12px\] p:not([class*="text-sm"]):not([class*="text-base"]):not([class*="text-lg"]):not([class*="text-xl"]),
+  [class*="text-xs"] p:not([class*="text-sm"]):not([class*="text-base"]):not([class*="text-lg"]):not([class*="text-xl"]) {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+

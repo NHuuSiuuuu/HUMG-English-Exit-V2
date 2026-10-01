@@ -11,7 +11,7 @@ export function RegisterForm() {
   const router = useRouter();
   const { setUser } = useAuth();
   const searchParams = useSearchParams();
-  const returnUrl = searchParams.get("returnUrl") || "/";
+  const returnUrl = searchParams?.get("returnUrl") || "/";
 
   const [fullName, setFullName] = React.useState("");
   const [email, setEmail] = React.useState("");

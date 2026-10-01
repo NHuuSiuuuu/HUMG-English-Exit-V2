@@ -12,7 +12,7 @@ export function LoginForm() {
   const router = useRouter();
   const { setUser } = useAuth();
   const searchParams = useSearchParams();
-  const returnUrl = searchParams.get("returnUrl") || "/";
+  const returnUrl = searchParams?.get("returnUrl") || "/";
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");

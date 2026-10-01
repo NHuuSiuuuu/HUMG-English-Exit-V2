@@ -221,6 +221,12 @@ function canStartExam(exam: Exam) {
 Với một tính năng cả trang hoặc nhiều file: dùng Superpowers theo thứ tự brainstorm → lập kế hoạch → thực thi. Việc nhỏ (sửa chữ, chỉnh style, sửa lỗi nhỏ) làm thẳng, không cần cả quy trình.
 Quy tắc trong `AGENTS.md` và `docs/` luôn thắng khi mâu thuẫn với quy trình của Superpowers.
 
+## Ghi nhận thay đổi (CHANGELOG.md)
+
+- **Mọi thay đổi trong dự án (thêm tính năng, sửa lỗi, cập nhật cấu trúc, refactor, tích hợp dữ liệu) bắt buộc phải được ghi nhận vào file `CHANGELOG.md`**.
+- Tuân thủ định dạng Keep a Changelog và Semantic Versioning: ghi rõ ngày tháng, phiên bản, phân loại `Added`, `Changed`, `Fixed`, `Removed`.
+- Mô tả rõ ràng mục đích, file và màn hình/chức năng bị tác động.
+
 ## Định nghĩa "xong" cho một nhiệm vụ
 
 - [ ] Chạy được, không lỗi console
@@ -228,4 +234,5 @@ Quy tắc trong `AGENTS.md` và `docs/` luôn thắng khi mâu thuẫn với quy
 - [ ] Đúng ở theme sáng/tối, tiếng Việt/tiếng Anh, 3 kích thước màn hình
 - [ ] Có các trạng thái: đang tải, rỗng, lỗi (theo `docs/PAGES.md`)
 - [ ] Không lộ đáp án đúng, không hard-code chữ hay màu
+- [ ] Đã cập nhật `CHANGELOG.md` ghi nhận toàn bộ thay đổi
 - [ ] Đã commit theo Conventional Commits

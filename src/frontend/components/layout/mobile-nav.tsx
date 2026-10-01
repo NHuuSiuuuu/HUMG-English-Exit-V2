@@ -146,7 +146,7 @@ export function MobileNav() {
                     const Icon = item.icon;
                     const isActive =
                       pathname === item.href ||
-                      (item.href !== "/" && pathname.startsWith(item.href));
+                      (item.href !== "/" && (pathname?.startsWith(item.href) ?? false));
                     return (
                       <Link
                         key={item.href}
@@ -194,7 +194,7 @@ export function MobileNav() {
                           onClick={() => setIsOpen(false)}
                           className={cn(
                             "flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ease-in-out min-h-[44px]",
-                            pathname.startsWith("/admin")
+                            (pathname?.startsWith("/admin") ?? false)
                               ? "bg-sky-50 dark:bg-sky-950/60 text-[#0095F6] dark:text-sky-300 font-bold"
                               : "text-slate-700 dark:text-slate-200 hover:bg-slate-100/80 dark:hover:bg-slate-800/80"
                           )}

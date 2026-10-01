@@ -36,6 +36,9 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
   - Áp dụng trên toàn bộ các màn hình CRUD: Kho phần, Soạn thảo phần thi, Quản lý đề thi, Ghép đề thi, Quản lý bài viết, Soạn bài viết, Kho media, Quản lý người dùng, Cài đặt hệ thống, các biểu mẫu Xác thực và Phòng luyện tập.
 - **Hỗ trợ chuyển đổi trạng thái hai chiều linh hoạt cho Part**:
   - Nâng cấp API `PATCH /api/admin/parts/[id]` và hàm `updatePartStatus` cho phép chuyển đổi trạng thái qua lại giữa **Công khai (PUBLISHED)** và **Bản nháp (DRAFT)**, giúp quản trị viên dễ dàng thu hồi bài thi để chỉnh sửa hoặc bổ sung nội dung.
+- **Tăng cỡ chữ tối thiểu cho thẻ `<p>` trên màn hình desktop**:
+  - Bổ sung quy tắc CSS media query toàn cục trong [globals.css](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/styles/globals.css) đảm bảo toàn bộ các thẻ `<p>` trên màn hình desktop/tablet (>= 768px) đạt kích thước tối thiểu **14px** (tự động nâng cấp các thẻ có class `text-xs` hay nằm trong container chữ nhỏ lên 14px).
+  - Nâng cấp cỡ chữ mặc định của [CardDescription](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/ui/card.tsx) và khối thông báo sang `text-sm` (14px) nhằm tăng khả năng đọc và giảm mỏi mắt cho người dùng.
 
 ### Fixed
 - **Sửa lỗi khóa trạng thái Part**: Khắc phục vấn đề sau khi Part đã chuyển sang trạng thái "Công khai" thì nút thao tác không cho phép chuyển ngược lại về "Bản nháp".
@@ -43,3 +46,5 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
 
 ### Removed
 - Xóa bỏ các state thông báo dư thừa và banner cảnh báo lỗi/thành công inline gây choán diện tích giao diện trên các biểu mẫu và bảng quản trị.
+- **Gỡ bỏ cụm nút điều hướng Part tĩnh**: Loại bỏ hoàn toàn khối wrapper và các nút hiển thị "Part {n}" tĩnh ở cuối trang bài tập luyện tập ([practice-workspace.tsx](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/practice/practice-workspace.tsx)), giúp giao diện tinh gọn và sạch sẽ hơn.
+

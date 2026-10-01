@@ -65,7 +65,9 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
         <nav className="space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href);
+            const isActive = pathname
+              ? (item.exact ? pathname === item.href : pathname.startsWith(item.href))
+              : false;
             return (
               <Link
                 key={item.href}
