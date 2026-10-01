@@ -3,9 +3,9 @@ import { cn } from "@/frontend/lib/utils";
 
 interface BrandLogoProps {
   /**
-   * - "badge": Biểu tượng huy hiệu trong khung bo tròn + Kiểu chữ thương hiệu (Header, MobileNav, Footer)
-   * - "symbol": Chỉ biểu tượng huy hiệu không kèm chữ (bảng điều khiển nhỏ, avatar)
-   * - "full": Trọn vẹn logo nghệ thuật gồm cả biểu tượng và chữ (Trang đăng nhập, trang đăng ký, landing)
+   * - "badge": Biểu tượng logo + Kiểu chữ thương hiệu (Header, MobileNav, Footer)
+   * - "symbol": Chỉ biểu tượng không kèm chữ (bảng điều khiển nhỏ, avatar, form)
+   * - "full": Trọn vẹn logo nghệ thuật gồm cả biểu tượng và chữ
    */
   variant?: "badge" | "symbol" | "full";
   size?: "sm" | "md" | "lg";
@@ -24,13 +24,13 @@ export function BrandLogo({
   // Biến thể hiển thị toàn bộ Logo nghệ thuật
   if (variant === "full") {
     const dimensions = {
-      sm: { width: 140, height: 111, className: "h-14 w-auto" },
-      md: { width: 180, height: 143, className: "h-20 w-auto" },
-      lg: { width: 240, height: 191, className: "h-28 w-auto" },
+      sm: { width: 160, height: 127, className: "h-16 w-auto" },
+      md: { width: 220, height: 175, className: "h-24 w-auto" },
+      lg: { width: 280, height: 223, className: "h-32 w-auto" },
     }[size];
 
     return (
-      <div className={cn("inline-flex items-center justify-center", className)}>
+      <div className={cn("inline-flex items-center justify-center bg-transparent", className)}>
         {/* Bản cho theme sáng */}
         <Image
           src="/logo.png"
@@ -38,7 +38,7 @@ export function BrandLogo({
           width={dimensions.width}
           height={dimensions.height}
           priority={priority}
-          className={cn("object-contain dark:hidden drop-shadow-sm", dimensions.className)}
+          className={cn("object-contain dark:hidden", dimensions.className)}
         />
         {/* Bản cho theme tối */}
         <Image
@@ -47,82 +47,82 @@ export function BrandLogo({
           width={dimensions.width}
           height={dimensions.height}
           priority={priority}
-          className={cn("object-contain hidden dark:block drop-shadow-sm", dimensions.className)}
+          className={cn("object-contain hidden dark:block", dimensions.className)}
         />
       </div>
     );
   }
 
-  // Cấu hình kích cỡ khung biểu tượng
-  const iconSizes = {
-    sm: "h-9 w-9",
-    md: "h-10 w-10",
-    lg: "h-12 w-12",
+  // Kích thước biểu tượng to rõ, bg trong suốt, không viền, không scale hover
+  const iconBoxSizes = {
+    sm: "h-10 w-10",
+    md: "h-11 w-11 sm:h-12 sm:w-12",
+    lg: "h-16 w-16",
   }[size];
 
   const imageSizes = {
-    sm: { width: 28, height: 28, className: "h-6 w-6" },
-    md: { width: 34, height: 34, className: "h-7 w-7" },
-    lg: { width: 44, height: 44, className: "h-9 w-9" },
+    sm: { width: 40, height: 40, className: "h-9 w-9" },
+    md: { width: 50, height: 50, className: "h-10 w-10 sm:h-11 sm:w-11" },
+    lg: { width: 64, height: 64, className: "h-14 w-14" },
   }[size];
 
   const titleSizes = {
     sm: "text-sm sm:text-base",
-    md: "text-base sm:text-lg",
-    lg: "text-lg sm:text-xl",
+    md: "text-base sm:text-lg lg:text-xl",
+    lg: "text-xl sm:text-2xl",
   }[size];
 
-  // Chỉ hiển thị biểu tượng huy hiệu
+  // Chỉ hiển thị biểu tượng
   if (variant === "symbol") {
     return (
       <div
         className={cn(
-          "relative flex items-center justify-center rounded-xl bg-sky-50/80 dark:bg-sky-950/40 border border-sky-100 dark:border-sky-900/60 shadow-sm shrink-0 overflow-hidden",
-          iconSizes,
+          "relative flex items-center justify-center bg-transparent shrink-0 overflow-hidden",
+          iconBoxSizes,
           className
         )}
       >
         <Image
           src="/logo-icon.png"
-          alt="HUMG English Exit Emblem"
+          alt="HUMG English Exit Logo"
           width={imageSizes.width}
           height={imageSizes.height}
           priority={priority}
-          className={cn("object-contain drop-shadow-sm", imageSizes.className)}
+          className={cn("object-contain", imageSizes.className)}
         />
       </div>
     );
   }
 
-  // Biến thể mặc định: Badge biểu tượng + Typography thương hiệu
+  // Biến thể mặc định: Logo biểu tượng to + Typography thương hiệu
   return (
-    <div className={cn("flex items-center gap-2.5", className)}>
+    <div className={cn("flex items-center gap-2.5 sm:gap-3 bg-transparent", className)}>
       <div
         className={cn(
-          "relative flex items-center justify-center rounded-xl bg-sky-50/85 dark:bg-sky-950/40 border border-sky-100/90 dark:border-sky-900/60 shadow-sm shrink-0 overflow-hidden transition-transform duration-200 group-hover:scale-105",
-          iconSizes
+          "relative flex items-center justify-center bg-transparent shrink-0 overflow-hidden",
+          iconBoxSizes
         )}
       >
         <Image
           src="/logo-icon.png"
-          alt="HUMG English Exit Emblem"
+          alt="HUMG English Exit Logo"
           width={imageSizes.width}
           height={imageSizes.height}
           priority={priority}
-          className={cn("object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-110", imageSizes.className)}
+          className={cn("object-contain", imageSizes.className)}
         />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col justify-center">
         <span
           className={cn(
-            "font-heading font-extrabold tracking-tight text-slate-900 dark:text-white leading-none",
+            "font-heading font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight",
             titleSizes
           )}
         >
           HUMG English Exit
         </span>
         {showSubtitle && (
-          <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium hidden sm:inline-block mt-0.5">
+          <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:inline-block mt-0.5 leading-none">
             Chuẩn đầu ra Tiếng Anh HUMG
           </span>
         )}

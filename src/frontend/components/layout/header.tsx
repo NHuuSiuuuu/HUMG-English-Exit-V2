@@ -52,7 +52,7 @@ export function Header() {
         {/* Logo và Tên thương hiệu */}
         <Link
           href="/"
-          className="group focus-visible:outline-none rounded-xl p-1"
+          className="focus-visible:outline-none flex items-center"
         >
           <BrandLogo variant="badge" size="md" priority />
         </Link>

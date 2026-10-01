@@ -8,6 +8,12 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
 
 ## [1.0.0] - 2026-10-01
 
+### Changed
+- **Tinh chỉnh giao diện Logo Thương hiệu ([BrandLogo](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/layout/brand-logo.tsx))**:
+  - Tăng kích thước biểu tượng to rõ, cân xứng với thanh Header và các vị trí nhận diện.
+  - Loại bỏ hoàn toàn đường viền (border) và màu nền (đặt background trong suốt 100%).
+  - Tắt toàn bộ hiệu ứng phóng to/thu nhỏ (hover scale) khi người dùng di chuột vào logo.
+
 ### Added
 - **Tích hợp Logo Thương hiệu Chính thức cho Website**:
   - Xử lý ảnh gốc, tách nền trắng (transparent alpha feathering) và xuất bản 3 biến thể hình ảnh chuẩn đồ họa:
