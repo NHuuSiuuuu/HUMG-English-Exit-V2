@@ -11,8 +11,9 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
 ### Added
 - **Cập nhật Favicon và Bộ Icon Nhận diện Website**:
   - Tích hợp biểu tượng thương hiệu mới hình mũ cử nhân và địa cầu học thuật trên nền xanh bo tròn hiện đại.
-  - Tự động sinh đầy đủ các biến thể định dạng và kích thước chuẩn: `favicon.ico`, `icon-32x32.png`, `icon-48x48.png`, `apple-icon.png` (180x180), `icon-192x192.png` và `icon-512x512.png` trong thư mục `public/`.
-  - Cập nhật trường `metadata.icons` trong [src/app/layout.tsx](file:///d:/Clone/HUMG-EnglishExitV2/src/app/layout.tsx) hỗ trợ đầy đủ các trình duyệt máy tính, thiết bị di động và Apple Touch Icon.
+  - Cắt bỏ hoàn toàn ~26% viền đệm trong suốt thừa của ảnh gốc, giúp biểu tượng phóng to lấp đầy 100% không gian hiển thị trên tab trình duyệt (tăng độ rõ nét và kích thước trực quan thêm hơn 35%).
+  - Tự động sinh đầy đủ các biến thể định dạng và kích thước chuẩn: `favicon.ico` đa tầng độ phân giải (chứa đồng thời 16x16, 32x32, 48x48), `icon-16x16.png`, `icon-32x32.png`, `icon-48x48.png`, `apple-icon.png` (180x180), `icon-192x192.png` và `icon-512x512.png` trong thư mục `public/`.
+  - Cập nhật trường `metadata.icons` trong [src/app/layout.tsx](file:///d:/Clone/HUMG-EnglishExitV2/src/app/layout.tsx) hỗ trợ đầy đủ các trình duyệt máy tính, màn hình độ nét cao (Retina), thiết bị di động và Apple Touch Icon.
 - **Modal Hướng dẫn & Quy chế Thi thử ([ExamGuideModal](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-guide-modal.tsx))**:
   - Tích hợp lớp phủ mờ toàn màn hình (`backdrop-blur-md bg-slate-900/60`).
   - Trình bày 3 nội dung trọng tâm khoa học: (1) Quy định làm bài thi thử (60 phút, đồng hồ server, autosave liên tục, tự động nộp bài khi hết giờ), (2) Cấu trúc chi tiết 14 phần thi (Reading & Writing Part 1-9 và Listening Part 10-14), (3) Yêu cầu thiết bị & kỹ thuật (tai nghe âm thanh, đường truyền mạng, trình duyệt khuyến nghị).
