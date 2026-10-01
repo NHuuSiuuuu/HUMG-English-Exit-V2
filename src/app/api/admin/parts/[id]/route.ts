@@ -111,6 +111,63 @@ export async function PUT(
   }
 }
 
+// PATCH /api/admin/parts/[id]: Đổi nhanh trạng thái Part (DRAFT <-> PUBLISHED)
+export async function PATCH(
+  request: NextRequest,
+  { params }: RouteParams
+) {
+  try {
+    const user = await getCurrentUser();
+    if (!user || user.role !== "ADMIN") {
+      return NextResponse.json(
+        { error: "Bạn không có quyền thực hiện thao tác này" },
+        { status: 403 }
+      );
+    }
+
+    const { id } = params;
+    if (!id) {
+      return NextResponse.json(
+        { error: "Thiếu ID của Part" },
+        { status: 400 }
+      );
+    }
+
+    const body = await request.json();
+    const status = body?.status;
+    if (status !== "DRAFT" && status !== "PUBLISHED") {
+      return NextResponse.json(
+        { error: "Trạng thái không hợp lệ. Chỉ chấp nhận DRAFT hoặc PUBLISHED" },
+        { status: 400 }
+      );
+    }
+
+    const result = await partService.updatePartStatus(id, status);
+
+    return NextResponse.json({
+      success: true,
+      data: result,
+      message:
+        status === "PUBLISHED"
+          ? "Đã chuyển Part sang trạng thái Công khai!"
+          : "Đã chuyển Part về Bản nháp thành công!",
+    });
+  } catch (error) {
+    if (error instanceof PartValidationError) {
+      return NextResponse.json(
+        {
+          error: error.message,
+          issues: error.issues,
+        },
+        { status: 422 }
+      );
+    }
+
+    const message = error instanceof Error ? error.message : "Đã xảy ra lỗi khi đổi trạng thái Part";
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
+}
+
 // DELETE /api/admin/parts/[id]: Xóa Part khỏi kho phần
 export async function DELETE(
   _request: NextRequest,

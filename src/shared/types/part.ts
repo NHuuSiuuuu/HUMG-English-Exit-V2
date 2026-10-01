@@ -50,8 +50,8 @@ export interface CreatePartInput {
   transcript?: string | null;
   poolOptions?: PoolOptionDef[] | null;
   writingRequirements?: string[] | null;
-  minWords?: number;
-  maxWords?: number;
+  minWords?: number | null;
+  maxWords?: number | null;
   sampleWriting?: string | null;
 
   // Danh sách câu hỏi

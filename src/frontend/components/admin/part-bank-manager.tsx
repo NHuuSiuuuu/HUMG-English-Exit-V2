@@ -18,6 +18,7 @@ import {
   FileQuestion,
   Headphones,
   BookOpen,
+  Loader2,
 } from "lucide-react";
 import { EXAM_PARTS } from "@/shared/constants/exam-parts";
 import type { PartListItemDTO, PartBankStatsDTO } from "@/shared/types/part";
@@ -45,6 +46,7 @@ export function PartBankManager({ initialParts, initialStats }: PartBankManagerP
   // Xóa Part
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = React.useState<string | null>(null);
+  const [togglingStatusId, setTogglingStatusId] = React.useState<string | null>(null);
   const [feedbackMessage, setFeedbackMessage] = React.useState<{ text: string; type: "success" | "error" } | null>(null);
 
   // Lọc dữ liệu client-side nhanh
@@ -101,6 +103,56 @@ export function PartBankManager({ initialParts, initialStats }: PartBankManagerP
     } finally {
       setDeletingId(null);
       setDeleteConfirmId(null);
+    }
+  };
+
+  // Chuyển đổi trạng thái nhanh (Công khai <-> Bản nháp)
+  const handleToggleStatus = async (part: PartListItemDTO) => {
+    const targetStatus = part.status === "PUBLISHED" ? "DRAFT" : "PUBLISHED";
+    setTogglingStatusId(part.id);
+    setFeedbackMessage(null);
+
+    try {
+      const res = await fetch(`/api/admin/parts/${part.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: targetStatus }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Không thể thay đổi trạng thái Part");
+      }
+
+      // Cập nhật danh sách local và stats
+      setParts((prev) =>
+        prev.map((p) => (p.id === part.id ? { ...p, status: targetStatus } : p))
+      );
+      setStats((prev) => ({
+        ...prev,
+        publishedCount:
+          targetStatus === "PUBLISHED"
+            ? prev.publishedCount + 1
+            : prev.publishedCount - 1,
+        draftCount:
+          targetStatus === "DRAFT"
+            ? prev.draftCount + 1
+            : prev.draftCount - 1,
+      }));
+
+      setFeedbackMessage({
+        text: data.message || `Đã chuyển Part ${part.partNo} sang ${targetStatus === "PUBLISHED" ? "Công khai" : "Bản nháp"}`,
+        type: "success",
+      });
+      setTimeout(() => setFeedbackMessage(null), 3500);
+    } catch (err) {
+      setFeedbackMessage({
+        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi chuyển trạng thái Part",
+        type: "error",
+      });
+    } finally {
+      setTogglingStatusId(null);
     }
   };
 
@@ -351,15 +403,32 @@ export function PartBankManager({ initialParts, initialStats }: PartBankManagerP
                               </span>
                             </td>
                             <td className="py-3.5 px-4 text-center">
-                              {part.status === "PUBLISHED" ? (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-success bg-success/10 px-2 py-0.5 rounded-full">
-                                  <CheckCircle2 className="w-3 h-3" /> Công khai
-                                </span>
-                              ) : (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-warning bg-warning/10 px-2 py-0.5 rounded-full">
-                                  <Clock className="w-3 h-3" /> Bản nháp
-                                </span>
-                              )}
+                              <button
+                                type="button"
+                                disabled={togglingStatusId === part.id}
+                                onClick={() => handleToggleStatus(part)}
+                                className={cn(
+                                  "inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full border transition-all cursor-pointer select-none",
+                                  part.status === "PUBLISHED"
+                                    ? "text-success bg-success/10 border-success/20 hover:bg-success/20 hover:shadow-sm"
+                                    : "text-warning bg-warning/10 border-warning/20 hover:bg-warning/20 hover:shadow-sm",
+                                  togglingStatusId === part.id && "opacity-60 cursor-wait"
+                                )}
+                                title={
+                                  part.status === "PUBLISHED"
+                                    ? "Nhấp để chuyển về Bản nháp"
+                                    : "Nhấp để chuyển sang Công khai"
+                                }
+                              >
+                                {togglingStatusId === part.id ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : part.status === "PUBLISHED" ? (
+                                  <CheckCircle2 className="w-3 h-3" />
+                                ) : (
+                                  <Clock className="w-3 h-3" />
+                                )}
+                                <span>{part.status === "PUBLISHED" ? "Công khai" : "Bản nháp"}</span>
+                              </button>
                             </td>
                             <td className="py-3.5 px-4 text-xs text-muted whitespace-nowrap">
                               {new Date(part.createdAt).toLocaleDateString("vi-VN")}

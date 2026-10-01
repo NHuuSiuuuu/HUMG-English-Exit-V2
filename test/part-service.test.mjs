@@ -229,3 +229,90 @@ test("updatePart - cập nhật thành công bản nháp", async () => {
   assert.equal(result.id, "part-1");
   assert.equal(updatedPayload.title, "Tiêu đề đã sửa");
 });
+
+test("updatePartStatus - chuyển từ PUBLISHED về DRAFT thành công", async () => {
+  let updatedStatus = null;
+  const mockDb = {
+    part: {
+      findUnique: async () => ({
+        id: "part-pub",
+        partNo: 1,
+        skill: "READING_WRITING",
+        title: "Part 1",
+        status: "PUBLISHED",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        questionGroups: [
+          {
+            type: "MATCH_POOL",
+            questions: [{ id: "q1", orderNumber: 1, prompt: "Q1", correctAnswer: "A" }],
+          },
+        ],
+      }),
+      update: async ({ data }) => {
+        updatedStatus = data.status;
+        return { id: "part-pub", status: data.status };
+      },
+    },
+  };
+
+  const service = createPartService(mockDb);
+  const result = await service.updatePartStatus("part-pub", "DRAFT");
+
+  assert.equal(result.id, "part-pub");
+  assert.equal(result.status, "DRAFT");
+  assert.equal(updatedStatus, "DRAFT");
+});
+
+test("updatePartStatus - ném lỗi nếu không tìm thấy Part", async () => {
+  const mockDb = {
+    part: {
+      findUnique: async () => null,
+    },
+  };
+
+  const service = createPartService(mockDb);
+  await assert.rejects(
+    async () => {
+      await service.updatePartStatus("not-found", "DRAFT");
+    },
+    (err) => {
+      assert.match(err.message, /Không tìm thấy Part cần đổi trạng thái/);
+      return true;
+    }
+  );
+});
+
+test("updatePartStatus - ném lỗi nếu chuyển sang PUBLISHED mà Part chưa đủ điều kiện", async () => {
+  const mockDb = {
+    part: {
+      findUnique: async () => ({
+        id: "part-draft",
+        partNo: 1,
+        skill: "READING_WRITING",
+        title: "Part 1 thiếu câu",
+        status: "DRAFT",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        questionGroups: [
+          {
+            type: "MATCH_POOL",
+            questions: [{ id: "q1", orderNumber: 1, prompt: "Q1", correctAnswer: "A" }],
+          },
+        ],
+      }),
+    },
+  };
+
+  const service = createPartService(mockDb);
+  await assert.rejects(
+    async () => {
+      await service.updatePartStatus("part-draft", "PUBLISHED");
+    },
+    (err) => {
+      assert.match(err.message, /chưa đủ điều kiện để công khai/);
+      assert.equal(Array.isArray(err.issues), true);
+      return true;
+    }
+  );
+});

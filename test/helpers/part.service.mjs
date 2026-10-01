@@ -143,5 +143,28 @@ export function createPartService(dbClient) {
 
       return { id: input.id, ...input };
     },
+
+    async updatePartStatus(id, status) {
+      const part = await this.getPartById(id);
+      if (!part) {
+        throw new Error("Không tìm thấy Part cần đổi trạng thái");
+      }
+
+      if (status === "PUBLISHED") {
+        const issues = validatePartForPublish(part);
+        if (issues.length > 0) {
+          throw new PartValidationError("Nội dung Part chưa đủ điều kiện để công khai", issues);
+        }
+      }
+
+      if (dbClient.part.update) {
+        await dbClient.part.update({
+          where: { id },
+          data: { status },
+        });
+      }
+
+      return { id, status };
+    },
   };
 }

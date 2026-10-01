@@ -741,7 +741,13 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
             ) : (
               <Save className="w-3.5 h-3.5 mr-1.5" />
             )}
-            <span>{isEditing ? "Lưu thay đổi" : "Lưu nháp"}</span>
+            <span>
+              {isEditing
+                ? initialPart?.status === "PUBLISHED"
+                  ? "Chuyển về bản nháp"
+                  : "Lưu bản nháp"
+                : "Lưu nháp"}
+            </span>
           </Button>
 
           <Button
@@ -757,7 +763,13 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
             ) : (
               <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
             )}
-            <span>{isEditing ? "Cập nhật & Công khai" : "Công khai"}</span>
+            <span>
+              {isEditing
+                ? initialPart?.status === "PUBLISHED"
+                  ? "Cập nhật & Tiếp tục công khai"
+                  : "Công khai bài luyện"
+                : "Công khai"}
+            </span>
           </Button>
         </div>
       </div>
@@ -784,9 +796,19 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
           <div className="lg:col-span-2 space-y-6">
             {/* Khối 1: Thông tin phân loại & Tiêu đề */}
             <div className="bg-surface rounded-3xl p-6 border border-border shadow-sm space-y-4">
-              <div className="flex items-center gap-2 text-sm font-bold text-foreground pb-3 border-b border-border">
-                <FileText className="w-4 h-4 text-primary" />
-                <span>1. Thông tin phân loại & Tiêu đề bài luyện</span>
+              <div className="flex items-center justify-between gap-2 text-sm font-bold text-foreground pb-3 border-b border-border">
+                <div className="flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-primary" />
+                  <span>1. Thông tin phân loại & Tiêu đề bài luyện</span>
+                </div>
+                {isEditing && (
+                  <Badge
+                    variant={initialPart?.status === "PUBLISHED" ? "success" : "outline"}
+                    className="text-[11px]"
+                  >
+                    {initialPart?.status === "PUBLISHED" ? "Đang Công khai" : "Đang là Bản nháp"}
+                  </Badge>
+                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

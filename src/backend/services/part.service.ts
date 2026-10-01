@@ -368,10 +368,39 @@ export async function updatePart(input: UpdatePartInput, _adminId?: string): Pro
   return updated;
 }
 
+/**
+ * Cập nhật nhanh trạng thái của một Part (Bản nháp <-> Công khai)
+ */
+export async function updatePartStatus(
+  id: string,
+  status: import("@prisma/client").PartStatus
+): Promise<{ id: string; status: import("@prisma/client").PartStatus }> {
+  const part = await getPartById(id);
+  if (!part) {
+    throw new Error("Không tìm thấy Part cần đổi trạng thái");
+  }
+
+  // Nếu chuyển sang trạng thái PUBLISHED: bắt buộc kiểm tra tính đầy đủ
+  if (status === "PUBLISHED") {
+    const issues = checkPartCompleteness(part);
+    if (issues.length > 0) {
+      throw new PartValidationError("Nội dung Part chưa đủ điều kiện để công khai", issues);
+    }
+  }
+
+  await db.part.update({
+    where: { id },
+    data: { status },
+  });
+
+  return { id, status };
+}
+
 export const partService = {
   createPart,
   getPartById,
   updatePart,
+  updatePartStatus,
   checkPartCompleteness,
   getParts,
   getPartStats,
