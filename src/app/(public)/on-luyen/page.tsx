@@ -51,7 +51,7 @@ export default async function PracticeHubPage() {
             <div className="mt-6 pt-2">
               <Link
                 href="/on-luyen/listening/10"
-                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
+                className="w-full min-h-[46px] py-2.5 px-4 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
               >
                 <span>→ Bắt đầu</span>
               </Link>
@@ -74,7 +74,7 @@ export default async function PracticeHubPage() {
             <div className="mt-6 pt-2">
               <Link
                 href="/on-luyen/reading_writing/1"
-                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#a855f7] hover:bg-[#9333ea] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#7e22ce] active:translate-y-[2px] active:shadow-[0_1px_0_0_#7e22ce] transition-all duration-150 select-none cursor-pointer"
+                className="w-full min-h-[46px] py-2.5 px-4 rounded-xl bg-[#a855f7] hover:bg-[#9333ea] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#7e22ce] active:translate-y-[2px] active:shadow-[0_1px_0_0_#7e22ce] transition-all duration-150 select-none cursor-pointer"
               >
                 <span>→ Bắt đầu</span>
               </Link>
@@ -97,7 +97,7 @@ export default async function PracticeHubPage() {
             <div className="mt-6 pt-2">
               <Link
                 href="/thi-thu"
-                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#047857] active:translate-y-[2px] active:shadow-[0_1px_0_0_#047857] transition-all duration-150 select-none cursor-pointer"
+                className="w-full min-h-[46px] py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#047857] active:translate-y-[2px] active:shadow-[0_1px_0_0_#047857] transition-all duration-150 select-none cursor-pointer"
               >
                 <span>→ Bắt đầu</span>
               </Link>
@@ -140,7 +140,7 @@ export default async function PracticeHubPage() {
                 <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/60">
                   <Link
                     href={`/on-luyen/reading_writing/${part.partNo}`}
-                    className="w-full min-h-[38px] py-1.5 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-sky-50 dark:hover:bg-sky-950/40 text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 font-semibold text-xs flex items-center justify-between transition-all duration-300 ease-in-out"
+                    className="w-full min-h-[42px] py-2 px-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 font-bold text-sm flex items-center justify-between shadow-[0_2px_0_0_#cbd5e1] dark:shadow-[0_2px_0_0_#334155] active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer"
                   >
                     <span>Luyện phần này</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -186,7 +186,7 @@ export default async function PracticeHubPage() {
                 <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/60">
                   <Link
                     href={`/on-luyen/listening/${part.partNo}`}
-                    className="w-full min-h-[38px] py-1.5 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-sky-50 dark:hover:bg-sky-950/40 text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 font-semibold text-xs flex items-center justify-between transition-all duration-300 ease-in-out"
+                    className="w-full min-h-[42px] py-2 px-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 font-bold text-sm flex items-center justify-between shadow-[0_2px_0_0_#cbd5e1] dark:shadow-[0_2px_0_0_#334155] active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer"
                   >
                     <span>Luyện phần này</span>
                     <ArrowRight className="w-3.5 h-3.5" />

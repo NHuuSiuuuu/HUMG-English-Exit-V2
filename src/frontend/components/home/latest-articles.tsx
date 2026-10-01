@@ -41,10 +41,10 @@ export function LatestArticles({ articles = [] }: LatestArticlesProps) {
           </div>
           <Link
             href="/bai-viet"
-            className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-800 text-xs font-bold shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out"
+            className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border-2 border-slate-200 dark:border-slate-700 text-sm font-bold shadow-[0_2.5px_0_0_#cbd5e1] dark:shadow-[0_2.5px_0_0_#334155] active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer"
           >
             <span>Xem tất cả bài viết</span>
-            <ArrowRight className="h-3.5 w-3.5" />
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 

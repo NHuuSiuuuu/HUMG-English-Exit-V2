@@ -101,7 +101,7 @@ export function FeatureCards() {
                 <div className="pt-6">
                   <Link
                     href={item.href}
-                    className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-150 select-none cursor-pointer ${item.btnClass}`}
+                    className={`w-full min-h-[46px] py-2.5 px-4 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 transition-all duration-150 select-none cursor-pointer ${item.btnClass}`}
                   >
                     <span>{item.action}</span>
                     <ArrowRight className="h-4 w-4" />

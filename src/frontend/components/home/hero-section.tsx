@@ -31,27 +31,27 @@ export function HeroSection() {
             </p>
 
             {/* Hàng CTA: Nút 3D xúc giác hiện đại (3D Tactile Pushable Buttons) */}
-            <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3.5 pt-2">
               <Link
                 href="/on-luyen"
-                className="w-full sm:w-auto min-h-[48px] px-6 py-2.5 rounded-2xl bg-[#0095F6] hover:bg-[#008be5] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-[0_4px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_2px_0_0_#0275ba] transition-all duration-150"
+                className="w-full sm:w-auto min-h-[52px] px-7 py-3 rounded-2xl bg-[#0095F6] hover:bg-[#008be5] text-white font-bold text-base sm:text-lg flex items-center justify-center gap-2.5 shadow-[0_4px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_2px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
               >
-                <BookOpen className="h-4 w-4" />
+                <BookOpen className="h-5 w-5" />
                 <span>Bắt đầu ôn luyện</span>
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-5 w-5" />
               </Link>
               <Link
                 href="/thi-thu"
-                className="w-full sm:w-auto min-h-[48px] px-6 py-2.5 rounded-2xl bg-white dark:bg-slate-900 border-2 border-[#0095F6] dark:border-sky-400 text-[#0095F6] dark:text-sky-400 font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-[0_4px_0_0_#0095F6] dark:shadow-[0_4px_0_0_#38bdf8] hover:bg-sky-50/40 dark:hover:bg-sky-950/30 active:translate-y-[2px] active:shadow-[0_2px_0_0_#0095F6] transition-all duration-150"
+                className="w-full sm:w-auto min-h-[52px] px-6 py-3 rounded-2xl bg-white dark:bg-slate-900 border-2 border-[#0095F6] dark:border-sky-400 text-[#0095F6] dark:text-sky-400 font-bold text-base sm:text-lg flex items-center justify-center gap-2.5 shadow-[0_4px_0_0_#0095F6] dark:shadow-[0_4px_0_0_#38bdf8] hover:bg-sky-50/40 dark:hover:bg-sky-950/30 active:translate-y-[2px] active:shadow-[0_2px_0_0_#0095F6] transition-all duration-150 select-none cursor-pointer"
               >
-                <Clock className="h-4 w-4 text-[#0095F6]" />
+                <Clock className="h-5 w-5 text-[#0095F6]" />
                 <span>Thi thử 60 phút</span>
               </Link>
               <Link
                 href="/tra-cuu"
-                className="w-full sm:w-auto min-h-[48px] px-5 py-2.5 rounded-2xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#cbd5e1] dark:shadow-[0_3.5px_0_0_#334155] hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:shadow-[0_1.5px_0_0_#cbd5e1] transition-all duration-150"
+                className="w-full sm:w-auto min-h-[52px] px-6 py-3 rounded-2xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold text-base sm:text-lg flex items-center justify-center gap-2.5 shadow-[0_3.5px_0_0_#cbd5e1] dark:shadow-[0_3.5px_0_0_#334155] hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:shadow-[0_1.5px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer"
               >
-                <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                <ShieldCheck className="h-5 w-5 text-emerald-500" />
                 <span>Tra cứu điểm CFI</span>
               </Link>
             </div>

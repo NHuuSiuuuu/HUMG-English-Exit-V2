@@ -30,9 +30,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const sizeStyles = {
-      sm: "h-9 px-3.5 text-xs min-h-[36px]",
-      md: "h-11 px-4 text-sm min-h-[44px]",
-      lg: "h-12 px-6 text-sm sm:text-base font-bold min-h-[48px]",
+      sm: "h-9 px-4 text-sm font-bold min-h-[38px]",
+      md: "h-11 px-5 text-sm sm:text-base font-bold min-h-[44px]",
+      lg: "h-12 px-6 text-base sm:text-lg font-bold min-h-[48px]",
       icon: "h-11 w-11 min-h-[44px] min-w-[44px] p-2",
     };
 

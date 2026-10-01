@@ -272,7 +272,7 @@ export function ExamInstructionView({ exam }: ExamInstructionViewProps) {
 
           <Link
             href="/thi-thu"
-            className="w-full sm:w-auto text-center px-6 py-2.5 text-xs text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
+            className="w-full sm:w-auto text-center px-6 py-2.5 text-sm font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
           >
             Quay lại danh sách đề
           </Link>

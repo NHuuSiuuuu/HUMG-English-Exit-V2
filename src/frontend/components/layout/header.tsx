@@ -3,7 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GraduationCap, LogIn, User, LogOut, Shield, ChevronDown } from "lucide-react";
+import { GraduationCap, LogIn, User, LogOut, Shield, ChevronDown, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 import { ThemeToggle } from "@/frontend/components/layout/theme-toggle";
 import { MobileNav } from "@/frontend/components/layout/mobile-nav";
 import { useAuth } from "@/frontend/providers/auth-provider";
@@ -12,8 +13,14 @@ import { cn } from "@/frontend/lib/utils";
 export function Header() {
   const pathname = usePathname();
   const { user, isLoading, logout } = useAuth();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Đóng dropdown khi click ra ngoài
   React.useEffect(() => {
@@ -80,9 +87,9 @@ export function Header() {
           })}
         </nav>
 
-        {/* Controls: Theme, Auth State, Mobile Menu */}
+        {/* Controls: Theme (chỉ hiển thị khi chưa đăng nhập), Auth State, Mobile Menu */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <ThemeToggle />
+          {!user && !isLoading && <ThemeToggle />}
 
           {/* Desktop Auth State */}
           <div className="hidden md:flex items-center space-x-2">
@@ -93,27 +100,27 @@ export function Header() {
                 <button
                   type="button"
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 transition-all duration-200"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-semibold text-slate-700 dark:text-slate-200 transition-all duration-200 cursor-pointer"
                 >
-                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#0095F6] text-white text-xs font-bold uppercase">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0095F6] text-white text-xs font-bold uppercase">
                     {user.fullName.charAt(0)}
                   </div>
-                  <span className="max-w-[120px] truncate">{user.fullName}</span>
+                  <span className="max-w-[130px] truncate">{user.fullName}</span>
                   <ChevronDown className={cn("w-3.5 h-3.5 text-slate-400 transition-transform duration-200", dropdownOpen && "rotate-180")} />
                 </button>
 
                 {/* Dropdown Menu */}
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-2 shadow-xl animate-in fade-in zoom-in-95 duration-150 z-50">
+                  <div className="absolute right-0 mt-2 w-60 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-2 shadow-xl animate-in fade-in zoom-in-95 duration-150 z-50">
                     <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-800/80">
-                      <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                      <p className="text-sm font-bold text-slate-900 dark:text-white truncate">
                         {user.fullName}
                       </p>
-                      <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                      <p className="text-xs text-slate-400 truncate mt-0.5">
                         {user.email}
                       </p>
                       {user.role === "ADMIN" && (
-                        <span className="inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 text-[10px] font-bold">
+                        <span className="inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 text-xs font-bold">
                           <Shield className="w-3 h-3" />
                           <span>Quản trị viên</span>
                         </span>
@@ -123,7 +130,7 @@ export function Header() {
                     <div className="py-1">
                       <Link
                         href="/tai-khoan"
-                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+                        className="flex items-center gap-2.5 px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
                       >
                         <User className="w-4 h-4 text-slate-400" />
                         <span>Hồ sơ tài khoản</span>
@@ -132,7 +139,7 @@ export function Header() {
                       {user.role === "ADMIN" && (
                         <Link
                           href="/admin"
-                          className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+                          className="flex items-center gap-2.5 px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
                         >
                           <Shield className="w-4 h-4 text-slate-400" />
                           <span>Khu quản trị</span>
@@ -140,11 +147,51 @@ export function Header() {
                       )}
                     </div>
 
+                    {/* Bộ chuyển đổi Giao diện Sáng / Tối gọn gàng bên trong menu */}
+                    {mounted && (
+                      <div className="py-2 px-1 border-t border-slate-100 dark:border-slate-800/80">
+                        <div className="flex items-center justify-between px-2 py-0.5 mb-1.5">
+                          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Giao diện</span>
+                          <span className="text-[11px] font-bold text-[#0095F6] dark:text-sky-400">
+                            {theme === "dark" ? "Chế độ tối" : "Chế độ sáng"}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-slate-100/80 dark:bg-slate-800/60">
+                          <button
+                            type="button"
+                            onClick={() => setTheme("light")}
+                            className={cn(
+                              "flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                              theme === "light"
+                                ? "bg-white text-amber-600 shadow-sm"
+                                : "text-slate-500 hover:text-slate-800 dark:text-slate-400"
+                            )}
+                          >
+                            <Sun className="w-3.5 h-3.5 text-amber-500" />
+                            <span>Sáng</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setTheme("dark")}
+                            className={cn(
+                              "flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                              theme === "dark"
+                                ? "bg-slate-900 text-sky-400 shadow-sm"
+                                : "text-slate-500 hover:text-slate-800 dark:text-slate-400"
+                            )}
+                          >
+                            <Moon className="w-3.5 h-3.5 text-sky-400" />
+                            <span>Tối</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="pt-1 border-t border-slate-100 dark:border-slate-800/80">
                       <button
                         type="button"
                         onClick={logout}
-                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition-colors"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-sm font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition-colors cursor-pointer"
                       >
                         <LogOut className="w-4 h-4" />
                         <span>Đăng xuất</span>
@@ -157,14 +204,14 @@ export function Header() {
               <>
                 <Link
                   href="/dang-nhap"
-                  className="px-3.5 py-1.5 rounded-xl text-xs font-bold border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-[0_2.5px_0_0_#cbd5e1] dark:shadow-[0_2.5px_0_0_#334155] active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-xl text-sm font-bold border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-[0_2.5px_0_0_#cbd5e1] dark:shadow-[0_2.5px_0_0_#334155] active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer flex items-center gap-1.5"
                 >
-                  <LogIn className="h-3.5 w-3.5" />
+                  <LogIn className="h-4 w-4" />
                   <span>Đăng nhập</span>
                 </Link>
                 <Link
                   href="/dang-ky"
-                  className="px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0095F6] hover:bg-[#008be5] text-white shadow-[0_3px_0_0_#0275ba] active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-sm font-bold bg-[#0095F6] hover:bg-[#008be5] text-white shadow-[0_3px_0_0_#0275ba] active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
                 >
                   Đăng ký
                 </Link>

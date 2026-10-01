@@ -17,7 +17,10 @@ import {
   User,
   Shield,
   LogOut,
+  Sun,
+  Moon,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 import { useAuth } from "@/frontend/providers/auth-provider";
 import { cn } from "@/frontend/lib/utils";
 
@@ -26,6 +29,7 @@ export function MobileNav() {
   const [mounted, setMounted] = React.useState(false);
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const { theme, setTheme } = useTheme();
 
   React.useEffect(() => {
     setMounted(true);
@@ -208,8 +212,43 @@ export function MobileNav() {
                 </nav>
               </div>
 
-              {/* Chân Drawer: Đăng xuất hoặc Đăng nhập / Đăng ký */}
-              <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col space-y-2.5 mt-auto">
+              {/* Chân Drawer: Giao diện Sáng/Tối & Đăng xuất / Đăng nhập */}
+              <div className="pt-5 border-t border-slate-100 dark:border-slate-800 flex flex-col space-y-3 mt-auto">
+                {/* Chuyển theme trong Mobile Drawer */}
+                {mounted && (
+                  <div className="flex items-center justify-between px-1">
+                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Giao diện</span>
+                    <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 w-36">
+                      <button
+                        type="button"
+                        onClick={() => setTheme("light")}
+                        className={cn(
+                          "flex items-center justify-center gap-1 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                          theme === "light"
+                            ? "bg-white text-amber-600 shadow-sm"
+                            : "text-slate-500 dark:text-slate-400"
+                        )}
+                      >
+                        <Sun className="w-3.5 h-3.5 text-amber-500" />
+                        <span>Sáng</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setTheme("dark")}
+                        className={cn(
+                          "flex items-center justify-center gap-1 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                          theme === "dark"
+                            ? "bg-slate-900 text-sky-400 shadow-sm"
+                            : "text-slate-500 dark:text-slate-400"
+                        )}
+                      >
+                        <Moon className="w-3.5 h-3.5 text-sky-400" />
+                        <span>Tối</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {user ? (
                   <button
                     type="button"
@@ -217,7 +256,7 @@ export function MobileNav() {
                       setIsOpen(false);
                       logout();
                     }}
-                    className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#ff4d4f] hover:bg-[#f5383a] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-[0_3px_0_0_#c92a2a] active:translate-y-[2px] active:shadow-[0_1px_0_0_#c92a2a] transition-all duration-150 select-none cursor-pointer"
+                    className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#ff4d4f] hover:bg-[#f5383a] text-white text-sm font-bold flex items-center justify-center gap-2 shadow-[0_3px_0_0_#c92a2a] active:translate-y-[2px] active:shadow-[0_1px_0_0_#c92a2a] transition-all duration-150 select-none cursor-pointer"
                   >
                     <LogOut className="h-4 w-4" />
                     <span>Đăng xuất</span>
@@ -231,7 +270,7 @@ export function MobileNav() {
                     >
                       <button
                         type="button"
-                        className="w-full min-h-[44px] px-4 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold flex items-center justify-center gap-2 shadow-[0_3px_0_0_#cbd5e1] dark:shadow-[0_3px_0_0_#334155] active:translate-y-[2px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer"
+                        className="w-full min-h-[44px] px-4 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-bold flex items-center justify-center gap-2 shadow-[0_3px_0_0_#cbd5e1] dark:shadow-[0_3px_0_0_#334155] active:translate-y-[2px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer"
                       >
                         <LogIn className="h-4 w-4" />
                         <span>Đăng nhập</span>
@@ -244,7 +283,7 @@ export function MobileNav() {
                     >
                       <button
                         type="button"
-                        className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
+                        className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white text-sm font-bold flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
                       >
                         <UserPlus className="h-4 w-4" />
                         <span>Đăng ký</span>

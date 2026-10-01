@@ -121,9 +121,9 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
               <button
                 type="button"
                 onClick={() => toast.info(`Transcript: ${group.transcript}`, { duration: 6000 })}
-                className="px-3.5 py-1.5 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white text-xs font-bold flex items-center gap-1.5 shadow-[0_3px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white text-sm font-bold flex items-center gap-1.5 shadow-[0_3px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all cursor-pointer min-h-[38px]"
               >
-                <BookOpen className="w-3.5 h-3.5" />
+                <BookOpen className="w-4 h-4" />
                 <span>Transcript</span>
               </button>
             )}
@@ -131,18 +131,18 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
             <button
               type="button"
               onClick={() => toast.info("Trợ lý AI sẵn sàng giải thích ngữ pháp và từ vựng cho câu hỏi này.")}
-              className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-[0_3px_0_0_#3730a3] active:translate-y-[2px] active:shadow-[0_1px_0_0_#3730a3] transition-all cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-sm font-bold flex items-center gap-1.5 shadow-[0_3px_0_0_#3730a3] active:translate-y-[2px] active:shadow-[0_1px_0_0_#3730a3] transition-all cursor-pointer min-h-[38px]"
             >
-              <Sparkles className="w-3.5 h-3.5" />
+              <Sparkles className="w-4 h-4" />
               <span>Trợ lý AI</span>
             </button>
 
             <button
               type="button"
               onClick={() => toast.info("Xem lại lịch sử các lần làm bài trước.")}
-              className="px-3.5 py-1.5 rounded-xl bg-[#a855f7] hover:bg-[#9333ea] text-white text-xs font-bold flex items-center gap-1.5 shadow-[0_3px_0_0_#7e22ce] active:translate-y-[2px] active:shadow-[0_1px_0_0_#7e22ce] transition-all cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-[#a855f7] hover:bg-[#9333ea] text-white text-sm font-bold flex items-center gap-1.5 shadow-[0_3px_0_0_#7e22ce] active:translate-y-[2px] active:shadow-[0_1px_0_0_#7e22ce] transition-all cursor-pointer min-h-[38px]"
             >
-              <History className="w-3.5 h-3.5" />
+              <History className="w-4 h-4" />
               <span>Lịch sử</span>
             </button>
           </div>
