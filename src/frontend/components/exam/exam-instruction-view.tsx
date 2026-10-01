@@ -15,9 +15,13 @@ import {
   ArrowLeft,
   Play,
   Layers,
+  History,
+  ExternalLink,
 } from "lucide-react";
 import { Button } from "@/frontend/components/ui/button";
 import { toast } from "sonner";
+import { fetchUserExamHistory, saveLocalAttemptId } from "@/frontend/lib/attempt-storage";
+import type { ExamAttemptHistoryItemDTO } from "@/shared/types/attempt";
 
 interface ExamInstructionViewProps {
   exam: ExamDetailDTO;
@@ -27,6 +31,18 @@ export function ExamInstructionView({ exam }: ExamInstructionViewProps) {
   const router = useRouter();
   const [hasAgreed, setHasAgreed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [pastAttempts, setPastAttempts] = useState<ExamAttemptHistoryItemDTO[]>([]);
+
+  // Tải các lần thi trước của đề thi này
+  React.useEffect(() => {
+    fetchUserExamHistory(exam.id)
+      .then((data) => {
+        if (data?.attempts) {
+          setPastAttempts(data.attempts);
+        }
+      })
+      .catch(() => {});
+  }, [exam.id]);
 
   const rwParts = exam.parts.filter(
     (p) => p.skill === "READING_WRITING" || (p.skill as string) === "reading_writing"
@@ -57,6 +73,7 @@ export function ExamInstructionView({ exam }: ExamInstructionViewProps) {
       }
 
       const data = await res.json();
+      saveLocalAttemptId(data.attemptId);
       toast.success("Bắt đầu bài thi! Chúc bạn làm bài tốt.");
       router.push(`/thi-thu/${exam.id}/lam-bai?attemptId=${data.attemptId}`);
     } catch (error: any) {
@@ -257,6 +274,88 @@ export function ExamInstructionView({ exam }: ExamInstructionViewProps) {
           </ul>
         </div>
       </div>
+
+      {/* Lịch sử các lần đã thi đề này (nếu có) */}
+      {pastAttempts.length > 0 && (
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-200/80 dark:border-slate-800 space-y-4">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+            <div className="flex items-center gap-2">
+              <History className="w-5 h-5 text-[#0095F6]" />
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                Lịch sử làm đề này của bạn ({pastAttempts.length} lần)
+              </h3>
+            </div>
+            <Link
+              href="/thi-thu/lich-su"
+              className="text-xs font-bold text-[#0095F6] hover:underline"
+            >
+              Xem tất cả lịch sử →
+            </Link>
+          </div>
+
+          <div className="divide-y divide-slate-100 dark:divide-slate-800/80">
+            {pastAttempts.map((item) => {
+              const isCompleted = item.status === "COMPLETED";
+              const dateStr = item.submittedAt || item.startedAt;
+              const formattedDate = new Date(dateStr).toLocaleString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+
+              return (
+                <div
+                  key={item.attemptId}
+                  className="py-3.5 flex items-center justify-between gap-3 text-xs sm:text-sm"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-slate-400">{formattedDate}</span>
+                      {isCompleted ? (
+                        item.isPassed ? (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+                            Đạt ({item.overallScore}%)
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300">
+                            Chưa đạt ({item.overallScore}%)
+                          </span>
+                        )
+                      ) : (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-700">
+                          Chưa nộp
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-slate-500 text-xs">
+                      Đúng: {item.totalCorrect}/{item.totalQuestions} câu • Reading: {item.readingScore}% • Listening: {item.listeningScore}%
+                    </div>
+                  </div>
+
+                  {isCompleted ? (
+                    <Link
+                      href={`/thi-thu/${exam.id}/ket-qua/${item.attemptId}`}
+                      className="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Xem lại kết quả</span>
+                    </Link>
+                  ) : (
+                    <Link
+                      href={`/thi-thu/${exam.id}/lam-bai?attemptId=${item.attemptId}`}
+                      className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center gap-1.5 transition-colors"
+                    >
+                      <span>Tiếp tục làm</span>
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Xác nhận quy chế & Nút Bắt đầu */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 space-y-6">

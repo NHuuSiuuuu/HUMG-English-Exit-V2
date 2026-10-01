@@ -7,7 +7,10 @@ import type {
   ExamRoomSessionDTO,
   PartForExamRoom,
   PartResultDTO,
+  ExamAttemptHistoryItemDTO,
+  ExamHistorySummaryDTO,
 } from "@/shared/types/attempt";
+import type { Prisma } from "@prisma/client";
 
 /**
  * Service quản lý lượt thi thử (Attempt) và chấm điểm tự động
@@ -457,6 +460,110 @@ export const attemptService = {
       isPassed: attempt.isPassed,
       writingEvaluation: writingPart?.writing || null,
       parts,
+    };
+  },
+
+  /**
+   * Lấy lịch sử các lần thi thử của thí sinh (kèm thống kê tổng hợp)
+   * Hỗ trợ tìm theo userId (khi đăng nhập), hoặc danh sách attemptIds (khi dùng guest lưu localStorage)
+   */
+  async getUserExamHistory(params: {
+    userId?: string;
+    attemptIds?: string[];
+    examId?: string;
+  }): Promise<ExamHistorySummaryDTO> {
+    const { userId, attemptIds, examId } = params;
+
+    const where: Prisma.ExamAttemptWhereInput = {};
+
+    if (examId) {
+      where.examId = examId;
+    }
+
+    if (userId && attemptIds && attemptIds.length > 0) {
+      where.OR = [
+        { userId },
+        { id: { in: attemptIds } },
+      ];
+    } else if (userId) {
+      where.userId = userId;
+    } else if (attemptIds && attemptIds.length > 0) {
+      where.id = { in: attemptIds };
+    } else {
+      return {
+        totalAttempts: 0,
+        completedAttempts: 0,
+        bestScore: 0,
+        passCount: 0,
+        passRate: 0,
+        attempts: [],
+      };
+    }
+
+    const rawAttempts = await db.examAttempt.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      include: {
+        exam: {
+          select: {
+            title: true,
+            code: true,
+          },
+        },
+      },
+    });
+
+    const attempts: ExamAttemptHistoryItemDTO[] = rawAttempts.map((a) => {
+      const finishTime = a.submittedAt || a.updatedAt;
+      const timeSpentSeconds = Math.min(
+        a.durationSeconds,
+        Math.max(
+          1,
+          Math.floor((finishTime.getTime() - a.startedAt.getTime()) / 1000)
+        )
+      );
+
+      return {
+        attemptId: a.id,
+        examId: a.examId,
+        examTitle: a.exam.title,
+        examCode: a.exam.code,
+        status: a.status,
+        startedAt: a.startedAt.toISOString(),
+        submittedAt: a.submittedAt ? a.submittedAt.toISOString() : null,
+        durationSeconds: a.durationSeconds,
+        timeSpentSeconds,
+        totalCorrect: a.totalCorrect,
+        totalQuestions: a.totalQuestions,
+        overallScore: a.overallScore,
+        readingCorrect: a.readingCorrect,
+        readingTotal: a.readingTotal,
+        readingScore: a.readingScore,
+        listeningCorrect: a.listeningCorrect,
+        listeningTotal: a.listeningTotal,
+        listeningScore: a.listeningScore,
+        isPassed: a.isPassed,
+      };
+    });
+
+    const completedAttempts = attempts.filter((a) => a.status === "COMPLETED");
+    const bestScore =
+      completedAttempts.length > 0
+        ? Math.max(...completedAttempts.map((a) => a.overallScore))
+        : 0;
+    const passCount = completedAttempts.filter((a) => a.isPassed).length;
+    const passRate =
+      completedAttempts.length > 0
+        ? Math.round((passCount / completedAttempts.length) * 100)
+        : 0;
+
+    return {
+      totalAttempts: attempts.length,
+      completedAttempts: completedAttempts.length,
+      bestScore,
+      passCount,
+      passRate,
+      attempts,
     };
   },
 };

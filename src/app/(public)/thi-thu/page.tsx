@@ -1,6 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
-import { Clock, HelpCircle, ArrowLeft, Play, AlertCircle, FileSpreadsheet } from "lucide-react";
+import { Clock, HelpCircle, ArrowLeft, Play, AlertCircle, FileSpreadsheet, History } from "lucide-react";
 import { examService } from "@/backend/services/exam.service";
 import { Button } from "@/frontend/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/frontend/components/ui/card";
@@ -17,18 +17,28 @@ export default async function MockExamListPage() {
   return (
     <div className="py-10 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
-        {/* Tiêu đề trang */}
-        <div className="space-y-3">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            <span>Về trang chủ</span>
+        {/* Tiêu đề trang & Lịch sử */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-3">
+            <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary transition-colors">
+              <ArrowLeft className="h-4 w-4" />
+              <span>Về trang chủ</span>
+            </Link>
+            <h1 className="text-3xl font-extrabold text-foreground sm:text-4xl">
+              Thi thử Chuẩn đầu ra 60 Phút
+            </h1>
+            <p className="text-muted text-base max-w-2xl leading-relaxed">
+              Mô phỏng áp lực phòng thi với đầy đủ 14 phần thi liên tục. Đồng hồ đếm ngược được tính toán chính xác trên máy chủ và tự động lưu đáp án sau mỗi câu làm.
+            </p>
+          </div>
+
+          <Link
+            href="/thi-thu/lich-su"
+            className="self-start sm:self-auto px-5 py-2.5 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-100 text-sm font-bold flex items-center gap-2 border border-slate-200/80 dark:border-slate-800 shadow-[0_3px_0_0_#cbd5e1] dark:shadow-[0_3px_0_0_#334155] active:translate-y-[2px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all cursor-pointer min-h-[42px]"
+          >
+            <History className="w-4 h-4 text-[#0095F6]" />
+            <span>Lịch sử thi của tôi</span>
           </Link>
-          <h1 className="text-3xl font-extrabold text-foreground sm:text-4xl">
-            Thi thử Chuẩn đầu ra 60 Phút
-          </h1>
-          <p className="text-muted text-base max-w-2xl leading-relaxed">
-            Mô phỏng áp lực phòng thi với đầy đủ 14 phần thi liên tục. Đồng hồ đếm ngược được tính toán chính xác trên máy chủ và tự động lưu đáp án sau mỗi câu làm.
-          </p>
         </div>
 
         {/* Cảnh báo quy chế thi */}

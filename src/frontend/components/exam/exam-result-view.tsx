@@ -17,7 +17,9 @@ import {
   AlertCircle,
   ChevronDown,
   ChevronUp,
+  History,
 } from "lucide-react";
+import { saveLocalAttemptId } from "@/frontend/lib/attempt-storage";
 
 interface ExamResultViewProps {
   result: ExamResultDTO;
@@ -31,6 +33,11 @@ export function ExamResultView({ result }: ExamResultViewProps) {
   const [expandedParts, setExpandedParts] = useState<Record<number, boolean>>({
     1: true,
   });
+
+  // Tự động lưu mã lần thi vào máy khách để xem lại lịch sử
+  React.useEffect(() => {
+    saveLocalAttemptId(result.attemptId);
+  }, [result.attemptId]);
 
   const togglePart = (partNo: number) => {
     setExpandedParts((prev) => ({
@@ -126,6 +133,13 @@ export function ExamResultView({ result }: ExamResultViewProps) {
           >
             <ListFilter className="w-4 h-4" />
             <span>Chọn đề thi khác</span>
+          </Link>
+          <Link
+            href="/thi-thu/lich-su"
+            className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold flex items-center gap-2 shadow-[0_3.5px_0_0_#b45309] active:translate-y-[2px] active:shadow-[0_1px_0_0_#b45309] transition-all cursor-pointer min-h-[42px]"
+          >
+            <History className="w-4 h-4" />
+            <span>Lịch sử các lần thi</span>
           </Link>
           <Link
             href="/on-luyen"

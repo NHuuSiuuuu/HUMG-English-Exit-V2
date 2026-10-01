@@ -9,6 +9,15 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
 ## [1.0.0] - 2026-10-01
 
 ### Added
+- **Hệ thống Xem lại Lịch sử Thi thử (Exam Attempt History)**:
+  - Xây dựng trang chuyên biệt xem toàn bộ lịch sử thi `/thi-thu/lich-su` ([ExamHistoryPage](file:///d:/Clone/HUMG-EnglishExitV2/src/app/%28public%29/thi-thu/lich-su/page.tsx)) và component [ExamHistoryView](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-history-view.tsx).
+  - 4 Thẻ chỉ số tổng quan: Tổng lượt thi, Số bài hoàn thành, Kỷ lục điểm cao nhất (%), và Tỷ lệ Đạt chuẩn (%).
+  - Bộ lọc bài thi theo trạng thái: Tất cả, Đạt chuẩn (≥ 50%), Chưa đạt (< 50%).
+  - Thẻ chi tiết từng lần thi: ngày giờ nộp bài, thời gian làm bài, điểm tổng quan, phân tích điểm kỹ năng Reading vs Listening, trạng thái Đạt/Chưa đạt, cùng nút xem lại chi tiết bài làm & lời giải và nút thi lại.
+  - Tích hợp khối "Lịch sử làm đề này của bạn" trên trang hướng dẫn đề thi [ExamInstructionView](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-instruction-view.tsx), cho phép xem lại các lần thi trước của chính đề đó.
+  - Bổ sung nút "Lịch sử thi của tôi" ở đầu trang danh sách đề thi (`/thi-thu`) và nút "Lịch sử các lần thi" trên bảng điểm kết quả (`/thi-thu/[id]/ket-qua/[attemptId]`).
+  - Tiện ích [attempt-storage.ts](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/lib/attempt-storage.ts) lưu trữ kép: kết hợp giữa tài khoản đăng nhập (Database) và máy khách (LocalStorage) giúp thí sinh chưa đăng nhập vẫn lưu và xem lại được lịch sử.
+  - API `GET/POST /api/exam/attempts/history` và phương thức `getUserExamHistory` trong `attemptService`.
 - **Hệ thống Thi thử và Chấm điểm tự động (Mock Exam & Scoring Engine)**:
   - Cập nhật cơ sở dữ liệu PostgreSQL qua Prisma: bổ sung model `ExamAttempt` và enum `AttemptStatus` (`IN_PROGRESS`, `COMPLETED`, `EXPIRED`) lưu trữ lượt thi, thời gian bắt đầu, hạn chót server, bài làm JSON và toàn bộ điểm số từng kỹ năng.
   - Xây dựng module thuần logic tính điểm [exam-scoring.ts](file:///d:/Clone/HUMG-EnglishExitV2/src/backend/lib/exam-scoring.ts) có unit test TDD (`test/exam-scoring.test.mjs`):

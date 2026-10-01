@@ -147,3 +147,41 @@ export interface ExamResultDTO {
   // Chi tiết 14 phần kèm giải thích và transcript
   parts: PartResultDTO[];
 }
+
+/**
+ * Mục lịch sử một lần thi thử của thí sinh
+ */
+export interface ExamAttemptHistoryItemDTO {
+  attemptId: string;
+  examId: string;
+  examTitle: string;
+  examCode: string;
+  status: AttemptStatus;
+  startedAt: string;
+  submittedAt?: string | null;
+  durationSeconds: number;
+  timeSpentSeconds: number;
+  totalCorrect: number;
+  totalQuestions: number;
+  overallScore: number;
+  readingCorrect: number;
+  readingTotal: number;
+  readingScore: number;
+  listeningCorrect: number;
+  listeningTotal: number;
+  listeningScore: number;
+  isPassed: boolean;
+}
+
+/**
+ * Tổng hợp toàn bộ lịch sử thi thử và các chỉ số thống kê
+ */
+export interface ExamHistorySummaryDTO {
+  totalAttempts: number;
+  completedAttempts: number;
+  bestScore: number;
+  passCount: number;
+  passRate: number;
+  attempts: ExamAttemptHistoryItemDTO[];
+}
+
