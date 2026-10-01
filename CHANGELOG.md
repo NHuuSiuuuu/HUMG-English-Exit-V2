@@ -9,6 +9,11 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
 ## [1.0.0] - 2026-10-01
 
 ### Changed
+- **Tối ưu phong cách nút bấm trang Quản trị ([Button](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/ui/button.tsx))**:
+  - Triệt tiêu hoàn toàn hiệu ứng 3D (bóng đổ dày đáy `shadow-[0_3.5px...]` và dịch chuyển khi bấm `active:translate-y-[2px]`) cho toàn bộ nút bấm trong khu vực `/admin`.
+  - Cung cấp phong cách phẳng (Flat design) tinh giản, sạch sẽ, viền mảnh và màu sắc trang nhã, giúp giao diện bảng dữ liệu và form quản trị dễ nhìn, chuyên nghiệp.
+  - Bọc [AdminLayout](file:///d:/Clone/HUMG-EnglishExitV2/src/app/admin/layout.tsx) bằng `AdminButtonProvider` và định phạm vi CSS `.admin-scope` để áp dụng tự động toàn diện.
+  - Giữ nguyên hiệu ứng nút bấm 3D xúc giác hiện đại cho tất cả các trang người dùng phía client.
 - **Tinh chỉnh giao diện Logo Thương hiệu ([BrandLogo](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/layout/brand-logo.tsx))**:
   - Tăng kích thước biểu tượng to rõ, cân xứng với thanh Header và các vị trí nhận diện.
   - Loại bỏ hoàn toàn đường viền (border) và màu nền (đặt background trong suốt 100%).

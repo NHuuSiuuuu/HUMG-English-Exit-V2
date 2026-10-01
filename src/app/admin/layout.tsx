@@ -4,7 +4,7 @@ import * as React from "react";
 import { AdminSidebar } from "@/frontend/components/admin/admin-sidebar";
 import { ThemeToggle } from "@/frontend/components/layout/theme-toggle";
 import { Menu, ShieldAlert, Bell } from "lucide-react";
-import { Button } from "@/frontend/components/ui/button";
+import { Button, AdminButtonProvider } from "@/frontend/components/ui/button";
 
 export default function AdminLayout({
   children,
@@ -14,7 +14,8 @@ export default function AdminLayout({
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   return (
-    <div className="flex min-h-screen bg-background text-foreground">
+    <AdminButtonProvider>
+      <div className="admin-scope flex min-h-screen bg-background text-foreground" data-admin-scope="true">
       {/* Sidebar (Desktop cố định, Mobile drawer) */}
       <AdminSidebar
         isMobileOpen={mobileOpen}
@@ -71,5 +72,6 @@ export default function AdminLayout({
         </main>
       </div>
     </div>
+    </AdminButtonProvider>
   );
 }

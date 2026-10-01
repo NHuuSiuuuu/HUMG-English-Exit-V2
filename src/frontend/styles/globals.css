@@ -147,3 +147,21 @@
   }
 }
 
+/* Trang quản trị Admin: Triệt tiêu hoàn toàn hiệu ứng 3D và bóng nổi nút bấm, hướng tới phong cách phẳng, tối giản và sạch sẽ */
+.admin-scope button,
+[data-admin-scope] button,
+.admin-scope .btn-brand,
+[data-admin-scope] .btn-brand {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.admin-scope button:active,
+[data-admin-scope] button:active,
+.admin-scope .btn-brand:active,
+[data-admin-scope] .btn-brand:active {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+
