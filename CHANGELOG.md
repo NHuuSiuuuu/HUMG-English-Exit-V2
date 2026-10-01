@@ -9,6 +9,30 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
 ## [1.0.0] - 2026-10-01
 
 ### Added
+- **Hệ thống Thi thử và Chấm điểm tự động (Mock Exam & Scoring Engine)**:
+  - Cập nhật cơ sở dữ liệu PostgreSQL qua Prisma: bổ sung model `ExamAttempt` và enum `AttemptStatus` (`IN_PROGRESS`, `COMPLETED`, `EXPIRED`) lưu trữ lượt thi, thời gian bắt đầu, hạn chót server, bài làm JSON và toàn bộ điểm số từng kỹ năng.
+  - Xây dựng module thuần logic tính điểm [exam-scoring.ts](file:///d:/Clone/HUMG-EnglishExitV2/src/backend/lib/exam-scoring.ts) có unit test TDD (`test/exam-scoring.test.mjs`):
+    - Phân tách chính xác điểm 2 khối: Reading & Writing (Part 1-8) và Listening (Part 10-14).
+    - Tách riêng Part 9 Writing theo quy định PRD mục 13: đếm số từ tự động, kiểm tra độ dài 25-35 từ, bài viết mẫu và rubric, không cộng vào điểm trắc nghiệm khách quan tự động.
+    - Chấm điểm khách quan: trắc nghiệm (MCQ3, Match Pool, Cloze MCQ) và điền từ ngắn (`short_text`, không phân biệt hoa thường, tự động loại bỏ khoảng trắng thừa, hỗ trợ danh sách `accepted_answers`).
+    - Tính điểm phần trăm từng kỹ năng, điểm tổng quát và trạng thái Đạt/Chưa đạt (ngưỡng 50%).
+  - Dịch vụ máy chủ [attempt.service.ts](file:///d:/Clone/HUMG-EnglishExitV2/src/backend/services/attempt.service.ts):
+    - Đảm bảo tính giờ tuyệt đối theo server (`started_at`, `deadline_at`), tự động chốt bài khi quá hạn kèm dung sai 30s.
+    - Bảo mật dữ liệu: Lọc bỏ toàn bộ `correct_answer`, `accepted_answers`, `explanation` khi truyền dữ liệu xuống phòng thi.
+    - Tự động lưu bài làm liên tục (Autosave).
+  - Hệ thống API phòng thi:
+    - `POST /api/exam/attempts`: Khởi tạo lượt thi.
+    - `GET /api/exam/attempts/[id]`: Tải dữ liệu phòng thi bảo mật.
+    - `PUT /api/exam/attempts/[id]/save`: Tự động lưu đáp án.
+    - `POST /api/exam/attempts/[id]/submit`: Nộp bài và kích hoạt chấm điểm.
+    - `GET /api/exam/attempts/[id]/result`: Lấy kết quả và giải thích chi tiết.
+  - Giao diện Phòng thi thử 60 phút (`/thi-thu/[id]/lam-bai`):
+    - [ExamRoomHeader](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-room-header.tsx): Đồng hồ đếm ngược server thời gian thực (chuyển cảnh báo đỏ khi < 5 phút), hiển thị số câu đã làm, nút Nộp bài 3D xúc giác.
+    - [ExamPartNavigator](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-part-navigator.tsx): Thanh điều hướng nhanh 14 phần với huy hiệu tiến độ câu đã làm.
+    - [ExamPartCard](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-part-card.tsx): Hiển thị từng Part trong 14 phần cuộn liên tục, tích hợp audio player cho Listening và bộ đếm từ trực tiếp cho Part 9.
+    - [ExamRoomWorkspace](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-room-workspace.tsx): Tự động nộp khi hết giờ, xác nhận trước khi nộp sớm.
+  - Giao diện Bảng điểm & Kết quả chi tiết (`/thi-thu/[id]/ket-qua/[attemptId]`):
+    - [ExamResultView](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-result-view.tsx): Banner tổng kết điểm số, huy hiệu Đạt/Chưa đạt, thẻ so sánh Reading vs Listening, khu vực tự đối chiếu Writing (bài làm, số từ, bài mẫu tham khảo, rubric), và chi tiết từng câu kèm viền xanh lá (đáp án đúng) / viền đỏ (đáp án sai) và giải thích.
 - **Hệ thống Xác thực người dùng (Authentication)**:
   - Triển khai đầy đủ các luồng: Đăng nhập (`/dang-nhap`), Đăng ký tài khoản sinh viên (`/dang-ky`), Quên mật khẩu (`/quen-mat-khau`) và Đặt lại mật khẩu (`/dat-lai-mat-khau`).
   - Kết nối cơ sở dữ liệu PostgreSQL qua Prisma ORM, kiểm tra định dạng email sinh viên HUMG và mật khẩu bảo mật.

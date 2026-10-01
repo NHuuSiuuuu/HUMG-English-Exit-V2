@@ -37,17 +37,32 @@ export function ExamInstructionView({ exam }: ExamInstructionViewProps) {
 
   const totalQuestions = exam.parts.reduce((sum, p) => sum + p.totalQuestions, 0);
 
-  const handleStartExam = () => {
+  const handleStartExam = async () => {
     if (!hasAgreed) {
       toast.error("Vui lòng xác nhận bạn đã đọc và đồng ý với quy định phòng thi");
       return;
     }
 
-    setIsLoading(true);
-    toast.info("Tính năng phòng làm bài thi 60 phút đang được chuẩn bị ở bước tiếp theo!");
-    setTimeout(() => {
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/exam/attempts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ examId: exam.id }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Không thể khởi tạo lượt thi");
+      }
+
+      const data = await res.json();
+      toast.success("Bắt đầu bài thi! Chúc bạn làm bài tốt.");
+      router.push(`/thi-thu/${exam.id}/lam-bai?attemptId=${data.attemptId}`);
+    } catch (error: any) {
+      toast.error(error?.message || "Đã xảy ra sự cố khi vào phòng thi");
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (

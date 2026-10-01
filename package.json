@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test test/scoring.test.mjs test/text-scoring.test.mjs test/auth-validation.test.mjs test/part-validation.test.mjs test/part-service.test.mjs test/exam-validation.test.mjs test/article-validation.test.mjs test/media-validation.test.mjs"
+    "test": "node --test test/scoring.test.mjs test/text-scoring.test.mjs test/exam-scoring.test.mjs test/auth-validation.test.mjs test/part-validation.test.mjs test/part-service.test.mjs test/exam-validation.test.mjs test/article-validation.test.mjs test/media-validation.test.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
