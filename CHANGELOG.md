@@ -9,6 +9,13 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
 ## [1.0.0] - 2026-10-01
 
 ### Added
+- **Tích hợp Logo Thương hiệu Chính thức cho Website**:
+  - Xử lý ảnh gốc, tách nền trắng (transparent alpha feathering) và xuất bản 3 biến thể hình ảnh chuẩn đồ họa:
+    - [public/logo.png](file:///d:/Clone/HUMG-EnglishExitV2/public/logo.png): Trọn vẹn logo (biểu tượng địa cầu, mũ cử nhân, quỹ đạo bay và chữ nghệ thuật "HUMG English Exit") trên nền trong suốt cho giao diện sáng.
+    - [public/logo-dark.png](file:///d:/Clone/HUMG-EnglishExitV2/public/logo-dark.png): Phiên bản tối ưu riêng cho giao diện tối với chữ "HUMG" trắng sáng nổi bật.
+    - [public/logo-icon.png](file:///d:/Clone/HUMG-EnglishExitV2/public/logo-icon.png): Huy hiệu biểu tượng độc lập sắc nét, thích hợp cho navigation và các thẻ nhỏ.
+  - Xây dựng component [BrandLogo](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/layout/brand-logo.tsx) tái sử dụng với 3 chế độ (`badge`, `symbol`, `full`), tự động thích ứng với Light/Dark mode.
+  - Đồng bộ logo vào toàn bộ các vị trí chủ đạo: Thanh điều hướng chính ([Header](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/layout/header.tsx)), Ngăn kéo menu di động ([MobileNav](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/layout/mobile-nav.tsx)), Chân trang ([Footer](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/layout/footer.tsx)), Thanh quản trị ([AdminSidebar](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/admin/admin-sidebar.tsx)), và các màn hình xác thực ([Đăng nhập](file:///d:/Clone/HUMG-EnglishExitV2/src/app/%28auth%29/dang-nhap/page.tsx), [Đăng ký](file:///d:/Clone/HUMG-EnglishExitV2/src/app/%28auth%29/dang-ky/page.tsx)).
 - **Cập nhật Favicon và Bộ Icon Nhận diện Website**:
   - Tích hợp biểu tượng thương hiệu mới hình mũ cử nhân và địa cầu học thuật trên nền xanh bo tròn hiện đại.
   - Cắt bỏ hoàn toàn ~26% viền đệm trong suốt thừa của ảnh gốc, giúp biểu tượng phóng to lấp đầy 100% không gian hiển thị trên tab trình duyệt (tăng độ rõ nét và kích thước trực quan thêm hơn 35%).

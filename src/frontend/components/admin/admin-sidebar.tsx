@@ -11,10 +11,10 @@ import {
   FolderArchive,
   Users,
   Settings,
-  GraduationCap,
   ArrowLeft,
   X,
 } from "lucide-react";
+import { BrandLogo } from "@/frontend/components/layout/brand-logo";
 import { cn } from "@/frontend/lib/utils";
 import { Button } from "@/frontend/components/ui/button";
 
@@ -42,9 +42,7 @@ export function AdminSidebar({ isMobileOpen = false, onMobileClose }: AdminSideb
         {/* Logo và Header */}
         <div className="flex items-center justify-between pb-4 border-b border-border">
           <Link href="/admin" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-              <GraduationCap className="h-5 w-5" />
-            </div>
+            <BrandLogo variant="symbol" size="sm" />
             <div className="flex flex-col">
               <span className="font-heading font-extrabold text-sm tracking-tight leading-none text-foreground">
                 HUMG English

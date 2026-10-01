@@ -1,6 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
-import { GraduationCap } from "lucide-react";
+import { BrandLogo } from "@/frontend/components/layout/brand-logo";
 import { RegisterForm } from "@/frontend/components/auth/register-form";
 
 export const metadata = {
@@ -14,8 +14,8 @@ export default function RegisterPage() {
       <div className="w-full max-w-md space-y-6">
         <div className="rounded-3xl border border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] space-y-6 transition-all duration-300 ease-in-out">
           <div className="text-center space-y-2.5">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-50 dark:bg-sky-950/60 text-[#0095F6] shadow-sm">
-              <GraduationCap className="h-6 w-6" />
+            <div className="flex justify-center">
+              <BrandLogo variant="symbol" size="lg" priority />
             </div>
             <h1 className="text-2xl font-bold font-heading text-slate-900 dark:text-white">
               Đăng ký tài khoản

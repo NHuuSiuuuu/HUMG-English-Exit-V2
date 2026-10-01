@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { GraduationCap, ExternalLink, Heart, MessageSquare } from "lucide-react";
+import { ExternalLink, Heart, MessageSquare } from "lucide-react";
+import { BrandLogo } from "@/frontend/components/layout/brand-logo";
 import { useLanguage } from "@/frontend/providers/language-provider";
 
 export function Footer() {
@@ -14,14 +15,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Cột 1: Thông tin thương hiệu */}
           <div className="md:col-span-2 space-y-3.5">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0095F6] text-white shadow-sm">
-                <GraduationCap className="h-5 w-5" />
-              </div>
-              <span className="font-heading font-extrabold text-lg text-slate-900 dark:text-white">
-                HUMG English Exit
-              </span>
-            </div>
+            <BrandLogo variant="badge" size="md" showSubtitle={false} />
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-md leading-relaxed font-normal">
               Website ôn luyện và thi thử chuẩn đầu ra tiếng Anh dành riêng cho sinh viên Trường Đại học Mỏ - Địa chất (HUMG).
             </p>

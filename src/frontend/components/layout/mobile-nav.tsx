@@ -5,7 +5,6 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  GraduationCap,
   Menu,
   X,
   BookOpen,
@@ -20,6 +19,7 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
+import { BrandLogo } from "@/frontend/components/layout/brand-logo";
 import { useTheme } from "next-themes";
 import { useAuth } from "@/frontend/providers/auth-provider";
 import { cn } from "@/frontend/lib/utils";
@@ -101,14 +101,7 @@ export function MobileNav() {
               <div>
                 {/* Tiêu đề Drawer */}
                 <div className="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800">
-                  <div className="flex items-center gap-2.5">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0095F6] text-white shadow-sm">
-                      <GraduationCap className="h-5 w-5" />
-                    </div>
-                    <span className="font-heading font-extrabold text-base text-slate-900 dark:text-white">
-                      HUMG English Exit
-                    </span>
-                  </div>
+                  <BrandLogo variant="badge" size="sm" showSubtitle={false} />
                   <button
                     type="button"
                     onClick={() => setIsOpen(false)}

@@ -3,7 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GraduationCap, LogIn, User, LogOut, Shield, ChevronDown, Sun, Moon } from "lucide-react";
+import { LogIn, User, LogOut, Shield, ChevronDown, Sun, Moon } from "lucide-react";
+import { BrandLogo } from "@/frontend/components/layout/brand-logo";
 import { useTheme } from "next-themes";
 import { ThemeToggle } from "@/frontend/components/layout/theme-toggle";
 import { MobileNav } from "@/frontend/components/layout/mobile-nav";
@@ -51,19 +52,9 @@ export function Header() {
         {/* Logo và Tên thương hiệu */}
         <Link
           href="/"
-          className="flex items-center gap-3 group focus-visible:outline-none rounded-xl p-1"
+          className="group focus-visible:outline-none rounded-xl p-1"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0095F6] text-white shadow-sm transition-transform group-hover:scale-105">
-            <GraduationCap className="h-5 w-5" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-heading font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white leading-none">
-              HUMG English Exit
-            </span>
-            <span className="text-[11px] text-slate-400 font-medium hidden sm:inline-block mt-0.5">
-              Chuẩn đầu ra Tiếng Anh HUMG
-            </span>
-          </div>
+          <BrandLogo variant="badge" size="md" priority />
         </Link>
 
         {/* Desktop Navigation Links */}
