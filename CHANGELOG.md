@@ -9,6 +9,11 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
 ## [1.0.0] - 2026-10-01
 
 ### Added
+- **Modal Hướng dẫn & Quy chế Thi thử ([ExamGuideModal](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-guide-modal.tsx))**:
+  - Tích hợp lớp phủ mờ toàn màn hình (`backdrop-blur-md bg-slate-900/60`).
+  - Trình bày 3 nội dung trọng tâm khoa học: (1) Quy định làm bài thi thử (60 phút, đồng hồ server, autosave liên tục, tự động nộp bài khi hết giờ), (2) Cấu trúc chi tiết 14 phần thi (Reading & Writing Part 1-9 và Listening Part 10-14), (3) Yêu cầu thiết bị & kỹ thuật (tai nghe âm thanh, đường truyền mạng, trình duyệt khuyến nghị).
+  - Bổ sung nút 3D xúc giác "Xem hướng dẫn & Quy chế" ở đầu trang danh sách đề thi `/thi-thu` thông qua component [MockExamListView](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/mock-exam-list-view.tsx).
+  - Tinh gọn màn hình chuẩn bị vào thi [ExamInstructionView](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-instruction-view.tsx): lược bỏ các khối văn bản cồng kềnh, chuyển sang nút mở modal khi cần để trang vào thi trực diện và thoáng đãng.
 - **Hệ thống Xem lại Lịch sử Thi thử (Exam Attempt History)**:
   - Xây dựng trang chuyên biệt xem toàn bộ lịch sử thi `/thi-thu/lich-su` ([ExamHistoryPage](file:///d:/Clone/HUMG-EnglishExitV2/src/app/%28public%29/thi-thu/lich-su/page.tsx)) và component [ExamHistoryView](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/exam/exam-history-view.tsx).
   - 4 Thẻ chỉ số tổng quan: Tổng lượt thi, Số bài hoàn thành, Kỷ lục điểm cao nhất (%), và Tỷ lệ Đạt chuẩn (%).

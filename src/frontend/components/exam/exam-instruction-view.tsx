@@ -17,11 +17,13 @@ import {
   Layers,
   History,
   ExternalLink,
+  BookOpen,
 } from "lucide-react";
 import { Button } from "@/frontend/components/ui/button";
 import { toast } from "sonner";
 import { fetchUserExamHistory, saveLocalAttemptId } from "@/frontend/lib/attempt-storage";
 import type { ExamAttemptHistoryItemDTO } from "@/shared/types/attempt";
+import { ExamGuideModal } from "./exam-guide-modal";
 
 interface ExamInstructionViewProps {
   exam: ExamDetailDTO;
@@ -31,6 +33,7 @@ export function ExamInstructionView({ exam }: ExamInstructionViewProps) {
   const router = useRouter();
   const [hasAgreed, setHasAgreed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [pastAttempts, setPastAttempts] = useState<ExamAttemptHistoryItemDTO[]>([]);
 
   // Tải các lần thi trước của đề thi này
@@ -43,13 +46,6 @@ export function ExamInstructionView({ exam }: ExamInstructionViewProps) {
       })
       .catch(() => {});
   }, [exam.id]);
-
-  const rwParts = exam.parts.filter(
-    (p) => p.skill === "READING_WRITING" || (p.skill as string) === "reading_writing"
-  );
-  const listeningParts = exam.parts.filter(
-    (p) => p.skill === "LISTENING" || (p.skill as string) === "listening"
-  );
 
   const totalQuestions = exam.parts.reduce((sum, p) => sum + p.totalQuestions, 0);
 
@@ -141,137 +137,16 @@ export function ExamInstructionView({ exam }: ExamInstructionViewProps) {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Cấu trúc 14 phần đã ghép trong đề thi thật */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 space-y-6">
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-          Cấu trúc các phần thi trong đề
-        </h2>
-
-        {/* Khối Reading & Writing */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-5 rounded-full bg-purple-500" />
-            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
-              Khối 1: Reading & Writing (Part 1 – Part 9)
-            </h3>
-          </div>
-          <div className="divide-y divide-slate-100 dark:divide-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-800/80 overflow-hidden text-xs">
-            {rwParts.map((p) => (
-              <div
-                key={p.id}
-                className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="font-bold text-purple-600 dark:text-purple-400 w-14">
-                    Part {p.partNo}
-                  </span>
-                  <span className="font-medium text-slate-800 dark:text-slate-200">
-                    {p.title}
-                  </span>
-                </div>
-                <div className="flex items-center gap-4 text-slate-400">
-                  <span className="hidden sm:inline-block text-[11px] bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
-                    {p.sourceLabel}
-                  </span>
-                  <span>{p.totalQuestions} câu</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Khối Listening */}
-        <div className="space-y-3 pt-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-5 rounded-full bg-sky-500" />
-            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
-              Khối 2: Listening (Part 10 – Part 14)
-            </h3>
-          </div>
-          <div className="divide-y divide-slate-100 dark:divide-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-800/80 overflow-hidden text-xs">
-            {listeningParts.map((p) => (
-              <div
-                key={p.id}
-                className="flex items-center justify-between p-3.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="font-bold text-sky-600 dark:text-sky-400 w-14">
-                    Part {p.partNo}
-                  </span>
-                  <span className="font-medium text-slate-800 dark:text-slate-200">
-                    {p.title}
-                  </span>
-                </div>
-                <div className="flex items-center gap-4 text-slate-400">
-                  <span className="hidden sm:inline-block text-[11px] bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
-                    {p.sourceLabel}
-                  </span>
-                  <span>{p.totalQuestions} câu</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Quy định phòng thi & Yêu cầu kỹ thuật */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Quy định phòng thi */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 space-y-4">
-          <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white text-base">
-            <ShieldAlert className="w-5 h-5 text-amber-500" />
-            <span>Quy định làm bài thi thử</span>
-          </div>
-          <ul className="space-y-2.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-            <li className="flex items-start gap-2">
-              <span className="text-[#0095F6] font-bold">•</span>
-              <span>
-                <strong>Đồng hồ tính giờ độc lập từ máy chủ:</strong> Thời gian 60 phút bắt đầu đếm ngược ngay khi bấm &ldquo;Bắt đầu làm bài&rdquo;.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-[#0095F6] font-bold">•</span>
-              <span>
-                <strong>Tự động lưu đáp án:</strong> Hệ thống tự động đồng bộ câu trả lời sau mỗi lần chọn để chống mất dữ liệu.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-[#0095F6] font-bold">•</span>
-              <span>
-                <strong>Hết giờ tự nộp:</strong> Khi hết 60 phút, hệ thống tự động chốt bài và chuyển sang trang kết quả chấm điểm.
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Yêu cầu kỹ thuật */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 space-y-4">
-          <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white text-base">
-            <Laptop className="w-5 h-5 text-[#0095F6]" />
-            <span>Yêu cầu thiết bị & Kỹ thuật</span>
-          </div>
-          <ul className="space-y-2.5 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-            <li className="flex items-start gap-2">
-              <Volume2 className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />
-              <span>
-                <strong>Âm thanh tai nghe:</strong> Đảm bảo loa hoặc tai nghe hoạt động tốt để nghe rõ các đoạn audio ở Part 10 - 14.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <Wifi className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-              <span>
-                <strong>Kết nối mạng ổn định:</strong> Duy trì mạng liên tục trong suốt 60 phút thi.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-purple-500 shrink-0 mt-0.5" />
-              <span>
-                <strong>Trình duyệt khuyến nghị:</strong> Chrome, Edge, Safari hoặc Firefox phiên bản mới nhất.
-              </span>
-            </li>
-          </ul>
+        <div className="pt-2 flex items-center justify-between flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => setIsGuideOpen(true)}
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#0095F6] hover:underline cursor-pointer"
+          >
+            <BookOpen className="w-4 h-4" />
+            <span>Xem chi tiết quy chế phòng thi & cấu trúc 14 phần →</span>
+          </button>
         </div>
       </div>
 
@@ -392,6 +267,12 @@ export function ExamInstructionView({ exam }: ExamInstructionViewProps) {
           </Link>
         </div>
       </div>
+
+      {/* Modal hướng dẫn quy chế với backdrop-blur */}
+      <ExamGuideModal
+        isOpen={isGuideOpen}
+        onClose={() => setIsGuideOpen(false)}
+      />
     </div>
   );
 }
