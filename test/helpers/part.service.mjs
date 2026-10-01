@@ -67,5 +67,81 @@ export function createPartService(dbClient) {
         },
       });
     },
+
+    async getPartById(id) {
+      const part = await dbClient.part.findUnique({
+        where: { id },
+        include: {
+          questionGroups: {
+            include: {
+              questions: true,
+            },
+          },
+        },
+      });
+
+      if (!part) return null;
+
+      const firstGroup = part.questionGroups?.[0];
+      return {
+        id: part.id,
+        partNo: part.partNo,
+        skill: part.skill,
+        questionType: firstGroup?.type || "MCQ3",
+        title: part.title,
+        sourceLabel: part.sourceLabel,
+        groupSet: part.groupSet,
+        instructions: part.instructions,
+        exampleRow: part.exampleRow || null,
+        difficulty: part.difficulty,
+        status: part.status,
+        createdAt: part.createdAt instanceof Date ? part.createdAt.toISOString() : String(part.createdAt),
+        updatedAt: part.updatedAt instanceof Date ? part.updatedAt.toISOString() : String(part.updatedAt),
+        passageText: firstGroup?.passageText || null,
+        passageImageUrl: firstGroup?.passageImageUrl || null,
+        audioUrl: firstGroup?.audioUrl || null,
+        maxPlays: firstGroup?.maxPlays || 2,
+        transcript: firstGroup?.transcript || null,
+        poolOptions: firstGroup?.poolOptions || null,
+        writingRequirements: firstGroup?.writingRequirements || null,
+        minWords: firstGroup?.minWords || null,
+        maxWords: firstGroup?.maxWords || null,
+        sampleWriting: firstGroup?.sampleWriting || null,
+        questions: firstGroup?.questions || [],
+      };
+    },
+
+    async updatePart(input, _adminId) {
+      const existing = await dbClient.part.findUnique({ where: { id: input.id } });
+      if (!existing) {
+        throw new Error("Không tìm thấy Part cần cập nhật");
+      }
+
+      if (input.status === "PUBLISHED") {
+        const issues = validatePartForPublish(input);
+        if (issues.length > 0) {
+          throw new PartValidationError("Nội dung Part chưa đủ điều kiện để công khai", issues);
+        }
+      }
+
+      if (dbClient.$transaction) {
+        return dbClient.$transaction(async (tx) => {
+          await tx.part.update({
+            where: { id: input.id },
+            data: { ...input },
+          });
+          return { id: input.id, ...input };
+        });
+      }
+
+      if (dbClient.part.update) {
+        await dbClient.part.update({
+          where: { id: input.id },
+          data: { ...input },
+        });
+      }
+
+      return { id: input.id, ...input };
+    },
   };
 }

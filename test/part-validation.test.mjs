@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createPartSchema, validatePartForPublish } from "./helpers/part.schema.mjs";
+import { createPartSchema, updatePartSchema, validatePartForPublish } from "./helpers/part.schema.mjs";
 
 test("createPartSchema - chặn partNo không hợp lệ (ngoài khoảng 1-14)", () => {
   const result = createPartSchema.safeParse({
@@ -250,5 +250,43 @@ test("validatePartForPublish - Part 8: chấp nhận công khai khi có passageI
 
   const issues = validatePartForPublish(input);
   assert.equal(issues.length, 0);
+});
+
+test("updatePartSchema - chặn cập nhật khi thiếu id", () => {
+  const result = updatePartSchema.safeParse({
+    partNo: 1,
+    skill: "READING_WRITING",
+    questionType: "MATCH_POOL",
+    title: "Tiêu đề Part",
+    sourceLabel: "KET 5 · Test 1",
+    groupSet: "KET 5",
+    instructions: "Nối biển báo",
+    status: "DRAFT",
+    questions: [
+      { orderNumber: 1, prompt: "Q1", correctAnswer: "A" },
+    ],
+  });
+
+  assert.equal(result.success, false);
+});
+
+test("updatePartSchema - hợp lệ khi có đầy đủ id và thông tin hợp lệ", () => {
+  const result = updatePartSchema.safeParse({
+    id: "part-123",
+    partNo: 1,
+    skill: "READING_WRITING",
+    questionType: "MATCH_POOL",
+    title: "Tiêu đề Part cập nhật",
+    sourceLabel: "KET 5 · Test 1",
+    groupSet: "KET 5",
+    instructions: "Nối biển báo",
+    status: "DRAFT",
+    questions: [
+      { orderNumber: 1, prompt: "Q1", correctAnswer: "A" },
+    ],
+  });
+
+  assert.equal(result.success, true);
+  assert.equal(result.data.id, "part-123");
 });
 

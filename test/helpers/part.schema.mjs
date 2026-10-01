@@ -86,6 +86,10 @@ export const createPartSchema = z.object({
   questions: z.array(questionInputItemSchema),
 });
 
+export const updatePartSchema = createPartSchema.extend({
+  id: z.string().min(1, "Thiếu ID của Part cần cập nhật"),
+});
+
 export function validatePartForPublish(input) {
   const issues = [];
   const partNo = input.partNo ?? 1;

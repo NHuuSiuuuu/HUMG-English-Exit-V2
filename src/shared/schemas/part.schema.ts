@@ -95,6 +95,13 @@ export const createPartSchema = z.object({
 
 export type CreatePartSchemaInput = z.infer<typeof createPartSchema>;
 
+// Schema validate dữ liệu cập nhật Part
+export const updatePartSchema = createPartSchema.extend({
+  id: z.string().min(1, "Thiếu ID của Part cần cập nhật"),
+});
+
+export type UpdatePartSchemaInput = z.infer<typeof updatePartSchema>;
+
 /**
  * Thẩm định xem nội dung Part đã đủ điều kiện để công khai (PUBLISHED) hay chưa.
  * Trả về danh sách các vấn đề / lỗi cần hoàn thiện.

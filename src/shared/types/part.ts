@@ -58,6 +58,41 @@ export interface CreatePartInput {
   questions: QuestionInputItem[];
 }
 
+export interface UpdatePartInput extends CreatePartInput {
+  id: string;
+}
+
+export interface PartDetailDTO {
+  id: string;
+  partNo: number;
+  skill: SkillType;
+  questionType: QuestionType;
+  title: string;
+  sourceLabel: string;
+  groupSet: string;
+  instructions: string;
+  exampleRow?: ExampleRowDef | null;
+  difficulty: string;
+  status: PartStatus;
+  createdAt: string;
+  updatedAt: string;
+
+  // Stimulus / Tư liệu bài thi
+  passageText?: string | null;
+  passageImageUrl?: string | null;
+  audioUrl?: string | null;
+  maxPlays: number;
+  transcript?: string | null;
+  poolOptions?: PoolOptionDef[] | null;
+  writingRequirements?: string[] | null;
+  minWords?: number | null;
+  maxWords?: number | null;
+  sampleWriting?: string | null;
+
+  // Danh sách câu hỏi
+  questions: QuestionInputItem[];
+}
+
 export interface PartCompletenessIssue {
   field: string;
   message: string;

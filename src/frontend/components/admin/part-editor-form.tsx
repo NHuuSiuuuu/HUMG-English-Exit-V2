@@ -30,6 +30,7 @@ import {
 } from "@/shared/schemas/part.schema";
 import type {
   CreatePartInput,
+  PartDetailDTO,
   PoolOptionDef,
   QuestionInputItem,
   PartCompletenessIssue,
@@ -288,27 +289,53 @@ function getDefaultQuestionsForPart(partNo: number): QuestionInputItem[] {
   }
 }
 
-export function PartEditorForm() {
+interface PartEditorFormProps {
+  initialPart?: PartDetailDTO | null;
+  isEditing?: boolean;
+}
+
+export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFormProps = {}) {
   const router = useRouter();
 
   // 1. Phân loại & Thông tin chung
-  const [selectedPartNo, setSelectedPartNo] = React.useState<number>(1);
-  const [title, setTitle] = React.useState("Bài luyện tập KET 5 - Test 1: Biển báo & Thông báo");
-  const [sourceLabel, setSourceLabel] = React.useState("KET 5 · Test 1");
-  const [groupSet, setGroupSet] = React.useState("KET 5");
-  const [instructions, setInstructions] = React.useState(
-    "Nối 5 câu mô tả với 8 biển báo/thông báo ngắn (A–H). Chọn một chữ cái tương ứng."
+  const [selectedPartNo, setSelectedPartNo] = React.useState<number>(
+    initialPart?.partNo ?? 1
   );
-  const [exampleQuestion, setExampleQuestion] = React.useState("0. Do not feed the animals.");
-  const [exampleAnswer, setExampleAnswer] = React.useState("E");
-  const [exampleExplanation, setExampleExplanation] = React.useState("Biển E: Zoo notice - Không cho thú ăn.");
+  const [title, setTitle] = React.useState(
+    initialPart?.title ?? "Bài luyện tập KET 5 - Test 1: Biển báo & Thông báo"
+  );
+  const [sourceLabel, setSourceLabel] = React.useState(
+    initialPart?.sourceLabel ?? "KET 5 · Test 1"
+  );
+  const [groupSet, setGroupSet] = React.useState(
+    initialPart?.groupSet ?? "KET 5"
+  );
+  const [instructions, setInstructions] = React.useState(
+    initialPart?.instructions ??
+      "Nối 5 câu mô tả với 8 biển báo/thông báo ngắn (A–H). Chọn một chữ cái tương ứng."
+  );
+  const [exampleQuestion, setExampleQuestion] = React.useState(
+    initialPart?.exampleRow?.question ?? (isEditing ? "" : "0. Do not feed the animals.")
+  );
+  const [exampleAnswer, setExampleAnswer] = React.useState(
+    initialPart?.exampleRow?.correctAnswer ?? (isEditing ? "" : "E")
+  );
+  const [exampleExplanation, setExampleExplanation] = React.useState(
+    initialPart?.exampleRow?.explanation ?? (isEditing ? "" : "Biển E: Zoo notice - Không cho thú ăn.")
+  );
 
   // 2. Tư liệu bài thi (Stimulus)
   const [passageText, setPassageText] = React.useState(
-    "A: Please show tickets at the entrance.\nB: Swimming pool closed for maintenance today.\nC: Special student discount 20% on Thursdays.\nD: Luggage must not be left unattended.\nE: Turn off all mobile phones during the performance.\nF: No parking here on weekdays.\nG: Fresh sandwiches available from 8 AM.\nH: Free Wi-Fi in the waiting room."
+    initialPart
+      ? (initialPart.passageText ?? "")
+      : "A: Please show tickets at the entrance.\nB: Swimming pool closed for maintenance today.\nC: Special student discount 20% on Thursdays.\nD: Luggage must not be left unattended.\nE: Turn off all mobile phones during the performance.\nF: No parking here on weekdays.\nG: Fresh sandwiches available from 8 AM.\nH: Free Wi-Fi in the waiting room."
   );
-  const [passageImageUrl, setPassageImageUrl] = React.useState<string>("");
-  const [passageMode, setPassageMode] = React.useState<"image" | "text">("text");
+  const [passageImageUrl, setPassageImageUrl] = React.useState<string>(
+    initialPart?.passageImageUrl ?? ""
+  );
+  const [passageMode, setPassageMode] = React.useState<"image" | "text">(
+    initialPart?.passageImageUrl ? "image" : "text"
+  );
   const [isUploadingImage, setIsUploadingImage] = React.useState<boolean>(false);
   const [uploadError, setUploadError] = React.useState<string | null>(null);
   const [uploadProvider, setUploadProvider] = React.useState<string | null>(null);
@@ -375,34 +402,49 @@ export function PartEditorForm() {
     }
   };
 
-  const [poolOptions, setPoolOptions] = React.useState<PoolOptionDef[]>([
-    { letter: "A", text: "Please show tickets at the entrance." },
-    { letter: "B", text: "Swimming pool closed for maintenance today." },
-    { letter: "C", text: "Special student discount 20% on Thursdays." },
-    { letter: "D", text: "Luggage must not be left unattended." },
-    { letter: "E", text: "Turn off all mobile phones during the performance." },
-    { letter: "F", text: "No parking here on weekdays." },
-    { letter: "G", text: "Fresh sandwiches available from 8 AM." },
-    { letter: "H", text: "Free Wi-Fi in the waiting room." },
-  ]);
-  const [audioUrl, setAudioUrl] = React.useState("https://assets.humg-english.site/audio/ket5-t1-p10.mp3");
-  const [maxPlays, setMaxPlays] = React.useState<number>(2);
-  const [audioScript, setAudioScript] = React.useState("");
+  const [poolOptions, setPoolOptions] = React.useState<PoolOptionDef[]>(
+    initialPart?.poolOptions && initialPart.poolOptions.length > 0
+      ? initialPart.poolOptions
+      : [
+          { letter: "A", text: "Please show tickets at the entrance." },
+          { letter: "B", text: "Swimming pool closed for maintenance today." },
+          { letter: "C", text: "Special student discount 20% on Thursdays." },
+          { letter: "D", text: "Luggage must not be left unattended." },
+          { letter: "E", text: "Turn off all mobile phones during the performance." },
+          { letter: "F", text: "No parking here on weekdays." },
+          { letter: "G", text: "Fresh sandwiches available from 8 AM." },
+          { letter: "H", text: "Free Wi-Fi in the waiting room." },
+        ]
+  );
+  const [audioUrl, setAudioUrl] = React.useState(
+    initialPart ? (initialPart.audioUrl ?? "") : "https://assets.humg-english.site/audio/ket5-t1-p10.mp3"
+  );
+  const [maxPlays, setMaxPlays] = React.useState<number>(initialPart?.maxPlays ?? 2);
+  const [audioScript, setAudioScript] = React.useState(initialPart?.transcript ?? "");
 
   // Writing riêng cho Part 9
-  const [writingRequirements, setWritingRequirements] = React.useState<string[]>([
-    "Kể cho Alex về lớp học tiếng Anh mới của bạn",
-    "Giải thích lý do bạn thích giáo viên",
-    "Gợi ý gặp nhau vào cuối tuần tới",
-  ]);
+  const [writingRequirements, setWritingRequirements] = React.useState<string[]>(
+    initialPart?.writingRequirements && initialPart.writingRequirements.length > 0
+      ? initialPart.writingRequirements
+      : [
+          "Kể cho Alex về lớp học tiếng Anh mới của bạn",
+          "Giải thích lý do bạn thích giáo viên",
+          "Gợi ý gặp nhau vào cuối tuần tới",
+        ]
+  );
   const [sampleWriting, setSampleWriting] = React.useState(
-    "Hi Alex,\nMy new English class is fantastic! Our teacher is very friendly and makes grammar fun. Would you like to meet up next Saturday at the campus cafe?\nBest,\nNam"
+    initialPart
+      ? (initialPart.sampleWriting ?? "")
+      : "Hi Alex,\nMy new English class is fantastic! Our teacher is very friendly and makes grammar fun. Would you like to meet up next Saturday at the campus cafe?\nBest,\nNam"
   );
 
   // 3. Danh sách câu hỏi
-  const [questions, setQuestions] = React.useState<QuestionInputItem[]>(() =>
-    getDefaultQuestionsForPart(1)
-  );
+  const [questions, setQuestions] = React.useState<QuestionInputItem[]>(() => {
+    if (initialPart?.questions && initialPart.questions.length > 0) {
+      return initialPart.questions;
+    }
+    return getDefaultQuestionsForPart(1);
+  });
 
   // Trạng thái giao diện
   const [activeTab, setActiveTab] = React.useState<"edit" | "preview">("edit");
@@ -559,17 +601,17 @@ export function PartEditorForm() {
         sourceLabel: sourceLabel.trim(),
         groupSet: groupSet.trim(),
         instructions: instructions.trim(),
-        exampleRow: exampleQuestion
+        exampleRow: exampleQuestion.trim()
           ? {
               question: exampleQuestion.trim(),
               correctAnswer: exampleAnswer.trim(),
               explanation: exampleExplanation.trim(),
             }
           : null,
-        difficulty: "MEDIUM",
+        difficulty: initialPart?.difficulty ?? "MEDIUM",
         status,
-        passageText: passageText.trim() || null,
-        passageImageUrl: passageImageUrl.trim() || null,
+        passageText: passageMode === "text" ? passageText.trim() || null : null,
+        passageImageUrl: passageMode === "image" ? passageImageUrl.trim() || null : null,
         audioUrl: isListening ? audioUrl.trim() || null : null,
         maxPlays: isListening ? maxPlays : 2,
         transcript: isListening ? audioScript.trim() || null : null,
@@ -581,8 +623,13 @@ export function PartEditorForm() {
         questions,
       };
 
-      const res = await fetch("/api/admin/parts", {
-        method: "POST",
+      const endpoint = isEditing && initialPart?.id
+        ? `/api/admin/parts/${initialPart.id}`
+        : "/api/admin/parts";
+      const method = isEditing && initialPart?.id ? "PUT" : "POST";
+
+      const res = await fetch(endpoint, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -598,9 +645,15 @@ export function PartEditorForm() {
       }
 
       setSaveSuccessMessage(
-        status === "PUBLISHED"
-          ? `Đã tạo và công khai bài luyện Part ${selectedPartNo} thành công vào Kho phần!`
-          : `Đã lưu bản nháp Part ${selectedPartNo} thành công!`
+        data.message || (
+          status === "PUBLISHED"
+            ? (isEditing
+                ? `Đã cập nhật và công khai bài luyện Part ${selectedPartNo} thành công!`
+                : `Đã tạo và công khai bài luyện Part ${selectedPartNo} thành công vào Kho phần!`)
+            : (isEditing
+                ? `Đã cập nhật bản nháp Part ${selectedPartNo} thành công!`
+                : `Đã lưu bản nháp Part ${selectedPartNo} thành công!`)
+        )
       );
 
       // Chuyển hướng về trang danh sách Kho phần sau 1.5 giây
@@ -637,7 +690,9 @@ export function PartEditorForm() {
               </Badge>
             </div>
             <h1 className="text-xl sm:text-2xl font-extrabold text-foreground mt-0.5">
-              Soạn bài luyện Part {selectedPartNo}: {currentPartDef.titleVi}
+              {isEditing
+                ? `Chỉnh sửa bài luyện Part ${selectedPartNo}: ${currentPartDef.titleVi}`
+                : `Soạn bài luyện Part ${selectedPartNo}: ${currentPartDef.titleVi}`}
             </h1>
           </div>
         </div>
@@ -686,7 +741,7 @@ export function PartEditorForm() {
             ) : (
               <Save className="w-3.5 h-3.5 mr-1.5" />
             )}
-            <span>Lưu nháp</span>
+            <span>{isEditing ? "Lưu thay đổi" : "Lưu nháp"}</span>
           </Button>
 
           <Button
@@ -702,7 +757,7 @@ export function PartEditorForm() {
             ) : (
               <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
             )}
-            <span>Công khai</span>
+            <span>{isEditing ? "Cập nhật & Công khai" : "Công khai"}</span>
           </Button>
         </div>
       </div>
@@ -738,12 +793,16 @@ export function PartEditorForm() {
                 {/* Chọn Part */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-foreground">
-                    Thuộc Part thi (1 – 14) *
+                    Thuộc Part thi (1 – 14) * {isEditing && <span className="text-[11px] text-muted italic font-normal">(Cố định khi sửa)</span>}
                   </label>
                   <select
                     value={selectedPartNo}
+                    disabled={isEditing}
                     onChange={(e) => handlePartChange(Number(e.target.value))}
-                    className="w-full min-h-[42px] px-3 rounded-xl border border-border bg-surface-raised text-xs sm:text-sm text-foreground outline-none focus:ring-2 focus:ring-primary font-medium"
+                    className={cn(
+                      "w-full min-h-[42px] px-3 rounded-xl border border-border bg-surface-raised text-xs sm:text-sm text-foreground outline-none focus:ring-2 focus:ring-primary font-medium",
+                      isEditing && "opacity-60 cursor-not-allowed"
+                    )}
                   >
                     {EXAM_PARTS.map((p) => (
                       <option key={p.partNo} value={p.partNo}>

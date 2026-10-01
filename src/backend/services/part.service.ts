@@ -2,7 +2,15 @@ import "server-only";
 
 import { db } from "@/backend/lib/db";
 import { Prisma } from "@prisma/client";
-import type { CreatePartInput, PartCompletenessIssue } from "@/shared/types/part";
+import type {
+  CreatePartInput,
+  UpdatePartInput,
+  PartDetailDTO,
+  PoolOptionDef,
+  QuestionOptionDef,
+  ExampleRowDef,
+  PartCompletenessIssue,
+} from "@/shared/types/part";
 import { validatePartForPublish } from "@/shared/schemas/part.schema";
 
 export class PartValidationError extends Error {
@@ -209,8 +217,161 @@ export async function deletePart(id: string) {
   }
 }
 
+/**
+ * Lấy chi tiết một Part theo ID (bao gồm cả nhóm câu hỏi và câu hỏi liên quan)
+ */
+export async function getPartById(id: string): Promise<PartDetailDTO | null> {
+  const part = await db.part.findUnique({
+    where: { id },
+    include: {
+      questionGroups: {
+        orderBy: { order: "asc" },
+        include: {
+          questions: {
+            orderBy: { orderNumber: "asc" },
+          },
+        },
+      },
+    },
+  });
+
+  if (!part) {
+    return null;
+  }
+
+  const firstGroup = part.questionGroups[0];
+
+  return {
+    id: part.id,
+    partNo: part.partNo,
+    skill: part.skill,
+    questionType: firstGroup?.type || "MCQ3",
+    title: part.title,
+    sourceLabel: part.sourceLabel,
+    groupSet: part.groupSet,
+    instructions: part.instructions,
+    exampleRow: (part.exampleRow as unknown as ExampleRowDef) ?? null,
+    difficulty: part.difficulty,
+    status: part.status,
+    createdAt: part.createdAt.toISOString(),
+    updatedAt: part.updatedAt.toISOString(),
+
+    passageText: firstGroup?.passageText ?? null,
+    passageImageUrl: firstGroup?.passageImageUrl ?? null,
+    audioUrl: firstGroup?.audioUrl ?? null,
+    maxPlays: firstGroup?.maxPlays ?? 2,
+    transcript: firstGroup?.transcript ?? null,
+    poolOptions: (firstGroup?.poolOptions as unknown as PoolOptionDef[]) ?? null,
+    writingRequirements: (firstGroup?.writingRequirements as unknown as string[]) ?? null,
+    minWords: firstGroup?.minWords ?? null,
+    maxWords: firstGroup?.maxWords ?? null,
+    sampleWriting: firstGroup?.sampleWriting ?? null,
+
+    questions: firstGroup
+      ? firstGroup.questions.map((q) => ({
+          id: q.id,
+          orderNumber: q.orderNumber,
+          prompt: q.prompt,
+          options: (q.options as unknown as QuestionOptionDef[]) ?? undefined,
+          correctAnswer: q.correctAnswer,
+          acceptedAnswers: (q.acceptedAnswers as unknown as string[]) ?? undefined,
+          explanation: q.explanation ?? undefined,
+          firstLetterHint: q.firstLetterHint ?? undefined,
+          charCountHint: q.charCountHint ?? undefined,
+          formFieldLabel: q.formFieldLabel ?? undefined,
+        }))
+      : [],
+  };
+}
+
+/**
+ * Cập nhật một Part hiện có cùng toàn bộ nhóm câu hỏi và câu hỏi liên quan trong transaction
+ */
+export async function updatePart(input: UpdatePartInput, _adminId?: string): Promise<PartDetailDTO> {
+  const existing = await db.part.findUnique({
+    where: { id: input.id },
+  });
+
+  if (!existing) {
+    throw new Error("Không tìm thấy Part cần cập nhật");
+  }
+
+  // Nếu chuyển sang trạng thái PUBLISHED: bắt buộc thẩm định đạt chuẩn
+  if (input.status === "PUBLISHED") {
+    const issues = checkPartCompleteness(input);
+    if (issues.length > 0) {
+      throw new PartValidationError("Nội dung Part chưa đủ điều kiện để công khai", issues);
+    }
+  }
+
+  // Cập nhật thông tin Part và đồng bộ nhóm câu hỏi trong transaction
+  await db.$transaction(async (tx) => {
+    // 1. Cập nhật thông tin cơ bản của Part
+    await tx.part.update({
+      where: { id: input.id },
+      data: {
+        partNo: input.partNo,
+        skill: input.skill,
+        title: input.title,
+        sourceLabel: input.sourceLabel,
+        groupSet: input.groupSet,
+        instructions: input.instructions,
+        exampleRow: input.exampleRow ? (input.exampleRow as unknown as Prisma.InputJsonValue) : Prisma.JsonNull,
+        difficulty: input.difficulty ?? "MEDIUM",
+        status: input.status,
+      },
+    });
+
+    // 2. Xóa các questionGroups cũ (onDelete: Cascade sẽ tự xóa toàn bộ questions tương ứng)
+    await tx.questionGroup.deleteMany({
+      where: { partId: input.id },
+    });
+
+    // 3. Tạo lại questionGroup và danh sách questions mới
+    await tx.questionGroup.create({
+      data: {
+        partId: input.id,
+        type: input.questionType,
+        order: 1,
+        passageText: input.passageText || null,
+        passageImageUrl: input.passageImageUrl || null,
+        audioUrl: input.audioUrl || null,
+        maxPlays: input.maxPlays ?? 2,
+        transcript: input.transcript || null,
+        poolOptions: input.poolOptions ? (input.poolOptions as unknown as Prisma.InputJsonValue) : Prisma.JsonNull,
+        writingRequirements: input.writingRequirements ? (input.writingRequirements as unknown as Prisma.InputJsonValue) : Prisma.JsonNull,
+        minWords: input.minWords ?? (input.questionType === "WRITING" ? 25 : null),
+        maxWords: input.maxWords ?? (input.questionType === "WRITING" ? 35 : null),
+        sampleWriting: input.sampleWriting || null,
+        questions: {
+          create: input.questions.map((q, idx) => ({
+            orderNumber: q.orderNumber || idx + 1,
+            prompt: q.prompt,
+            options: q.options ? (q.options as unknown as Prisma.InputJsonValue) : Prisma.JsonNull,
+            correctAnswer: q.correctAnswer,
+            acceptedAnswers: q.acceptedAnswers ? (q.acceptedAnswers as unknown as Prisma.InputJsonValue) : Prisma.JsonNull,
+            explanation: q.explanation || null,
+            firstLetterHint: q.firstLetterHint || null,
+            charCountHint: q.charCountHint ?? null,
+            formFieldLabel: q.formFieldLabel || null,
+          })),
+        },
+      },
+    });
+  });
+
+  const updated = await getPartById(input.id);
+  if (!updated) {
+    throw new Error("Lỗi khi tải lại dữ liệu Part sau cập nhật");
+  }
+
+  return updated;
+}
+
 export const partService = {
   createPart,
+  getPartById,
+  updatePart,
   checkPartCompleteness,
   getParts,
   getPartStats,
