@@ -377,6 +377,18 @@ export function PartBankManager({ initialParts, initialStats }: PartBankManagerP
                                   </Button>
                                 </Link>
 
+                                {/* Nút chỉnh sửa Part */}
+                                <Link href={`/admin/part-bank/tao-moi?edit=${part.id}`}>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 min-h-0 min-w-0"
+                                    title="Chỉnh sửa Part"
+                                  >
+                                    <Edit className="h-3.5 w-3.5 text-muted hover:text-foreground" />
+                                  </Button>
+                                </Link>
+
                                 {/* Nút xóa có xác nhận */}
                                 {deleteConfirmId === part.id ? (
                                   <div className="flex items-center gap-1">
