@@ -419,10 +419,63 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
         ]
   );
   const [audioUrl, setAudioUrl] = React.useState(
-    initialPart ? (initialPart.audioUrl ?? "") : "https://assets.humg-english.site/audio/ket5-t1-p10.mp3"
+    initialPart ? (initialPart.audioUrl ?? "") : ""
   );
   const [maxPlays, setMaxPlays] = React.useState<number>(initialPart?.maxPlays ?? 2);
   const [audioScript, setAudioScript] = React.useState(initialPart?.transcript ?? "");
+  const [isUploadingAudio, setIsUploadingAudio] = React.useState<boolean>(false);
+  const [audioUploadError, setAudioUploadError] = React.useState<string | null>(null);
+  const [audioFileName, setAudioFileName] = React.useState<string>(
+    initialPart?.audioUrl ? (initialPart.audioUrl.split("/").pop() || "audio.mp3") : ""
+  );
+  const audioFileInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  // Xử lý tải file âm thanh lên hệ thống qua API media
+  const handleAudioUpload = async (file: File) => {
+    if (!file) return;
+
+    if (!file.type.startsWith("audio/") && !file.name.match(/\.(mp3|wav|ogg|m4a|aac|webm)$/i)) {
+      setAudioUploadError("Vui lòng chọn một file âm thanh hợp lệ (MP3, WAV, M4A, OGG)");
+      return;
+    }
+
+    if (file.size > 20 * 1024 * 1024) {
+      setAudioUploadError("Dung lượng file âm thanh vượt quá giới hạn cho phép (20MB)");
+      return;
+    }
+
+    setIsUploadingAudio(true);
+    setAudioUploadError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("partTag", `Part ${selectedPartNo}`);
+      formData.append("name", file.name);
+
+      const res = await fetch("/api/admin/media", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Lỗi khi tải file audio lên máy chủ");
+      }
+
+      const uploadedUrl = data.data?.url || data.url;
+      setAudioUrl(uploadedUrl);
+      setAudioFileName(file.name);
+      toast.success(`Đã tải lên file âm thanh: ${file.name}`);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Không thể tải file âm thanh";
+      setAudioUploadError(message);
+      toast.error(message);
+    } finally {
+      setIsUploadingAudio(false);
+    }
+  };
 
   // Writing riêng cho Part 9
   const [writingRequirements, setWritingRequirements] = React.useState<string[]>(
@@ -910,18 +963,149 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
               {isListening ? (
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="sm:col-span-2 space-y-1.5">
-                      <label className="text-xs font-semibold text-foreground">
-                        Đường dẫn File Audio (MP3 URL) *
-                      </label>
+                    <div className="sm:col-span-2 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-semibold text-foreground">
+                          File Audio bài nghe <span className="text-destructive">*</span>
+                        </label>
+                        <span className="text-[11px] text-muted">
+                          Hỗ trợ MP3, WAV, M4A, OGG (Tối đa 20MB)
+                        </span>
+                      </div>
+
+                      {/* Thẻ input file ẩn chấp nhận audio/* và nút chọn file tải lên trực tiếp */}
                       <input
-                        type="url"
-                        value={audioUrl}
-                        onChange={(e) => setAudioUrl(e.target.value)}
-                        placeholder="https://.../audio.mp3"
-                        className="w-full min-h-[42px] px-3.5 rounded-xl border border-border bg-surface-raised text-xs sm:text-sm font-mono text-foreground outline-none focus:ring-2 focus:ring-primary"
+                        type="file"
+                        ref={audioFileInputRef}
+                        accept="audio/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            handleAudioUpload(file);
+                            e.target.value = "";
+                          }
+                        }}
+                        className="hidden"
                       />
+
+                      {audioUploadError && (
+                        <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4 shrink-0" />
+                          <span>{audioUploadError}</span>
+                        </div>
+                      )}
+
+                      {!audioUrl ? (
+                        /* Trạng thái chưa có audio: Nút chọn file tải lên trực tiếp từ máy tính */
+                        <div
+                          onClick={() => !isUploadingAudio && audioFileInputRef.current?.click()}
+                          className={cn(
+                            "cursor-pointer p-5 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center text-center space-y-2",
+                            "border-border bg-surface-raised hover:border-primary/50 hover:bg-surface-raised/80",
+                            isUploadingAudio && "pointer-events-none opacity-60"
+                          )}
+                        >
+                          {isUploadingAudio ? (
+                            <div className="flex flex-col items-center gap-2 py-2">
+                              <Loader2 className="w-6 h-6 text-primary animate-spin" />
+                              <span className="text-xs font-semibold text-foreground">
+                                Đang tải file audio lên hệ thống...
+                              </span>
+                              <span className="text-[11px] text-muted">Vui lòng đợi trong giây lát</span>
+                            </div>
+                          ) : (
+                            <div className="flex flex-col items-center gap-2">
+                              <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shadow-inner">
+                                <UploadCloud className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <p className="text-xs font-bold text-foreground">
+                                  Bấm để chọn file âm thanh từ máy tính{" "}
+                                  <span className="text-primary underline underline-offset-2">
+                                    (audio/*)
+                                  </span>
+                                </p>
+                                <p className="text-[11px] text-muted mt-0.5">
+                                  Tải trực tiếp MP3/WAV lên máy chủ lưu trữ bài thi
+                                </p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        /* Trạng thái đã có file audio: Hiển thị thông tin file, nút thay/xóa và trình nghe thử */
+                        <div className="p-3.5 rounded-2xl bg-surface-raised border border-border space-y-3">
+                          <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                            <div className="flex items-center gap-2 min-w-0">
+                              <div className="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
+                                <Volume2 className="w-4 h-4" />
+                              </div>
+                              <div className="truncate">
+                                <span className="font-semibold text-foreground block truncate">
+                                  {audioFileName || audioUrl.split("/").pop() || "File âm thanh bài nghe"}
+                                </span>
+                                <span className="text-[10px] text-emerald-600 font-medium flex items-center gap-1">
+                                  <CheckCircle2 className="w-3 h-3" /> Đã sẵn sàng phát bài thi
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => audioFileInputRef.current?.click()}
+                                disabled={isUploadingAudio}
+                                className="px-3 py-1.5 rounded-xl border border-border bg-surface hover:bg-surface-raised text-foreground font-medium text-xs transition-colors flex items-center gap-1"
+                              >
+                                {isUploadingAudio ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <UploadCloud className="w-3.5 h-3.5 text-primary" />
+                                )}
+                                <span>Thay file khác</span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setAudioUrl("");
+                                  setAudioFileName("");
+                                }}
+                                className="px-2.5 py-1.5 rounded-xl border border-destructive/20 bg-destructive/10 hover:bg-destructive/20 text-destructive font-medium text-xs transition-colors"
+                                title="Xóa file audio này"
+                              >
+                                Xóa
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Nghe thử Audio */}
+                          <div className="pt-1">
+                            <audio controls src={audioUrl} className="h-9 w-full rounded-lg" />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Tùy chọn xem / dán link thủ công dự phòng */}
+                      <details className="text-xs text-muted group pt-1">
+                        <summary className="cursor-pointer font-medium hover:text-foreground list-none flex items-center gap-1.5 py-0.5">
+                          <span className="group-open:rotate-90 transition-transform">▸</span>
+                          <span>Hoặc dán / chỉnh sửa URL file audio thủ công</span>
+                        </summary>
+                        <div className="pt-2">
+                          <input
+                            type="url"
+                            value={audioUrl}
+                            onChange={(e) => {
+                              setAudioUrl(e.target.value);
+                              setAudioFileName(e.target.value.split("/").pop() || "");
+                            }}
+                            placeholder="https://.../audio.mp3"
+                            className="w-full min-h-[38px] px-3.5 rounded-xl border border-border bg-surface text-xs font-mono text-foreground outline-none focus:ring-2 focus:ring-primary"
+                          />
+                        </div>
+                      </details>
                     </div>
+
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold text-foreground">
                         Số lần nghe tối đa
@@ -937,17 +1121,6 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
                       </select>
                     </div>
                   </div>
-
-                  {/* Trình nghe thử audio trực tiếp */}
-                  {audioUrl && (
-                    <div className="p-3.5 rounded-2xl bg-surface-raised border border-border flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
-                        <Volume2 className="w-4 h-4 text-primary shrink-0" />
-                        <span>Nghe thử Audio:</span>
-                      </div>
-                      <audio controls src={audioUrl} className="h-8 max-w-sm w-full" />
-                    </div>
-                  )}
 
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-foreground">
