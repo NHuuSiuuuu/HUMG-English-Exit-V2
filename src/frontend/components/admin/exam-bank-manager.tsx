@@ -22,6 +22,7 @@ import { Button } from "@/frontend/components/ui/button";
 import { Badge } from "@/frontend/components/ui/badge";
 import { Card, CardContent } from "@/frontend/components/ui/card";
 import { cn } from "@/frontend/lib/utils";
+import { toast } from "sonner";
 
 interface ExamBankManagerProps {
   initialExams: ExamListItemDTO[];
@@ -39,10 +40,6 @@ export function ExamBankManager({ initialExams, initialStats }: ExamBankManagerP
   // Quản lý xóa đề thi
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = React.useState<string | null>(null);
-  const [feedbackMessage, setFeedbackMessage] = React.useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
 
   // Lọc danh sách đề thi
   const filteredExams = React.useMemo(() => {
@@ -65,7 +62,6 @@ export function ExamBankManager({ initialExams, initialStats }: ExamBankManagerP
   // Xóa đề thi
   const handleDeleteExam = async (id: string) => {
     setDeletingId(id);
-    setFeedbackMessage(null);
 
     try {
       const res = await fetch(`/api/admin/exams/${id}`, {
@@ -88,16 +84,10 @@ export function ExamBankManager({ initialExams, initialStats }: ExamBankManagerP
         draft: deletedExam?.status === "DRAFT" ? Math.max(0, prev.draft - 1) : prev.draft,
       }));
 
-      setFeedbackMessage({
-        text: `Đã xóa đề thi "${deletedExam?.code || id}" thành công!`,
-        type: "success",
-      });
+      toast.success(`Đã xóa đề thi "${deletedExam?.code || id}" thành công!`);
       setDeleteConfirmId(null);
     } catch (err) {
-      setFeedbackMessage({
-        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi xóa đề thi",
-        type: "error",
-      });
+      toast.error(err instanceof Error ? err.message : "Đã xảy ra lỗi khi xóa đề thi");
     } finally {
       setDeletingId(null);
     }
@@ -126,34 +116,6 @@ export function ExamBankManager({ initialExams, initialStats }: ExamBankManagerP
           </Button>
         </Link>
       </div>
-
-      {/* Thông báo thao tác */}
-      {feedbackMessage && (
-        <div
-          className={cn(
-            "p-3.5 rounded-2xl text-xs flex items-center justify-between gap-3 animate-in fade-in",
-            feedbackMessage.type === "success"
-              ? "bg-success/10 border border-success/20 text-success"
-              : "bg-destructive/10 border border-destructive/20 text-destructive"
-          )}
-        >
-          <div className="flex items-center gap-2">
-            {feedbackMessage.type === "success" ? (
-              <CheckCircle2 className="w-4 h-4 shrink-0" />
-            ) : (
-              <AlertCircle className="w-4 h-4 shrink-0" />
-            )}
-            <span>{feedbackMessage.text}</span>
-          </div>
-          <button
-            type="button"
-            onClick={() => setFeedbackMessage(null)}
-            className="text-xs hover:underline"
-          >
-            Đóng
-          </button>
-        </div>
-      )}
 
       {/* 4 Thẻ KPI thống kê số liệu thực */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

@@ -30,6 +30,7 @@ import { Button } from "@/frontend/components/ui/button";
 import { Badge } from "@/frontend/components/ui/badge";
 import { Card, CardContent } from "@/frontend/components/ui/card";
 import { cn } from "@/frontend/lib/utils";
+import { toast } from "sonner";
 
 interface MediaManagerProps {
   initialAssets: MediaAssetDTO[];
@@ -49,10 +50,6 @@ export function MediaManager({ initialAssets, initialStats }: MediaManagerProps)
   const [isUploading, setIsUploading] = React.useState(false);
   const [uploadPartTag, setUploadPartTag] = React.useState<string>(MEDIA_PART_TAGS[0]);
   const [isDragging, setIsDragging] = React.useState(false);
-  const [feedbackMessage, setFeedbackMessage] = React.useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
   // Trình phát Audio mini
@@ -112,21 +109,18 @@ export function MediaManager({ initialAssets, initialStats }: MediaManagerProps)
     const fullUrl = url.startsWith("http") ? url : `${window.location.origin}${url}`;
     navigator.clipboard.writeText(fullUrl);
     setCopiedId(id);
+    toast.success("Đã sao chép liên kết URL vào bộ nhớ tạm");
     setTimeout(() => setCopiedId(null), 2000);
   };
 
   // Upload file lên API
   const handleUploadFile = async (file: File) => {
     if (file.size > 20 * 1024 * 1024) {
-      setFeedbackMessage({
-        text: "Dung lượng file vượt quá giới hạn cho phép (tối đa 20MB)",
-        type: "error",
-      });
+      toast.error("Dung lượng file vượt quá giới hạn cho phép (tối đa 20MB)");
       return;
     }
 
     setIsUploading(true);
-    setFeedbackMessage(null);
 
     try {
       const formData = new FormData();
@@ -160,15 +154,9 @@ export function MediaManager({ initialAssets, initialStats }: MediaManagerProps)
         documentCount: newAsset.type === "DOCUMENT_PDF" ? prev.documentCount + 1 : prev.documentCount,
       }));
 
-      setFeedbackMessage({
-        text: `Đã tải lên thành công: ${newAsset.name}`,
-        type: "success",
-      });
+      toast.success(`Đã tải lên thành công: ${newAsset.name}`);
     } catch (err: unknown) {
-      setFeedbackMessage({
-        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi tải file",
-        type: "error",
-      });
+      toast.error(err instanceof Error ? err.message : "Đã xảy ra lỗi khi tải file");
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) {
@@ -180,7 +168,6 @@ export function MediaManager({ initialAssets, initialStats }: MediaManagerProps)
   // Xóa tài nguyên
   const handleDeleteAsset = async (id: string) => {
     setDeletingId(id);
-    setFeedbackMessage(null);
 
     try {
       const res = await fetch(`/api/admin/media/${id}`, {
@@ -212,16 +199,10 @@ export function MediaManager({ initialAssets, initialStats }: MediaManagerProps)
         setPlayingAudioId(null);
       }
 
-      setFeedbackMessage({
-        text: `Đã xóa tài nguyên "${deleted?.name || id}" thành công`,
-        type: "success",
-      });
+      toast.success(`Đã xóa tài nguyên "${deleted?.name || id}" thành công`);
       setDeleteConfirmId(null);
     } catch (err: unknown) {
-      setFeedbackMessage({
-        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi xóa tài nguyên",
-        type: "error",
-      });
+      toast.error(err instanceof Error ? err.message : "Đã xảy ra lỗi khi xóa tài nguyên");
     } finally {
       setDeletingId(null);
     }
@@ -265,32 +246,7 @@ export function MediaManager({ initialAssets, initialStats }: MediaManagerProps)
         </Button>
       </div>
 
-      {/* Thông báo kết quả thao tác */}
-      {feedbackMessage && (
-        <div
-          className={cn(
-            "p-3.5 rounded-lg text-sm flex items-center justify-between border animate-in fade-in duration-200",
-            feedbackMessage.type === "success"
-              ? "bg-success/10 border-success/30 text-success"
-              : "bg-danger/10 border-danger/30 text-danger"
-          )}
-        >
-          <div className="flex items-center gap-2">
-            {feedbackMessage.type === "success" ? (
-              <CheckCircle2 className="h-4 w-4 shrink-0" />
-            ) : (
-              <AlertCircle className="h-4 w-4 shrink-0" />
-            )}
-            <span>{feedbackMessage.text}</span>
-          </div>
-          <button
-            onClick={() => setFeedbackMessage(null)}
-            className="text-xs underline hover:no-underline font-medium"
-          >
-            Đóng
-          </button>
-        </div>
-      )}
+
 
       {/* 4 Thẻ KPI thống kê số liệu thực */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

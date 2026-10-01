@@ -7,6 +7,7 @@ import { AudioPlayerListening } from "./audio-player-listening";
 import { PracticeResultBanner } from "./practice-result-banner";
 import { QuestionRendererDispatcher } from "./questions/question-renderer-dispatcher";
 import { FileText, Bot, History, Sparkles } from "lucide-react";
+import { toast } from "sonner";
 
 interface PracticeWorkspaceProps {
   itemDetail: PracticeItemDetail;
@@ -66,11 +67,12 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
       const result: PracticeGradeResult = await res.json();
       setGradeResult(result);
       setIsGraded(true);
+      toast.success("Chấm điểm hoàn tất!");
 
       // Cuộn mượt lên trên để xem banner kết quả
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
-      alert("Đã xảy ra sự cố khi chấm bài. Vui lòng thử lại!");
+      toast.error("Đã xảy ra sự cố khi chấm bài. Vui lòng thử lại!");
     } finally {
       setIsSubmitting(false);
     }
@@ -80,6 +82,7 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
     setAnswers({});
     setIsGraded(false);
     setGradeResult(null);
+    toast.info("Đã làm mới bài làm");
   };
 
   return (
@@ -117,7 +120,7 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
             {group.transcript && (
               <button
                 type="button"
-                onClick={() => alert(`Transcript:\n${group.transcript}`)}
+                onClick={() => toast.info(`Transcript: ${group.transcript}`, { duration: 6000 })}
                 className="px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
               >
                 <FileText className="w-3.5 h-3.5" />
@@ -127,7 +130,7 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
 
             <button
               type="button"
-              onClick={() => alert("Trợ lý AI sẵn sàng giải thích ngữ pháp và từ vựng cho câu hỏi này.")}
+              onClick={() => toast.info("Trợ lý AI sẵn sàng giải thích ngữ pháp và từ vựng cho câu hỏi này.")}
               className="px-3 py-1.5 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
             >
               <Bot className="w-3.5 h-3.5" />
@@ -136,7 +139,7 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
 
             <button
               type="button"
-              onClick={() => alert("Xem lại lịch sử các lần làm bài trước.")}
+              onClick={() => toast.info("Xem lại lịch sử các lần làm bài trước.")}
               className="px-3 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-600 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
             >
               <History className="w-3.5 h-3.5" />

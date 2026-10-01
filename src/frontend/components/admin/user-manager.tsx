@@ -31,6 +31,7 @@ import { Button } from "@/frontend/components/ui/button";
 import { Badge } from "@/frontend/components/ui/badge";
 import { Card, CardContent } from "@/frontend/components/ui/card";
 import { cn } from "@/frontend/lib/utils";
+import { toast } from "sonner";
 
 interface UserManagerProps {
   initialUsers: UserListItemDTO[];
@@ -45,12 +46,6 @@ export function UserManager({ initialUsers, initialStats }: UserManagerProps) {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [selectedRole, setSelectedRole] = React.useState<string>("all");
   const [selectedStatus, setSelectedStatus] = React.useState<string>("all");
-
-  // Thông báo thao tác
-  const [feedbackMessage, setFeedbackMessage] = React.useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
 
   // Trạng thái xử lý
   const [loadingUserId, setLoadingUserId] = React.useState<string | null>(null);
@@ -95,7 +90,6 @@ export function UserManager({ initialUsers, initialStats }: UserManagerProps) {
   const handleToggleStatus = async (user: UserListItemDTO) => {
     const nextStatus: UserStatus = user.status === "ACTIVE" ? "BANNED" : "ACTIVE";
     setLoadingUserId(user.id);
-    setFeedbackMessage(null);
 
     try {
       const res = await fetch(`/api/admin/users/${user.id}`, {
@@ -121,16 +115,12 @@ export function UserManager({ initialUsers, initialStats }: UserManagerProps) {
             : Math.max(0, prev.bannedCount - 1),
       }));
 
-      setFeedbackMessage({
-        text: `Đã ${nextStatus === "BANNED" ? "khóa" : "mở khóa"} tài khoản của ${user.fullName} thành công`,
-        type: "success",
-      });
+      toast.success(
+        `Đã ${nextStatus === "BANNED" ? "khóa" : "mở khóa"} tài khoản của ${user.fullName} thành công`
+      );
       setStatusModalUser(null);
     } catch (err: unknown) {
-      setFeedbackMessage({
-        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi đổi trạng thái",
-        type: "error",
-      });
+      toast.error(err instanceof Error ? err.message : "Đã xảy ra lỗi khi đổi trạng thái");
     } finally {
       setLoadingUserId(null);
     }
@@ -140,7 +130,6 @@ export function UserManager({ initialUsers, initialStats }: UserManagerProps) {
   const handleToggleRole = async (user: UserListItemDTO) => {
     const nextRole: UserRole = user.role === "ADMIN" ? "STUDENT" : "ADMIN";
     setLoadingUserId(user.id);
-    setFeedbackMessage(null);
 
     try {
       const res = await fetch(`/api/admin/users/${user.id}`, {
@@ -164,16 +153,12 @@ export function UserManager({ initialUsers, initialStats }: UserManagerProps) {
         studentCount: nextRole === "STUDENT" ? prev.studentCount + 1 : Math.max(0, prev.studentCount - 1),
       }));
 
-      setFeedbackMessage({
-        text: `Đã cập nhật vai trò của ${user.fullName} thành ${nextRole === "ADMIN" ? "Quản trị viên" : "Sinh viên"}`,
-        type: "success",
-      });
+      toast.success(
+        `Đã cập nhật vai trò của ${user.fullName} thành ${nextRole === "ADMIN" ? "Quản trị viên" : "Sinh viên"}`
+      );
       setRoleModalUser(null);
     } catch (err: unknown) {
-      setFeedbackMessage({
-        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi đổi vai trò",
-        type: "error",
-      });
+      toast.error(err instanceof Error ? err.message : "Đã xảy ra lỗi khi đổi vai trò");
     } finally {
       setLoadingUserId(null);
     }
@@ -182,7 +167,6 @@ export function UserManager({ initialUsers, initialStats }: UserManagerProps) {
   // Đặt lại mật khẩu mặc định
   const handleResetPassword = async (user: UserListItemDTO) => {
     setLoadingUserId(user.id);
-    setFeedbackMessage(null);
 
     try {
       const res = await fetch(`/api/admin/users/${user.id}`, {
@@ -204,11 +188,9 @@ export function UserManager({ initialUsers, initialStats }: UserManagerProps) {
         tempPass: data.data.temporaryPassword,
       });
       setCopiedPass(false);
+      toast.success(`Đã tạo mật khẩu tạm thời cho ${user.fullName}`);
     } catch (err: unknown) {
-      setFeedbackMessage({
-        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi đặt lại mật khẩu",
-        type: "error",
-      });
+      toast.error(err instanceof Error ? err.message : "Đã xảy ra lỗi khi đặt lại mật khẩu");
     } finally {
       setLoadingUserId(null);
     }
@@ -217,6 +199,7 @@ export function UserManager({ initialUsers, initialStats }: UserManagerProps) {
   const copyPasswordToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopiedPass(true);
+    toast.success("Đã sao chép mật khẩu tạm vào bộ nhớ tạm");
     setTimeout(() => setCopiedPass(false), 2000);
   };
 
@@ -238,32 +221,7 @@ export function UserManager({ initialUsers, initialStats }: UserManagerProps) {
         </p>
       </div>
 
-      {/* Thông báo thao tác */}
-      {feedbackMessage && (
-        <div
-          className={cn(
-            "p-3.5 rounded-lg text-sm flex items-center justify-between border animate-in fade-in duration-200",
-            feedbackMessage.type === "success"
-              ? "bg-success/10 border-success/30 text-success"
-              : "bg-danger/10 border-danger/30 text-danger"
-          )}
-        >
-          <div className="flex items-center gap-2">
-            {feedbackMessage.type === "success" ? (
-              <CheckCircle2 className="h-4 w-4 shrink-0" />
-            ) : (
-              <AlertCircle className="h-4 w-4 shrink-0" />
-            )}
-            <span>{feedbackMessage.text}</span>
-          </div>
-          <button
-            onClick={() => setFeedbackMessage(null)}
-            className="text-xs underline hover:no-underline font-medium"
-          >
-            Đóng
-          </button>
-        </div>
-      )}
+
 
       {/* 4 Thẻ KPI thống kê số liệu thực */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

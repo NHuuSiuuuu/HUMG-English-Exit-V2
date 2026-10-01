@@ -34,6 +34,7 @@ import {
   CardFooter,
 } from "@/frontend/components/ui/card";
 import { cn } from "@/frontend/lib/utils";
+import { toast } from "sonner";
 
 interface SystemSettingsFormProps {
   initialSettings: SystemSettingsDTO;
@@ -52,16 +53,10 @@ export function SystemSettingsForm({
   const [isResetting, setIsResetting] = React.useState(false);
   const [showResetModal, setShowResetModal] = React.useState(false);
 
-  const [feedbackMessage, setFeedbackMessage] = React.useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
-
   // Lưu cài đặt
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
-    setFeedbackMessage(null);
 
     try {
       const res = await fetch("/api/admin/settings", {
@@ -76,10 +71,7 @@ export function SystemSettingsForm({
       }
 
       setSettings(data.data);
-      setFeedbackMessage({
-        text: data.message || "Đã lưu cài đặt hệ thống thành công!",
-        type: "success",
-      });
+      toast.success(data.message || "Đã lưu cài đặt hệ thống thành công!");
 
       // Tải lại nhật ký mới nhất
       const logsRes = await fetch("/api/admin/settings");
@@ -90,10 +82,7 @@ export function SystemSettingsForm({
         }
       }
     } catch (err: unknown) {
-      setFeedbackMessage({
-        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi lưu",
-        type: "error",
-      });
+      toast.error(err instanceof Error ? err.message : "Đã xảy ra lỗi khi lưu");
     } finally {
       setIsSaving(false);
     }
@@ -102,7 +91,6 @@ export function SystemSettingsForm({
   // Khôi phục cài đặt gốc
   const handleResetToDefault = async () => {
     setIsResetting(true);
-    setFeedbackMessage(null);
 
     try {
       const res = await fetch("/api/admin/settings", {
@@ -117,10 +105,7 @@ export function SystemSettingsForm({
       }
 
       setSettings(data.data);
-      setFeedbackMessage({
-        text: "Đã khôi phục toàn bộ cài đặt về chuẩn Cambridge KET ban đầu!",
-        type: "success",
-      });
+      toast.success("Đã khôi phục toàn bộ cài đặt về chuẩn Cambridge KET ban đầu!");
       setShowResetModal(false);
 
       // Tải lại nhật ký
@@ -132,10 +117,7 @@ export function SystemSettingsForm({
         }
       }
     } catch (err: unknown) {
-      setFeedbackMessage({
-        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi khôi phục",
-        type: "error",
-      });
+      toast.error(err instanceof Error ? err.message : "Đã xảy ra lỗi khi khôi phục");
     } finally {
       setIsResetting(false);
     }
@@ -179,32 +161,7 @@ export function SystemSettingsForm({
         </div>
       </div>
 
-      {/* Thông báo kết quả thao tác */}
-      {feedbackMessage && (
-        <div
-          className={cn(
-            "p-3.5 rounded-lg text-sm flex items-center justify-between border animate-in fade-in duration-200",
-            feedbackMessage.type === "success"
-              ? "bg-success/10 border-success/30 text-success"
-              : "bg-danger/10 border-danger/30 text-danger"
-          )}
-        >
-          <div className="flex items-center gap-2">
-            {feedbackMessage.type === "success" ? (
-              <CheckCircle2 className="h-4 w-4 shrink-0" />
-            ) : (
-              <AlertCircle className="h-4 w-4 shrink-0" />
-            )}
-            <span className="font-medium">{feedbackMessage.text}</span>
-          </div>
-          <button
-            onClick={() => setFeedbackMessage(null)}
-            className="text-xs underline hover:no-underline font-medium"
-          >
-            Đóng
-          </button>
-        </div>
-      )}
+
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Khối 1: Thời gian & Dung sai thi cử */}

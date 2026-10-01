@@ -26,6 +26,7 @@ import { Button } from "@/frontend/components/ui/button";
 import { Badge } from "@/frontend/components/ui/badge";
 import { Card, CardContent } from "@/frontend/components/ui/card";
 import { cn } from "@/frontend/lib/utils";
+import { toast } from "sonner";
 
 interface PartBankManagerProps {
   initialParts: PartListItemDTO[];
@@ -47,7 +48,6 @@ export function PartBankManager({ initialParts, initialStats }: PartBankManagerP
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = React.useState<string | null>(null);
   const [togglingStatusId, setTogglingStatusId] = React.useState<string | null>(null);
-  const [feedbackMessage, setFeedbackMessage] = React.useState<{ text: string; type: "success" | "error" } | null>(null);
 
   // Lọc dữ liệu client-side nhanh
   const filteredParts = React.useMemo(() => {
@@ -96,10 +96,9 @@ export function PartBankManager({ initialParts, initialStats }: PartBankManagerP
         totalParts: Math.max(0, prev.totalParts - 1),
       }));
 
-      setFeedbackMessage({ text: "Đã xóa bài luyện khỏi Kho phần thành công!", type: "success" });
-      setTimeout(() => setFeedbackMessage(null), 3000);
+      toast.success("Đã xóa bài luyện khỏi Kho phần thành công!");
     } catch {
-      setFeedbackMessage({ text: "Lỗi khi xóa bài luyện. Vui lòng thử lại.", type: "error" });
+      toast.error("Lỗi khi xóa bài luyện. Vui lòng thử lại.");
     } finally {
       setDeletingId(null);
       setDeleteConfirmId(null);
@@ -110,7 +109,6 @@ export function PartBankManager({ initialParts, initialStats }: PartBankManagerP
   const handleToggleStatus = async (part: PartListItemDTO) => {
     const targetStatus = part.status === "PUBLISHED" ? "DRAFT" : "PUBLISHED";
     setTogglingStatusId(part.id);
-    setFeedbackMessage(null);
 
     try {
       const res = await fetch(`/api/admin/parts/${part.id}`, {
@@ -141,16 +139,13 @@ export function PartBankManager({ initialParts, initialStats }: PartBankManagerP
             : prev.draftCount - 1,
       }));
 
-      setFeedbackMessage({
-        text: data.message || `Đã chuyển Part ${part.partNo} sang ${targetStatus === "PUBLISHED" ? "Công khai" : "Bản nháp"}`,
-        type: "success",
-      });
-      setTimeout(() => setFeedbackMessage(null), 3500);
+      toast.success(
+        data.message || `Đã chuyển Part ${part.partNo} sang ${targetStatus === "PUBLISHED" ? "Công khai" : "Bản nháp"}`
+      );
     } catch (err) {
-      setFeedbackMessage({
-        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi chuyển trạng thái Part",
-        type: "error",
-      });
+      toast.error(
+        err instanceof Error ? err.message : "Đã xảy ra lỗi khi chuyển trạng thái Part"
+      );
     } finally {
       setTogglingStatusId(null);
     }
@@ -179,25 +174,6 @@ export function PartBankManager({ initialParts, initialStats }: PartBankManagerP
           </Button>
         </Link>
       </div>
-
-      {/* Thông báo thao tác */}
-      {feedbackMessage && (
-        <div
-          className={cn(
-            "p-3.5 rounded-2xl text-xs flex items-center gap-2.5 animate-in fade-in",
-            feedbackMessage.type === "success"
-              ? "bg-success/10 border border-success/20 text-success"
-              : "bg-destructive/10 border border-destructive/20 text-destructive"
-          )}
-        >
-          {feedbackMessage.type === "success" ? (
-            <CheckCircle2 className="w-4 h-4 shrink-0" />
-          ) : (
-            <AlertCircle className="w-4 h-4 shrink-0" />
-          )}
-          <span>{feedbackMessage.text}</span>
-        </div>
-      )}
 
       {/* 4 Thẻ thống kê số liệu thực tế từ Database */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

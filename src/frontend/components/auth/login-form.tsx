@@ -3,9 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { LogIn, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { LogIn, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/frontend/components/ui/button";
 import { useAuth } from "@/frontend/providers/auth-provider";
+import { toast } from "sonner";
 
 export function LoginForm() {
   const router = useRouter();
@@ -18,19 +19,17 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [isLoading, setIsLoading] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage(null);
 
     if (!email.trim()) {
-      setErrorMessage("Vui lòng nhập địa chỉ email");
+      toast.error("Vui lòng nhập địa chỉ email");
       return;
     }
 
     if (!password) {
-      setErrorMessage("Vui lòng nhập mật khẩu");
+      toast.error("Vui lòng nhập mật khẩu");
       return;
     }
 
@@ -46,7 +45,7 @@ export function LoginForm() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        setErrorMessage(data.error || "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
+        toast.error(data.error || "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
         setIsLoading(false);
         return;
       }
@@ -56,22 +55,18 @@ export function LoginForm() {
         setUser(data.user);
       }
 
+      toast.success("Đăng nhập thành công!");
+
       // Chuyển hướng đồng bộ phiên đăng nhập
       window.location.href = returnUrl;
     } catch {
-      setErrorMessage("Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng.");
+      toast.error("Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng.");
       setIsLoading(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {errorMessage && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 text-xs sm:text-sm animate-in fade-in duration-200">
-          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0 text-rose-600 dark:text-rose-400" />
-          <span>{errorMessage}</span>
-        </div>
-      )}
 
       <div className="space-y-1.5">
         <label className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200">

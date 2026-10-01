@@ -3,6 +3,7 @@ import { Nunito_Sans, Open_Sans } from "next/font/google";
 import { ThemeProvider } from "@/frontend/providers/theme-provider";
 import { LanguageProvider } from "@/frontend/providers/language-provider";
 import { AuthProvider } from "@/frontend/providers/auth-provider";
+import { Toaster } from "@/frontend/components/ui/sonner";
 import "@/frontend/styles/globals.css";
 
 // Font Nunito Sans cho tiêu đề, nút bấm, điều hướng theo DESIGN.md
@@ -50,6 +51,7 @@ export default function RootLayout({
             <AuthProvider>
               {children}
             </AuthProvider>
+            <Toaster />
           </LanguageProvider>
         </ThemeProvider>
       </body>

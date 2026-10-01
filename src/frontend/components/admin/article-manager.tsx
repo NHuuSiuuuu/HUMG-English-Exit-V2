@@ -25,6 +25,7 @@ import { Button } from "@/frontend/components/ui/button";
 import { Badge } from "@/frontend/components/ui/badge";
 import { Card, CardContent } from "@/frontend/components/ui/card";
 import { cn } from "@/frontend/lib/utils";
+import { toast } from "sonner";
 
 interface ArticleManagerProps {
   initialArticles: ArticleListItemDTO[];
@@ -43,10 +44,6 @@ export function ArticleManager({ initialArticles, initialStats }: ArticleManager
   // Quản lý xóa bài viết
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = React.useState<string | null>(null);
-  const [feedbackMessage, setFeedbackMessage] = React.useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
 
   // Lọc danh sách bài viết
   const filteredArticles = React.useMemo(() => {
@@ -74,7 +71,6 @@ export function ArticleManager({ initialArticles, initialStats }: ArticleManager
   // Xóa bài viết
   const handleDeleteArticle = async (id: string) => {
     setDeletingId(id);
-    setFeedbackMessage(null);
 
     try {
       const res = await fetch(`/api/admin/articles/${id}`, {
@@ -104,17 +100,11 @@ export function ArticleManager({ initialArticles, initialStats }: ArticleManager
         totalViews: Math.max(0, prev.totalViews - (deletedArticle?.viewsCount || 0)),
       }));
 
-      setFeedbackMessage({
-        text: `Đã xóa bài viết "${deletedArticle?.title || id}" thành công`,
-        type: "success",
-      });
+      toast.success(`Đã xóa bài viết "${deletedArticle?.title || id}" thành công`);
       setDeleteConfirmId(null);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Đã xảy ra lỗi khi xóa bài viết";
-      setFeedbackMessage({
-        text: message,
-        type: "error",
-      });
+      toast.error(message);
     } finally {
       setDeletingId(null);
     }
@@ -145,33 +135,6 @@ export function ArticleManager({ initialArticles, initialStats }: ArticleManager
           </Button>
         </Link>
       </div>
-
-      {/* Thông báo thao tác */}
-      {feedbackMessage && (
-        <div
-          className={cn(
-            "p-3.5 rounded-lg text-sm flex items-center justify-between animate-in fade-in duration-200 border",
-            feedbackMessage.type === "success"
-              ? "bg-success/10 border-success/30 text-success"
-              : "bg-danger/10 border-danger/30 text-danger"
-          )}
-        >
-          <div className="flex items-center gap-2">
-            {feedbackMessage.type === "success" ? (
-              <CheckCircle2 className="h-4 w-4 shrink-0" />
-            ) : (
-              <AlertCircle className="h-4 w-4 shrink-0" />
-            )}
-            <span>{feedbackMessage.text}</span>
-          </div>
-          <button
-            onClick={() => setFeedbackMessage(null)}
-            className="text-xs underline hover:no-underline font-medium"
-          >
-            Đóng
-          </button>
-        </div>
-      )}
 
       {/* 4 Thẻ KPI thống kê số liệu thực */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

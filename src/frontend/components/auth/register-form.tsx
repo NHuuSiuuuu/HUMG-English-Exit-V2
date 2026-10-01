@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { UserPlus, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { UserPlus, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/frontend/components/ui/button";
 import { useAuth } from "@/frontend/providers/auth-provider";
+import { toast } from "sonner";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -20,7 +21,6 @@ export function RegisterForm() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [isLoading, setIsLoading] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = React.useState<Record<string, string>>({});
 
   const validate = () => {
@@ -48,7 +48,6 @@ export function RegisterForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage(null);
 
     if (!validate()) {
       return;
@@ -72,7 +71,7 @@ export function RegisterForm() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        setErrorMessage(data.error || "Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.");
+        toast.error(data.error || "Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.");
         setIsLoading(false);
         return;
       }
@@ -82,22 +81,18 @@ export function RegisterForm() {
         setUser(data.user);
       }
 
+      toast.success("Đăng ký tài khoản thành công!");
+
       // Chuyển hướng đồng bộ phiên đăng nhập
       window.location.href = returnUrl;
     } catch {
-      setErrorMessage("Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng.");
+      toast.error("Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng.");
       setIsLoading(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {errorMessage && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 text-xs sm:text-sm animate-in fade-in duration-200">
-          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0 text-rose-600 dark:text-rose-400" />
-          <span>{errorMessage}</span>
-        </div>
-      )}
 
       {/* Họ và tên */}
       <div className="space-y-1.5">

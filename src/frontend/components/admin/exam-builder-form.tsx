@@ -33,6 +33,7 @@ import { Button } from "@/frontend/components/ui/button";
 import { Badge } from "@/frontend/components/ui/badge";
 import { Card, CardContent } from "@/frontend/components/ui/card";
 import { cn } from "@/frontend/lib/utils";
+import { toast } from "sonner";
 
 interface ExamBuilderFormProps {
   availableParts: PartListItemDTO[];
@@ -71,8 +72,6 @@ export function ExamBuilderForm({ availableParts, initialExam }: ExamBuilderForm
 
   // Trạng thái lưu & thông báo
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [serverError, setServerError] = React.useState<string | null>(null);
-  const [saveSuccessMessage, setSaveSuccessMessage] = React.useState<string | null>(null);
   const [validationIssues, setValidationIssues] = React.useState<ExamCompletenessIssue[]>([]);
 
   // Gom nhóm các bài có trong Kho phần theo PartNo
@@ -163,14 +162,11 @@ export function ExamBuilderForm({ availableParts, initialExam }: ExamBuilderForm
 
   // Xử lý gửi dữ liệu lên Backend API
   const handleSave = async (status: "DRAFT" | "PUBLISHED") => {
-    setServerError(null);
-    setSaveSuccessMessage(null);
-
     // Nếu bấm công khai: kiểm tra đủ 14 phần trước
     if (status === "PUBLISHED") {
       if (realtimeIssues.length > 0) {
         setValidationIssues(realtimeIssues);
-        setServerError(
+        toast.error(
           "Đề thi chưa đủ 14 phần hoặc chưa đạt tiêu chuẩn để công khai. Vui lòng xem danh sách điểm cần sửa bên phải."
         );
         return;
@@ -209,14 +205,14 @@ export function ExamBuilderForm({ availableParts, initialExam }: ExamBuilderForm
       const data = await res.json();
 
       if (!res.ok) {
-        setServerError(data.error || "Không thể lưu đề thi. Vui lòng kiểm tra lại dữ liệu.");
+        toast.error(data.error || "Không thể lưu đề thi. Vui lòng kiểm tra lại dữ liệu.");
         if (data.issues) {
           setValidationIssues(data.issues);
         }
         return;
       }
 
-      setSaveSuccessMessage(
+      toast.success(
         status === "PUBLISHED"
           ? `Đã công khai đề thi "${examCode}" thành công! Sinh viên đã có thể bắt đầu thi thử.`
           : `Đã lưu bản nháp đề thi "${examCode}" thành công!`
@@ -228,7 +224,7 @@ export function ExamBuilderForm({ availableParts, initialExam }: ExamBuilderForm
         router.refresh();
       }, 1500);
     } catch (err) {
-      setServerError(err instanceof Error ? err.message : "Đã xảy ra lỗi không xác định");
+      toast.error(err instanceof Error ? err.message : "Đã xảy ra lỗi không xác định");
     } finally {
       setIsSubmitting(false);
     }
@@ -319,20 +315,7 @@ export function ExamBuilderForm({ availableParts, initialExam }: ExamBuilderForm
         </div>
       </div>
 
-      {/* Thông báo lỗi server hoặc thành công */}
-      {serverError && (
-        <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-center gap-3">
-          <AlertCircle className="w-4 h-4 shrink-0" />
-          <span>{serverError}</span>
-        </div>
-      )}
 
-      {saveSuccessMessage && (
-        <div className="p-4 rounded-2xl bg-success/10 border border-success/20 text-success text-xs flex items-center gap-3 animate-in fade-in">
-          <CheckCircle2 className="w-4 h-4 shrink-0" />
-          <span>{saveSuccessMessage}</span>
-        </div>
-      )}
 
       {/* Cấu trúc 2 cột */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -2,21 +2,20 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Send, CheckCircle2, AlertCircle, ArrowLeft, RefreshCw } from "lucide-react";
+import { Send, CheckCircle2, ArrowLeft, RefreshCw } from "lucide-react";
 import { Button } from "@/frontend/components/ui/button";
+import { toast } from "sonner";
 
 export function ForgotPasswordForm() {
   const [email, setEmail] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [isSuccess, setIsSuccess] = React.useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage(null);
 
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setErrorMessage("Vui lòng nhập địa chỉ email hợp lệ");
+      toast.error("Vui lòng nhập địa chỉ email hợp lệ");
       return;
     }
 
@@ -32,14 +31,15 @@ export function ForgotPasswordForm() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        setErrorMessage(data.error || "Gửi yêu cầu thất bại. Vui lòng thử lại sau.");
+        toast.error(data.error || "Gửi yêu cầu thất bại. Vui lòng thử lại sau.");
         setIsLoading(false);
         return;
       }
 
       setIsSuccess(true);
+      toast.success("Đã gửi hướng dẫn đặt lại mật khẩu về email của bạn");
     } catch {
-      setErrorMessage("Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng.");
+      toast.error("Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng.");
     } finally {
       setIsLoading(false);
     }
@@ -91,12 +91,6 @@ export function ForgotPasswordForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {errorMessage && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 text-xs sm:text-sm animate-in fade-in duration-200">
-          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0 text-rose-600 dark:text-rose-400" />
-          <span>{errorMessage}</span>
-        </div>
-      )}
 
       <div className="space-y-1.5">
         <label className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200">

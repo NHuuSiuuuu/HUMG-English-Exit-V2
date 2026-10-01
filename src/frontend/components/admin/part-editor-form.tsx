@@ -289,6 +289,8 @@ function getDefaultQuestionsForPart(partNo: number): QuestionInputItem[] {
   }
 }
 
+import { toast } from "sonner";
+
 interface PartEditorFormProps {
   initialPart?: PartDetailDTO | null;
   isEditing?: boolean;
@@ -449,8 +451,6 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
   // Trạng thái giao diện
   const [activeTab, setActiveTab] = React.useState<"edit" | "preview">("edit");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [saveSuccessMessage, setSaveSuccessMessage] = React.useState<string | null>(null);
-  const [serverError, setServerError] = React.useState<string | null>(null);
   const [validationIssues, setValidationIssues] = React.useState<PartCompletenessIssue[]>([]);
 
   // Lấy định nghĩa Part hiện tại theo hằng số
@@ -484,7 +484,6 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
     }
 
     setValidationIssues([]);
-    setServerError(null);
   };
 
   // Thêm câu hỏi mới
@@ -578,14 +577,11 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
 
   // Xử lý gửi dữ liệu lên Backend API
   const handleSave = async (status: "DRAFT" | "PUBLISHED") => {
-    setServerError(null);
-    setSaveSuccessMessage(null);
-
     // Nếu bấm công khai: kiểm tra tính đầy đủ trước
     if (status === "PUBLISHED") {
       if (realtimeIssues.length > 0) {
         setValidationIssues(realtimeIssues);
-        setServerError("Bài luyện chưa đạt tiêu chuẩn để công khai. Vui lòng xem danh sách điểm cần sửa ở bảng bên phải.");
+        toast.error("Bài luyện chưa đạt tiêu chuẩn để công khai. Vui lòng xem danh sách điểm cần sửa ở bảng bên phải.");
         return;
       }
     }
@@ -637,14 +633,14 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
       const data = await res.json();
 
       if (!res.ok) {
-        setServerError(data.error || "Không thể lưu Part. Vui lòng kiểm tra lại dữ liệu.");
+        toast.error(data.error || "Không thể lưu Part. Vui lòng kiểm tra lại dữ liệu.");
         if (data.issues) {
           setValidationIssues(data.issues);
         }
         return;
       }
 
-      setSaveSuccessMessage(
+      toast.success(
         data.message || (
           status === "PUBLISHED"
             ? (isEditing
@@ -661,7 +657,7 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
         router.push("/admin/part-bank");
       }, 1500);
     } catch {
-      setServerError("Lỗi kết nối máy chủ. Vui lòng kiểm tra lại mạng hoặc liên hệ quản trị viên.");
+      toast.error("Lỗi kết nối máy chủ. Vui lòng kiểm tra lại mạng hoặc liên hệ quản trị viên.");
     } finally {
       setIsSubmitting(false);
     }
@@ -773,21 +769,6 @@ export function PartEditorForm({ initialPart, isEditing = false }: PartEditorFor
           </Button>
         </div>
       </div>
-
-      {/* Thông báo lỗi server hoặc thành công */}
-      {serverError && (
-        <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-center gap-3">
-          <AlertCircle className="w-4 h-4 shrink-0" />
-          <span>{serverError}</span>
-        </div>
-      )}
-
-      {saveSuccessMessage && (
-        <div className="p-4 rounded-2xl bg-success/10 border border-success/20 text-success text-xs flex items-center gap-3 animate-in fade-in">
-          <CheckCircle2 className="w-4 h-4 shrink-0" />
-          <span>{saveSuccessMessage}</span>
-        </div>
-      )}
 
       {/* GIAO DIỆN CHỈNH SỬA (EDIT TAB) */}
       {activeTab === "edit" ? (

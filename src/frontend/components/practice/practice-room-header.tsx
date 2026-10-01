@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Clock, Send, AlertTriangle, Edit3, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface PracticeRoomHeaderProps {
   title: string;
@@ -87,7 +88,7 @@ export function PracticeRoomHeader({
           {/* Nút Báo lỗi (Coral) */}
           <button
             type="button"
-            onClick={() => alert("Cảm ơn bạn! Báo cáo lỗi đề thi đã được ghi nhận.")}
+            onClick={() => toast.success("Cảm ơn bạn! Báo cáo lỗi đề thi đã được ghi nhận.")}
             className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500 hover:bg-rose-600 text-white text-xs font-medium transition-all duration-300 ease-in-out shadow-sm"
           >
             <AlertTriangle className="w-3.5 h-3.5" />
@@ -97,7 +98,7 @@ export function PracticeRoomHeader({
           {/* Nút Ghi chú (Cyan) */}
           <button
             type="button"
-            onClick={() => alert("Tính năng sổ tay ghi chú nhanh cho câu hỏi này.")}
+            onClick={() => toast.info("Tính năng sổ tay ghi chú nhanh cho câu hỏi này đang được hoàn thiện.")}
             className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-xs font-medium transition-all duration-300 ease-in-out shadow-sm"
           >
             <Edit3 className="w-3.5 h-3.5" />

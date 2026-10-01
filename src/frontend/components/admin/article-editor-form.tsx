@@ -43,6 +43,7 @@ import { Button } from "@/frontend/components/ui/button";
 import { Badge } from "@/frontend/components/ui/badge";
 import { Card, CardContent } from "@/frontend/components/ui/card";
 import { cn } from "@/frontend/lib/utils";
+import { toast } from "sonner";
 
 interface ArticleEditorFormProps {
   initialData?: ArticleDetailDTO | null;
@@ -81,7 +82,6 @@ export function ArticleEditorForm({
 
   // Xử lý Upload ảnh bìa
   const [isUploadingCover, setIsUploadingCover] = React.useState(false);
-  const [uploadError, setUploadError] = React.useState<string | null>(null);
   const [isDragging, setIsDragging] = React.useState(false);
   const coverInputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -90,10 +90,6 @@ export function ArticleEditorForm({
 
   // Trạng thái lưu
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [feedbackMessage, setFeedbackMessage] = React.useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
   const [validationIssues, setValidationIssues] = React.useState<
     ArticleCompletenessIssue[]
   >([]);
@@ -129,17 +125,16 @@ export function ArticleEditorForm({
   // Tải ảnh bìa lên Cloudinary
   const handleUploadCoverImage = async (file: File) => {
     if (!file.type.startsWith("image/")) {
-      setUploadError("Vui lòng chỉ tải lên file hình ảnh (JPG, PNG, WEBP, GIF)");
+      toast.error("Vui lòng chỉ tải lên file hình ảnh (JPG, PNG, WEBP, GIF)");
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      setUploadError("Dung lượng file ảnh bìa không được vượt quá 5MB");
+      toast.error("Dung lượng file ảnh bìa không được vượt quá 5MB");
       return;
     }
 
     setIsUploadingCover(true);
-    setUploadError(null);
 
     try {
       const formData = new FormData();
@@ -158,8 +153,9 @@ export function ArticleEditorForm({
       }
 
       setCoverImageUrl(data.url);
+      toast.success("Tải ảnh bìa thành công");
     } catch (err: unknown) {
-      setUploadError(err instanceof Error ? err.message : "Không thể tải ảnh");
+      toast.error(err instanceof Error ? err.message : "Không thể tải ảnh");
     } finally {
       setIsUploadingCover(false);
     }
@@ -205,7 +201,7 @@ export function ArticleEditorForm({
   // Kiểm tra tính hợp lệ trước khi gửi
   const validateBeforeSubmit = (targetStatus: ArticleStatus): boolean => {
     if (!title.trim()) {
-      setFeedbackMessage({ text: "Vui lòng nhập tiêu đề bài viết", type: "error" });
+      toast.error("Vui lòng nhập tiêu đề bài viết");
       return false;
     }
 
@@ -222,10 +218,7 @@ export function ArticleEditorForm({
       setValidationIssues(issues);
 
       if (issues.length > 0) {
-        setFeedbackMessage({
-          text: "Bài viết chưa đạt đủ tiêu chuẩn để xuất bản. Vui lòng kiểm tra danh sách bên dưới.",
-          type: "error",
-        });
+        toast.error("Bài viết chưa đạt đủ tiêu chuẩn để xuất bản. Vui lòng kiểm tra danh sách bên dưới.");
         return false;
       }
     }
@@ -240,7 +233,6 @@ export function ArticleEditorForm({
     }
 
     setIsSubmitting(true);
-    setFeedbackMessage(null);
 
     const payload = {
       title: title.trim(),
@@ -276,10 +268,9 @@ export function ArticleEditorForm({
       }
 
       setStatus(targetStatus);
-      setFeedbackMessage({
-        text: data.message || (targetStatus === "PUBLISHED" ? "Đã xuất bản bài viết thành công!" : "Đã lưu bản nháp thành công!"),
-        type: "success",
-      });
+      toast.success(
+        data.message || (targetStatus === "PUBLISHED" ? "Đã xuất bản bài viết thành công!" : "Đã lưu bản nháp thành công!")
+      );
 
       // Nếu tạo mới thành công, chuyển hướng về danh sách sau 1.2s
       if (!isEditing) {
@@ -291,10 +282,7 @@ export function ArticleEditorForm({
         router.refresh();
       }
     } catch (err: unknown) {
-      setFeedbackMessage({
-        text: err instanceof Error ? err.message : "Đã xảy ra lỗi khi lưu bài viết",
-        type: "error",
-      });
+      toast.error(err instanceof Error ? err.message : "Đã xảy ra lỗi khi lưu bài viết");
     } finally {
       setIsSubmitting(false);
     }
@@ -434,32 +422,7 @@ export function ArticleEditorForm({
         </div>
       </div>
 
-      {/* Thông báo kết quả thao tác */}
-      {feedbackMessage && (
-        <div
-          className={cn(
-            "p-4 rounded-lg text-sm flex items-center justify-between border",
-            feedbackMessage.type === "success"
-              ? "bg-success/10 border-success/30 text-success"
-              : "bg-danger/10 border-danger/30 text-danger"
-          )}
-        >
-          <div className="flex items-center gap-2.5">
-            {feedbackMessage.type === "success" ? (
-              <CheckCircle2 className="h-4 w-4 shrink-0" />
-            ) : (
-              <AlertCircle className="h-4 w-4 shrink-0" />
-            )}
-            <span className="font-medium">{feedbackMessage.text}</span>
-          </div>
-          <button
-            onClick={() => setFeedbackMessage(null)}
-            className="text-xs underline hover:no-underline font-semibold"
-          >
-            Đóng
-          </button>
-        </div>
-      )}
+
 
       {/* Cảnh báo checklist xuất bản (nếu có lỗi) */}
       {validationIssues.length > 0 && (
@@ -800,12 +763,7 @@ export function ArticleEditorForm({
                   className="hidden"
                 />
 
-                {uploadError && (
-                  <p className="text-xs text-danger font-medium flex items-center gap-1">
-                    <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-                    <span>{uploadError}</span>
-                  </p>
-                )}
+
 
                 {/* Hoặc dán trực tiếp URL */}
                 <div className="pt-2 border-t border-border/60">

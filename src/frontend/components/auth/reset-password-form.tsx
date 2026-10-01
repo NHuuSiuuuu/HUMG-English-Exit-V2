@@ -3,8 +3,9 @@
 import * as React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { KeyRound, Eye, EyeOff, CheckCircle2, AlertCircle, ArrowLeft } from "lucide-react";
+import { KeyRound, Eye, EyeOff, CheckCircle2, ArrowLeft } from "lucide-react";
 import { Button } from "@/frontend/components/ui/button";
+import { toast } from "sonner";
 
 export function ResetPasswordForm() {
   const searchParams = useSearchParams();
@@ -15,7 +16,6 @@ export function ResetPasswordForm() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [isLoading, setIsLoading] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = React.useState<Record<string, string>>({});
   const [isSuccess, setIsSuccess] = React.useState(false);
 
@@ -23,7 +23,6 @@ export function ResetPasswordForm() {
     return (
       <div className="space-y-4 text-center py-4">
         <div className="flex items-center justify-center p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-900/60 text-xs sm:text-sm">
-          <AlertCircle className="w-5 h-5 mr-2 shrink-0" />
           <span>Mã đặt lại mật khẩu không tồn tại hoặc liên kết không đúng.</span>
         </div>
         <Link href="/quen-mat-khau" className="inline-block mt-2">
@@ -53,7 +52,6 @@ export function ResetPasswordForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage(null);
 
     if (!validate()) {
       return;
@@ -75,14 +73,15 @@ export function ResetPasswordForm() {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        setErrorMessage(data.error || "Đặt lại mật khẩu thất bại. Vui lòng thử lại.");
+        toast.error(data.error || "Đặt lại mật khẩu thất bại. Vui lòng thử lại.");
         setIsLoading(false);
         return;
       }
 
       setIsSuccess(true);
+      toast.success("Đặt lại mật khẩu thành công!");
     } catch {
-      setErrorMessage("Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng.");
+      toast.error("Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng.");
     } finally {
       setIsLoading(false);
     }
@@ -117,12 +116,6 @@ export function ResetPasswordForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {errorMessage && (
-        <div className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 text-xs sm:text-sm animate-in fade-in duration-200">
-          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0 text-rose-600 dark:text-rose-400" />
-          <span>{errorMessage}</span>
-        </div>
-      )}
 
       {/* Mật khẩu mới */}
       <div className="space-y-1.5">
