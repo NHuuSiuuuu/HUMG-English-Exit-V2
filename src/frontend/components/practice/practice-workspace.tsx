@@ -6,7 +6,7 @@ import { PracticeRoomHeader } from "./practice-room-header";
 import { AudioPlayerListening } from "./audio-player-listening";
 import { PracticeResultBanner } from "./practice-result-banner";
 import { QuestionRendererDispatcher } from "./questions/question-renderer-dispatcher";
-import { FileText, Bot, History, Sparkles } from "lucide-react";
+import { FileText, Bot, History, Sparkles, BookOpen } from "lucide-react";
 import { toast } from "sonner";
 
 interface PracticeWorkspaceProps {
@@ -115,15 +115,15 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
 
         {/* Khung bài làm lớn Card trắng tinh khiết phong cách TADR OU */}
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-[0_4px_25px_-4px_rgba(0,0,0,0.04)] border border-slate-100 dark:border-slate-800/80 space-y-6">
-          {/* Thanh công cụ phụ (Transcript, Trợ lý AI, Lịch sử) giống hình mẫu 3 */}
-          <div className="flex items-center gap-2 flex-wrap">
+          {/* Thanh công cụ phụ (Transcript, Trợ lý AI, Lịch sử) phong cách 3D xúc giác như ảnh 2 */}
+          <div className="flex items-center gap-2.5 flex-wrap">
             {group.transcript && (
               <button
                 type="button"
                 onClick={() => toast.info(`Transcript: ${group.transcript}`, { duration: 6000 })}
-                className="px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
+                className="px-3.5 py-1.5 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white text-xs font-bold flex items-center gap-1.5 shadow-[0_3px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all cursor-pointer"
               >
-                <FileText className="w-3.5 h-3.5" />
+                <BookOpen className="w-3.5 h-3.5" />
                 <span>Transcript</span>
               </button>
             )}
@@ -131,16 +131,16 @@ export function PracticeWorkspace({ itemDetail, nextItemId }: PracticeWorkspaceP
             <button
               type="button"
               onClick={() => toast.info("Trợ lý AI sẵn sàng giải thích ngữ pháp và từ vựng cho câu hỏi này.")}
-              className="px-3 py-1.5 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
+              className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-[0_3px_0_0_#3730a3] active:translate-y-[2px] active:shadow-[0_1px_0_0_#3730a3] transition-all cursor-pointer"
             >
-              <Bot className="w-3.5 h-3.5" />
+              <Sparkles className="w-3.5 h-3.5" />
               <span>Trợ lý AI</span>
             </button>
 
             <button
               type="button"
               onClick={() => toast.info("Xem lại lịch sử các lần làm bài trước.")}
-              className="px-3 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-600 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
+              className="px-3.5 py-1.5 rounded-xl bg-[#a855f7] hover:bg-[#9333ea] text-white text-xs font-bold flex items-center gap-1.5 shadow-[0_3px_0_0_#7e22ce] active:translate-y-[2px] active:shadow-[0_1px_0_0_#7e22ce] transition-all cursor-pointer"
             >
               <History className="w-3.5 h-3.5" />
               <span>Lịch sử</span>

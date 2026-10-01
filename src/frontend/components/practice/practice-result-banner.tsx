@@ -64,12 +64,12 @@ export function PracticeResultBanner({
           </div>
         </div>
 
-        {/* Nút hành động */}
-        <div className="flex items-center gap-2.5 flex-wrap shrink-0">
+        {/* Nút hành động phong cách 3D xúc giác */}
+        <div className="flex items-center gap-3 flex-wrap shrink-0">
           <button
             type="button"
             onClick={onReset}
-            className="min-h-[44px] px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 font-semibold text-xs flex items-center gap-1.5 transition-all shadow-sm"
+            className="min-h-[44px] px-4 py-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border-2 border-slate-300 dark:border-slate-700 font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-[0_3px_0_0_#cbd5e1] dark:shadow-[0_3px_0_0_#334155] active:translate-y-[2px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Làm lại</span>
@@ -78,7 +78,7 @@ export function PracticeResultBanner({
           {nextItemId ? (
             <Link
               href={`/on-luyen/${skill}/${partNo}/${nextItemId}`}
-              className="min-h-[44px] px-5 py-2 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+              className="min-h-[44px] px-5 py-2 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all cursor-pointer"
             >
               <span>Bài tiếp theo</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -86,7 +86,7 @@ export function PracticeResultBanner({
           ) : (
             <Link
               href={`/on-luyen/${skill}/${partNo}`}
-              className="min-h-[44px] px-5 py-2 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+              className="min-h-[44px] px-5 py-2 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all cursor-pointer"
             >
               <List className="w-3.5 h-3.5" />
               <span>Về danh sách Part {partNo}</span>

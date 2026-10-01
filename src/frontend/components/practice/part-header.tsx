@@ -57,14 +57,14 @@ export function PartHeader({ part, firstIncompleteItemId }: PartHeaderProps) {
           <div className="shrink-0 flex flex-col sm:flex-row md:flex-col gap-2.5">
             <Link
               href={`/on-luyen/${skillPath}/${part.partNo}/${firstIncompleteItemId || `p${part.partNo}-bai-1`}`}
-              className="min-h-[44px] px-6 py-2.5 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(0,149,246,0.25)] hover:-translate-y-0.5 transition-all duration-300 ease-in-out"
+              className="min-h-[44px] px-6 py-2.5 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
             >
               <Play className="w-4 h-4 fill-white" />
               <span>Bắt đầu luyện tập</span>
             </Link>
             <Link
               href="/on-luyen"
-              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 text-slate-600 dark:text-slate-300 font-semibold text-xs flex items-center justify-center gap-1.5 hover:-translate-y-0.5 transition-all duration-300 ease-in-out"
+              className="min-h-[44px] px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 shadow-[0_3px_0_0_#cbd5e1] dark:shadow-[0_3px_0_0_#334155] active:translate-y-[2px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Chọn phần khác</span>

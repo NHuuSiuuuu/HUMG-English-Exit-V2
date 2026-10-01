@@ -180,7 +180,7 @@ export function ResetPasswordForm() {
         variant="primary"
         isLoading={isLoading}
         disabled={isLoading}
-        className="w-full justify-center gap-2 mt-2 min-h-[44px] hover:-translate-y-0.5 transition-all duration-200 shadow-[0_4px_12px_rgba(0,149,246,0.25)]"
+        className="w-full justify-center gap-2 mt-2"
       >
         <KeyRound className="h-4 w-4" />
         <span>Lưu mật khẩu mới</span>

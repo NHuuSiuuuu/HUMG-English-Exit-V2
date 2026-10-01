@@ -157,14 +157,14 @@ export function Header() {
               <>
                 <Link
                   href="/dang-nhap"
-                  className="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded-xl text-xs font-bold border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-[0_2.5px_0_0_#cbd5e1] dark:shadow-[0_2.5px_0_0_#334155] active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer flex items-center gap-1.5"
                 >
                   <LogIn className="h-3.5 w-3.5" />
                   <span>Đăng nhập</span>
                 </Link>
                 <Link
                   href="/dang-ky"
-                  className="px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0095F6] hover:bg-sky-600 text-white shadow-[0_2px_8px_rgba(0,149,246,0.25)] transition-all duration-200"
+                  className="px-4 py-1.5 rounded-xl text-xs font-bold bg-[#0095F6] hover:bg-[#008be5] text-white shadow-[0_3px_0_0_#0275ba] active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
                 >
                   Đăng ký
                 </Link>

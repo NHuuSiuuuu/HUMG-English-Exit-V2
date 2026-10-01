@@ -262,11 +262,9 @@ export function ExamInstructionView({ exam }: ExamInstructionViewProps) {
             type="button"
             disabled={!hasAgreed || isLoading}
             onClick={handleStartExam}
-            className={`w-full sm:w-auto min-h-[46px] px-8 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-300 ${
-              hasAgreed
-                ? "bg-[#0095F6] hover:bg-sky-600 text-white shadow-[0_4px_16px_rgba(0,149,246,0.3)] hover:-translate-y-0.5 cursor-pointer"
-                : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
-            }`}
+            variant="primary"
+            size="lg"
+            className="w-full sm:w-auto px-8 gap-2"
           >
             <Play className="w-4 h-4 fill-current" />
             <span>{isLoading ? "Đang chuẩn bị đề thi..." : "Bắt đầu làm bài thi (60 Phút)"}</span>

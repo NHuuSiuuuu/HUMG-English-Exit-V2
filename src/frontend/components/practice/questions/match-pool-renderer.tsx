@@ -83,20 +83,20 @@ export function MatchPoolRenderer({
                     const isCorrectAnswer = isGraded && grade?.correctAnswer === opt.letter;
 
                     let btnStyle =
-                      "border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:border-sky-400 hover:ring-2 hover:ring-sky-100 dark:hover:ring-sky-950/60 hover:bg-sky-50/20";
+                      "border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 shadow-[0_2.5px_0_0_#cbd5e1] dark:shadow-[0_2.5px_0_0_#334155] hover:border-sky-300 dark:hover:border-sky-600 active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#cbd5e1]";
 
                     if (isSelected) {
                       btnStyle =
-                        "border-[#0095F6] ring-2 ring-[#0095F6] text-[#0095F6] dark:text-sky-400 font-bold bg-sky-50/40 dark:bg-sky-950/30 shadow-sm";
+                        "border-2 border-[#0095F6] dark:border-sky-400 text-white font-bold bg-[#0095F6] shadow-[0_2.5px_0_0_#0275ba] active:translate-y-[1.5px] active:shadow-[0_1px_0_0_#0275ba]";
                     }
 
                     if (isGraded) {
                       if (isCorrectAnswer) {
                         btnStyle =
-                          "border-emerald-500 ring-2 ring-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50/40";
+                          "border-2 border-emerald-500 text-white font-bold bg-emerald-500 shadow-[0_2.5px_0_0_#047857]";
                       } else if (isSelected && !grade?.isCorrect) {
                         btnStyle =
-                          "border-rose-400 ring-2 ring-rose-400 text-rose-600 line-through bg-rose-50/30";
+                          "border-2 border-rose-400 text-white line-through bg-rose-500 shadow-[0_2.5px_0_0_#c92a2a]";
                       }
                     }
 
@@ -107,7 +107,7 @@ export function MatchPoolRenderer({
                         disabled={isGraded}
                         onClick={() => onAnswerChange(item.id, opt.letter)}
                         aria-label={`Câu ${item.orderNumber} chọn ${opt.letter}`}
-                        className={`w-9 h-9 rounded-xl font-semibold text-xs sm:text-sm transition-all duration-300 ease-in-out flex items-center justify-center ${btnStyle}`}
+                        className={`w-9 h-9 rounded-xl font-bold text-xs sm:text-sm transition-all duration-150 ease-out flex items-center justify-center cursor-pointer select-none ${btnStyle}`}
                       >
                         {opt.letter}
                       </button>

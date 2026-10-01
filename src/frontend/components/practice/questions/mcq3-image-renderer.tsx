@@ -55,20 +55,20 @@ export function Mcq3ImageRenderer({
                 const isCorrectAnswer = isGraded && grade?.correctAnswer === opt.label;
 
                 let cardStyle =
-                  "border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:border-sky-400 hover:ring-2 hover:ring-sky-100 dark:hover:ring-sky-950/60 hover:-translate-y-0.5";
+                  "border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-[0_3px_0_0_#e2e8f0] dark:shadow-[0_3px_0_0_#1e293b] hover:border-sky-300 dark:hover:border-sky-700 active:translate-y-[2px] active:shadow-[0_1px_0_0_#e2e8f0]";
 
                 if (isSelected) {
                   cardStyle =
-                    "border-[#0095F6] ring-2 ring-[#0095F6] text-[#0095F6] dark:text-sky-400 bg-sky-50/40 dark:bg-sky-950/30 shadow-sm";
+                    "border-2 border-[#0095F6] dark:border-sky-400 bg-sky-50/40 dark:bg-sky-950/30 text-[#0095F6] dark:text-sky-400 shadow-[0_3.5px_0_0_#0095F6] dark:shadow-[0_3.5px_0_0_#38bdf8] font-bold";
                 }
 
                 if (isGraded) {
                   if (isCorrectAnswer) {
                     cardStyle =
-                      "border-emerald-500 ring-2 ring-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-50/40";
+                      "border-2 border-emerald-500 text-emerald-700 dark:text-emerald-400 bg-emerald-50/40 shadow-[0_3.5px_0_0_#10b981] dark:shadow-[0_3.5px_0_0_#059669]";
                   } else if (isSelected && !grade?.isCorrect) {
                     cardStyle =
-                      "border-rose-400 ring-2 ring-rose-400 text-rose-600 line-through bg-rose-50/30";
+                      "border-2 border-rose-400 text-rose-600 line-through bg-rose-50/30 shadow-[0_3px_0_0_#f43f5e]";
                   }
                 }
 
@@ -78,7 +78,7 @@ export function Mcq3ImageRenderer({
                     type="button"
                     disabled={isGraded}
                     onClick={() => onAnswerChange(item.id, opt.label)}
-                    className={`p-3.5 rounded-2xl text-left transition-all duration-300 ease-in-out flex flex-col justify-between min-h-[140px] shadow-[0_2px_10px_rgba(0,0,0,0.02)] ${cardStyle}`}
+                    className={`p-3.5 rounded-2xl text-left transition-all duration-150 ease-out flex flex-col justify-between min-h-[140px] cursor-pointer select-none ${cardStyle}`}
                     aria-label={`Câu ${item.orderNumber} chọn ${opt.label}`}
                   >
                     <div className="w-full flex items-center justify-between">

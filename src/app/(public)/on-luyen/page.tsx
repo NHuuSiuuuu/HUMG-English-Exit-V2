@@ -51,7 +51,7 @@ export default async function PracticeHubPage() {
             <div className="mt-6 pt-2">
               <Link
                 href="/on-luyen/listening/10"
-                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(0,149,246,0.25)] transition-all duration-300 ease-in-out"
+                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
               >
                 <span>→ Bắt đầu</span>
               </Link>
@@ -74,7 +74,7 @@ export default async function PracticeHubPage() {
             <div className="mt-6 pt-2">
               <Link
                 href="/on-luyen/reading_writing/1"
-                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(0,149,246,0.25)] transition-all duration-300 ease-in-out"
+                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#a855f7] hover:bg-[#9333ea] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#7e22ce] active:translate-y-[2px] active:shadow-[0_1px_0_0_#7e22ce] transition-all duration-150 select-none cursor-pointer"
               >
                 <span>→ Bắt đầu</span>
               </Link>
@@ -97,7 +97,7 @@ export default async function PracticeHubPage() {
             <div className="mt-6 pt-2">
               <Link
                 href="/thi-thu"
-                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(0,149,246,0.25)] transition-all duration-300 ease-in-out"
+                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#047857] active:translate-y-[2px] active:shadow-[0_1px_0_0_#047857] transition-all duration-150 select-none cursor-pointer"
               >
                 <span>→ Bắt đầu</span>
               </Link>

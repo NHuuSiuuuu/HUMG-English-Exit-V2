@@ -65,27 +65,30 @@ export function ClozeMcqRenderer({
                   )}
                 </div>
 
-                {/* Các lựa chọn A, B, C (dùng ring-2 để không giật layout) */}
-                <div className="grid grid-cols-3 gap-2">
+                {/* Các lựa chọn A, B, C */}
+                <div className="grid grid-cols-3 gap-2.5">
                   {options.map((opt) => {
                     const isSelected = currentAns === opt.label;
                     const isCorrectAnswer = isGraded && grade?.correctAnswer === opt.label;
 
                     let btnStyle =
-                      "border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-sky-400 hover:ring-2 hover:ring-sky-100 dark:hover:ring-sky-950/60 hover:bg-sky-50/20";
+                      "border-2 border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 shadow-[0_2px_0_0_#e2e8f0] dark:shadow-[0_2px_0_0_#334155] hover:border-sky-400 hover:shadow-[0_2px_0_0_#38bdf8] dark:hover:border-sky-400";
 
                     if (isSelected) {
                       btnStyle =
-                        "border-[#0095F6] ring-2 ring-[#0095F6] text-[#0095F6] dark:text-sky-400 font-bold bg-sky-50/40 dark:bg-sky-950/30 shadow-sm";
+                        "border-2 border-[#0095F6] dark:border-sky-400 bg-white dark:bg-slate-900 text-[#0095F6] dark:text-sky-400 font-bold shadow-[0_2px_0_0_#0095F6] dark:shadow-[0_2px_0_0_#38bdf8]";
                     }
 
                     if (isGraded) {
                       if (isCorrectAnswer) {
                         btnStyle =
-                          "border-emerald-500 ring-2 ring-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50/40";
+                          "border-2 border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50/20 dark:bg-emerald-950/20 shadow-[0_2px_0_0_#10b981]";
                       } else if (isSelected && !grade?.isCorrect) {
                         btnStyle =
-                          "border-rose-400 ring-2 ring-rose-400 text-rose-600 line-through bg-rose-50/30";
+                          "border-2 border-rose-500 text-rose-600 dark:text-rose-400 font-bold bg-rose-50/20 dark:bg-rose-950/20 shadow-[0_2px_0_0_#f43f5e] line-through";
+                      } else {
+                        btnStyle =
+                          "border-2 border-slate-200/60 dark:border-slate-800 text-slate-400 opacity-60 shadow-none";
                       }
                     }
 
@@ -95,10 +98,10 @@ export function ClozeMcqRenderer({
                         type="button"
                         disabled={isGraded}
                         onClick={() => onAnswerChange(item.id, opt.label)}
-                        className={`min-h-[44px] px-2 py-2 rounded-xl flex flex-col items-center justify-center transition-all duration-300 ease-in-out ${btnStyle}`}
+                        className={`min-h-[46px] px-3 py-2 rounded-xl flex items-center justify-center gap-1.5 transition-all duration-200 ease-in-out text-sm font-semibold ${btnStyle}`}
                       >
-                        <span className="text-[11px] opacity-75 font-semibold">{opt.label}</span>
-                        <span className="text-xs sm:text-sm font-semibold truncate max-w-full">{opt.text}</span>
+                        <span className="font-bold">{opt.label}.</span>
+                        <span className="truncate max-w-full">{opt.text}</span>
                       </button>
                     );
                   })}

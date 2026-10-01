@@ -73,7 +73,7 @@ export default async function MockExamListPage() {
                 </CardHeader>
                 <CardFooter className="pt-2">
                   <Link href={`/thi-thu/${exam.id}`} className="w-full">
-                    <Button variant="primary" className="w-full justify-center gap-2 bg-[#0095F6] hover:bg-sky-600 text-white font-bold py-2.5 rounded-xl shadow-sm">
+                    <Button variant="primary" size="lg" className="w-full justify-center gap-2">
                       <Play className="h-4 w-4 fill-current" />
                       <span>Xem hướng dẫn & Vào thi</span>
                     </Button>

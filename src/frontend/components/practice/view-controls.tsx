@@ -138,7 +138,7 @@ export function ViewControls({
             onClick={() => onSelectGroup(grp)}
             className={`px-3.5 py-1.5 rounded-full whitespace-nowrap font-medium transition-all duration-300 ease-in-out ${
               selectedGroup === grp
-                ? "bg-[#0095F6] text-white shadow-[0_2px_8px_rgba(0,149,246,0.25)]"
+                ? "bg-[#0095F6] text-white shadow-[0_2px_0_0_#0275ba]"
                 : "bg-slate-100/70 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300 hover:bg-slate-200/80"
             }`}
           >

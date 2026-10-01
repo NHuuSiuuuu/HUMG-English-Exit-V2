@@ -195,7 +195,7 @@ export function ExamStructure() {
         <div className="text-center pt-4">
           <Link
             href="/on-luyen"
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white font-bold text-sm shadow-[0_4px_14px_rgba(0,149,246,0.3)] hover:-translate-y-0.5 transition-all duration-300 ease-in-out"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white font-bold text-sm shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
           >
             <span>Bắt đầu ôn tập 14 phần</span>
             <ArrowRight className="h-4 w-4" />

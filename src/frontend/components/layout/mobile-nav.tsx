@@ -217,7 +217,7 @@ export function MobileNav() {
                       setIsOpen(false);
                       logout();
                     }}
-                    className="w-full min-h-[44px] px-4 py-2.5 rounded-xl border border-rose-200/80 dark:border-rose-900/60 bg-rose-50/50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 text-xs font-bold flex items-center justify-center gap-2 hover:bg-rose-100 dark:hover:bg-rose-900/50 active:scale-[0.98] transition-all duration-200"
+                    className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#ff4d4f] hover:bg-[#f5383a] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-[0_3px_0_0_#c92a2a] active:translate-y-[2px] active:shadow-[0_1px_0_0_#c92a2a] transition-all duration-150 select-none cursor-pointer"
                   >
                     <LogOut className="h-4 w-4" />
                     <span>Đăng xuất</span>
@@ -231,7 +231,7 @@ export function MobileNav() {
                     >
                       <button
                         type="button"
-                        className="w-full min-h-[44px] px-4 py-2.5 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 active:scale-[0.98] text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all duration-200"
+                        className="w-full min-h-[44px] px-4 py-2.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold flex items-center justify-center gap-2 shadow-[0_3px_0_0_#cbd5e1] dark:shadow-[0_3px_0_0_#334155] active:translate-y-[2px] active:shadow-[0_1px_0_0_#cbd5e1] transition-all duration-150 select-none cursor-pointer"
                       >
                         <LogIn className="h-4 w-4" />
                         <span>Đăng nhập</span>
@@ -244,7 +244,7 @@ export function MobileNav() {
                     >
                       <button
                         type="button"
-                        className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#0095F6] hover:bg-sky-600 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(0,149,246,0.25)] active:scale-[0.98] transition-all duration-200"
+                        className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-[#0095F6] hover:bg-[#008be5] text-white text-xs font-bold flex items-center justify-center gap-2 shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba] transition-all duration-150 select-none cursor-pointer"
                       >
                         <UserPlus className="h-4 w-4" />
                         <span>Đăng ký</span>

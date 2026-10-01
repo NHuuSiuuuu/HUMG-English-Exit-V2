@@ -57,10 +57,8 @@ export function Mcq3Renderer({
               <div key={item.id} className="space-y-3">
                 {/* Tiêu đề câu hỏi: Q1. ... */}
                 <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-start gap-1.5 text-sm sm:text-[15px] font-semibold text-slate-800 dark:text-slate-100 leading-snug">
-                    <span className="text-slate-900 dark:text-white font-bold">
-                      Q{item.orderNumber}.
-                    </span>
+                  <div className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-snug">
+                    <span>Q{item.orderNumber}. </span>
                     <span>{item.prompt}</span>
                   </div>
                   {isGraded && (
@@ -74,28 +72,33 @@ export function Mcq3Renderer({
                   )}
                 </div>
 
-                {/* Các phương án A, B, C, D (Lưới 2 cột) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {/* Các phương án A, B, C, D (Lưới 2 cột đồng bộ với ảnh mẫu) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
                   {options.map((opt) => {
                     const isSelected = currentAns === opt.label;
                     const isCorrectAnswer = isGraded && grade?.correctAnswer === opt.label;
 
-                    // Giữ border 1px cố định, dùng ring-2 cho hiệu ứng viền để không bao giờ bị giật kích thước vật lý
+                    // Mặc định: thẻ bo góc viền rõ nét có bóng đổ đáy nhẹ giống ảnh mẫu
                     let optionStyle =
-                      "border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-sky-400 hover:ring-2 hover:ring-sky-100 dark:hover:ring-sky-950/60 hover:bg-sky-50/20";
+                      "border-2 border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 shadow-[0_2px_0_0_#e2e8f0] dark:shadow-[0_2px_0_0_#334155] hover:border-sky-400 hover:shadow-[0_2px_0_0_#38bdf8] dark:hover:border-sky-400";
 
+                    // Khi được chọn: viền xanh #0095F6, chữ xanh đậm và bóng đổ đồng màu
                     if (isSelected) {
                       optionStyle =
-                        "border-[#0095F6] ring-2 ring-[#0095F6] text-[#0095F6] dark:text-sky-400 bg-sky-50/40 dark:bg-sky-950/30 font-semibold shadow-sm";
+                        "border-2 border-[#0095F6] dark:border-sky-400 bg-white dark:bg-slate-900 text-[#0095F6] dark:text-sky-400 font-bold shadow-[0_2px_0_0_#0095F6] dark:shadow-[0_2px_0_0_#38bdf8]";
                     }
 
+                    // Trạng thái đã chấm điểm
                     if (isGraded) {
                       if (isCorrectAnswer) {
                         optionStyle =
-                          "border-emerald-500 ring-2 ring-emerald-500 text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50/40";
+                          "border-2 border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50/20 dark:bg-emerald-950/20 shadow-[0_2px_0_0_#10b981]";
                       } else if (isSelected && !grade?.isCorrect) {
                         optionStyle =
-                          "border-rose-400 ring-2 ring-rose-400 text-rose-600 line-through bg-rose-50/30";
+                          "border-2 border-rose-500 text-rose-600 dark:text-rose-400 font-bold bg-rose-50/20 dark:bg-rose-950/20 shadow-[0_2px_0_0_#f43f5e] line-through";
+                      } else {
+                        optionStyle =
+                          "border-2 border-slate-200/60 dark:border-slate-800 text-slate-400 opacity-60 shadow-none";
                       }
                     }
 
@@ -105,9 +108,9 @@ export function Mcq3Renderer({
                         type="button"
                         disabled={isGraded}
                         onClick={() => onAnswerChange(item.id, opt.label)}
-                        className={`min-h-[44px] px-4 py-2.5 rounded-xl text-left text-xs sm:text-sm transition-all duration-300 ease-in-out flex items-center gap-2.5 ${optionStyle}`}
+                        className={`w-full min-h-[48px] sm:min-h-[50px] px-5 py-3 rounded-2xl text-left text-sm sm:text-base font-semibold transition-all duration-200 ease-in-out flex items-center gap-2 ${optionStyle}`}
                       >
-                        <span className="font-bold opacity-80 shrink-0">
+                        <span className="font-bold shrink-0">
                           {opt.label}.
                         </span>
                         <span className="leading-snug">{opt.text}</span>

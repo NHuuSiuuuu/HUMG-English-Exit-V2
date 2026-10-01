@@ -13,7 +13,7 @@ export function FeatureCards() {
       icon: BookOpen,
       iconColor: "text-[#0095F6]",
       iconBg: "bg-sky-50 dark:bg-sky-950/60",
-      btnClass: "bg-[#0095F6] hover:bg-sky-600 text-white shadow-[0_4px_12px_rgba(0,149,246,0.25)]",
+      btnClass: "bg-[#0095F6] hover:bg-[#008be5] text-white shadow-[0_3.5px_0_0_#0275ba] active:translate-y-[2px] active:shadow-[0_1px_0_0_#0275ba]",
       title: t("landing.features.practice.title", "Ôn luyện từng phần"),
       desc: t(
         "landing.features.practice.desc",
@@ -27,7 +27,7 @@ export function FeatureCards() {
       icon: Clock,
       iconColor: "text-emerald-600 dark:text-emerald-400",
       iconBg: "bg-emerald-50 dark:bg-emerald-950/60",
-      btnClass: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-[0_4px_12px_rgba(16,185,129,0.25)]",
+      btnClass: "bg-emerald-500 hover:bg-emerald-600 text-white shadow-[0_3.5px_0_0_#047857] active:translate-y-[2px] active:shadow-[0_1px_0_0_#047857]",
       title: t("landing.features.exam.title", "Thi thử mô phỏng 60 phút"),
       desc: t(
         "landing.features.exam.desc",
@@ -42,7 +42,7 @@ export function FeatureCards() {
       icon: Search,
       iconColor: "text-purple-600 dark:text-purple-400",
       iconBg: "bg-purple-50 dark:bg-purple-950/60",
-      btnClass: "bg-purple-600 hover:bg-purple-700 text-white shadow-[0_4px_12px_rgba(147,51,234,0.25)]",
+      btnClass: "bg-[#a855f7] hover:bg-[#9333ea] text-white shadow-[0_3.5px_0_0_#7e22ce] active:translate-y-[2px] active:shadow-[0_1px_0_0_#7e22ce]",
       title: t("landing.features.score.title", "Tra cứu điểm & Lịch thi"),
       desc: t(
         "landing.features.score.desc",
@@ -101,7 +101,7 @@ export function FeatureCards() {
                 <div className="pt-6">
                   <Link
                     href={item.href}
-                    className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-300 ease-in-out ${item.btnClass}`}
+                    className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-150 select-none cursor-pointer ${item.btnClass}`}
                   >
                     <span>{item.action}</span>
                     <ArrowRight className="h-4 w-4" />
