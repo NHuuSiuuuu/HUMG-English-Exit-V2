@@ -15,6 +15,17 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
   - Tự động chuyển hướng sinh viên về trang chủ (`/`) và chuyển hướng người chưa đăng nhập về trang đăng nhập kèm `returnUrl`.
   - Khắc phục tình trạng hard-code thông tin quản trị viên trên thanh tiêu đề Admin Navbar; avatar, tên và email nay được hiển thị động theo đúng tài khoản quản trị viên đang đăng nhập.
 
+### Changed
+- **Tối ưu giao diện Khối Tiến độ Ôn luyện ([PartHeader](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/practice/part-header.tsx))**:
+  - Loại bỏ chỉ số "Điểm trung bình" gây áp lực và không cần thiết trong chế độ ôn luyện bài học.
+  - Thay thế các thẻ phân mảnh ("Đã hoàn thành", "Tiến độ bài học") bằng khối **Tiến độ chung** tổng quan, nổi bật, đi kèm thanh tiến độ (Progress bar) gradient sinh động hiển thị tỷ lệ % to rõ.
+  - Thiết kế lại toàn bộ hệ thống icon theo phong cách tươi tắn, rực rỡ và bắt mắt:
+    - **Tiến độ chung**: Icon `Target` trong hộp gradient xanh dương công nghệ (`from-[#0095F6] via-blue-500 to-sky-400`).
+    - **Đã hoàn thành**: Icon `CheckCircle2` trong hộp gradient xanh ngọc lục bảo tươi sáng (`from-emerald-500 to-teal-400`).
+    - **Bài tập cần làm**: Icon `Sparkles` trong hộp gradient xanh tím năng động (`from-sky-500 to-indigo-500`).
+    - **Trạng thái ôn tập**: Icon `Flame` trong hộp gradient cam vàng ấm áp (`from-amber-400 to-orange-500`).
+  - Tối ưu độ tương phản, viền bo tròn mềm mại và hiệu ứng đổ bóng phát sáng tinh tế, dễ nhìn trên cả giao diện Sáng và Tối.
+
 ### Added
 - **Component Vỏ bọc Quản trị ([AdminShell](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/admin/admin-shell.tsx))**:
   - Tách biệt phần giao diện tương tác phía client (mở/đóng drawer mobile, theme toggle, kiểu dáng nút bấm admin phẳng `AdminButtonProvider`) khỏi Server Component Layout.
