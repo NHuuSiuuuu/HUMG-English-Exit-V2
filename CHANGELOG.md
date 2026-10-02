@@ -6,6 +6,27 @@ Tất cả các thay đổi đáng chú ý của dự án **HUMG English Exit** 
 
 ---
 
+## [1.0.1] - 2026-10-02
+
+### Fixed
+- **Khắc phục lỗ hổng phân quyền truy cập trang Quản trị Admin ([AdminLayout](file:///d:/Clone/HUMG-EnglishExitV2/src/app/admin/layout.tsx))**:
+  - Chuyển đổi `AdminLayout` từ Client Component thành **Server Component**, thực hiện xác thực và phân quyền bắt buộc ở cấp máy chủ trước khi render bất kỳ trang con nào.
+  - Ngăn chặn triệt để trường hợp tài khoản sinh viên (`role: "STUDENT"`) hoặc người chưa đăng nhập truy cập vào trang quản trị (`/admin`) và các trang quản lý dữ liệu nhạy cảm (`/admin/nguoi-dung`, `/admin/cai-dat`, `/admin/de-thi`, `/admin/part-bank`, `/admin/bai-viet`, `/admin/tai-lieu`).
+  - Tự động chuyển hướng sinh viên về trang chủ (`/`) và chuyển hướng người chưa đăng nhập về trang đăng nhập kèm `returnUrl`.
+  - Khắc phục tình trạng hard-code thông tin quản trị viên trên thanh tiêu đề Admin Navbar; avatar, tên và email nay được hiển thị động theo đúng tài khoản quản trị viên đang đăng nhập.
+
+### Added
+- **Component Vỏ bọc Quản trị ([AdminShell](file:///d:/Clone/HUMG-EnglishExitV2/src/frontend/components/admin/admin-shell.tsx))**:
+  - Tách biệt phần giao diện tương tác phía client (mở/đóng drawer mobile, theme toggle, kiểu dáng nút bấm admin phẳng `AdminButtonProvider`) khỏi Server Component Layout.
+  - Tự động trích xuất chữ viết tắt (initials) từ họ tên quản trị viên để hiển thị trên avatar.
+- **Hàm tiện ích phân quyền Quản trị ([auth.ts](file:///d:/Clone/HUMG-EnglishExitV2/src/backend/lib/auth.ts))**:
+  - Bổ sung hàm `getCurrentAdmin()` hỗ trợ lấy phiên và xác minh quyền `ADMIN` an toàn cho các tác vụ server.
+- **Bộ kiểm thử TDD phân quyền ([role-authorization.test.mjs](file:///d:/Clone/HUMG-EnglishExitV2/test/role-authorization.test.mjs))**:
+  - Kiểm thử đầy đủ các tình huống: chặn khi chưa đăng nhập, chặn sinh viên (`STUDENT`), chấp thuận quản trị viên (`ADMIN`), và nhận diện chính xác các route quản trị `/admin/*`.
+  - Tích hợp vào `npm test` trong `package.json`.
+
+---
+
 ## [1.0.0] - 2026-10-01
 
 ### Changed

@@ -124,3 +124,12 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     return null;
   }
 }
+
+// Lấy thông tin người dùng quản trị hiện tại (chỉ trả về AuthUser nếu role === "ADMIN", ngược lại trả về null)
+export async function getCurrentAdmin(): Promise<AuthUser | null> {
+  const user = await getCurrentUser();
+  if (!user || user.role !== "ADMIN") {
+    return null;
+  }
+  return user;
+}
